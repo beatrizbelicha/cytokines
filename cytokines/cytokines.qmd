@@ -14,7 +14,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-![script author: Beatriz Belicha, contact: abeatrizbiomed\@gmail.com](images/Logo_Beatriz.png){width="296"}
+![script author: Beatriz Belicha, contact: abeatrizbiomed\@gmail.com](Pictures/Logo_Beatriz.png){width="296"} 
 
 # Files extraction
 
