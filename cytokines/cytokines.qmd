@@ -1,7 +1,21 @@
 ---
-title: "cytokines"
+title: "Rede_beatriz"
+format: 
+ html:
+  toc: true
+  toc-location: left
+  toc-title: Sumário
+  number-sections: true
+  echo: true
+  theme: 
+   light: flatly
+   dark: darkly
+editor_options: 
+  chunk_output_type: console
 ---
 
-## Quarto
+![script author: Beatriz Belicha, contact: abeatrizbiomed\@gmail.com](images/Logo_Beatriz.png){width="296"}
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+# Files extraction
+
+## Choose directory
