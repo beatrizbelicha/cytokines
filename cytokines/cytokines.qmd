@@ -14,8 +14,147 @@ editor_options:
   chunk_output_type: console
 ---
 
-![script author: Beatriz Belicha, contact: abeatrizbiomed\@gmail.com](Pictures/Logo_Beatriz.png){width="296"} 
+\![script author: Beatriz Belicha, contact: abeatrizbiomed\@gmail.com\]
 
-# Files extraction
+# Data import
 
-## Choose directory
+```{r}
+data.cytokines <- read.csv("/Users/beatrizbelicha/Documents/bioinfo/citocina/citocinas.csv", header = T, stringsAsFactors = T)
+```
+
+# Distributions and Outliers
+
+## loading packages
+
+```{r}
+#| message: false
+#| warning: false
+#| output: false
+
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+## Define the metadata column that separates groups
+
+Here we are assigns the string "condicao" (the name of our clinical metadata column) to the variable `condition`. This parameterizes the script. By assigning the grouping variable (e.g., controle x câncer) to an object, avoid hardcoding the column name throughout the pipeline. This makes the code dynamic and easily adaptable for future datasets.
+
+```{r}
+condition <- "condicao"
+```
+
+## Identify cytokines columns
+
+`colnames()` extracts all column names, and `ncol()` counts the total number of columns. The `12:ncol()` indexing subsets the vector of names, selecting only those from the 12th column to the last. Early columns contain categorical metadata, we assume the actual biomarker concentrations begin at column 12. Isolating these names into `cytokines_names` allows us to apply mathematical transformations exclusively to analytical variables, preventing execution errors on demographic columns.
+
+```{r}
+cytokine_names <- colnames(data.cytokines)[12:ncol(data.cytokines)]
+```
+
+## Create empty lists to store the individual dataframes and plots
+
+`list()` initializes empty list objects, which act as structured storage containers. To handle multiplexed data iteratively (via loops) without polluting the Global Environment. These lists act as clean folders to store individual cytokine dataframe (`df_list`) and their corresponding plots (`plot_list`) systematically during the loop execution.
+
+```{r}
+df_list <- list()
+plot_list <- list()
+```
+
+## Correcting from , to .
+
+MAGPIX software often exports numerical data with commas (e.g., 140,5) and out-of-range string (e.g., "OOR\<"). R interprets these columns as discrete characters. This specific combination rectifies the decimal formatting (140.5) and forces non-numerical strings into `NA`. This is an absolute prerequisite for rendering continuous plots and running non-parametric statistical test correctly.
+
+The pipe `|>` forwards the raw data to `mutate`, which modifies columns. The `acroos` function applies a rule simultaneously to all columns specified in `cytokine_names`. The rule uses `gsubs(",", ".", .)` to find commas and replace them with dots, followed by `as.numeric` to coerce the result into a continuous numeric format.
+
+```{r}
+data.cytokines <- data.cytokines %>%
+  mutate(across(all_of(cytokine_names), ~ as.numeric(gsub(",", ".", .))))
+```
+
+## Loop through each cytokine to subset data and generate plot
+
+**Part 1:** The `for (cyt in cytokine_names)` statement initializes a loop. It instructs R to take the first cytokine name from the list, assign it to the placeholder `cyt`, and run the code block; then repeat for the next name, until the list ends.
+
+-   Inside the loop, a temporary dataframe named `df_temp` is created. The pipe (`%>%`) takes the main dataset (`data.cytokines`) and uses the `select`function to subset only two columns: the clinical group column (`condition`) and the current cytokine column (`cyt`).
+-   Finnaly, the `drop_na` function scans this two-column dataframe and removes any row (patient) containing a missing value (NA).
+
+**Part 2:** This line takes the newly cleaned, two-column temporary dataframe (`df_temp`) and stores it inside the previously initialized list (`df_list`). The double bracket indexing `[[cyt]]` dynamically names this specific element/slot in the list using the current cytokine's string name (e.g., IL_6).
+
+A loop is iterative. Without this lines of code, the `df_temp` object would be overwritten in the very next cycle, and the previous cytokine's cleaned data would be permanently lost. By storing each `df_temp` into `df_list`, we ensure that after the loop finishes, all subsetted and cleaned datasets are preserved and neatly organized in your RAM. If, after generating the plots, we decide to run a Shapiro-Wilk normality test exclusively on a specific cytokine, we don't need to subset the data again, we simply call `df_list[["Cytokine"]]`\` to retrieve the exact dataset.
+
+**Part 3:** In tumor immunology, before computing any *p-value*, we must visually assess the data distribution. Cytokine-driven immune responses rely on positive feedback amplification loops. Consequently, the data rarely follows a perfect "bell curve" (Gaussian distribution). Instead, the cancer group will likely exhibit a long right-tail, reflecting biological outliers (patients with a hyper-inflamed tumor microenvironment). The transparency (`alpha`) and non-stacked overlapping (`identity`) arguments are crucial here: they allow you to see the exact translucent intersection between the basal immune tone of the control group and the pathological profile of the Gastric Cancer cohort on the same visual plane.
+
+-   `p_hist <- ggplot()`: initializes the plot canvas and assigns is to the object `p_hist`.
+-   `aes(...)`: The `aes` (aesthetics) function maps the visual properties. The X-axis represents the cytokine concentration. The `.data[]` syntax is an advanced tidyverse pronoun used inside loops to dynamically evaluate the string variable as a column name. The `fill` argument colors the bars according to the patient's clinical group.
+-   `geom_histogram(...)`: instructs ggplot to render frequency bars. `alpha = 0.6` adds transparency. `position = "identity"` forces the bars to overlap on the same baseline rather than stacking on top of each other. `bins = 30` divides the data range into 30 intervals. And `color = "black"` adds borders to the bars.
+-   `theme_minimal()`: strips away the default gray background, applying a clean.
+-   `labs(...)`: uses the `paste()` function to concatenate strings dynamically (e.g., "Distribuição da" + "IL_6"), generating the title, subtitle and axis labels.
+-   `scale_fill_manual(...)`: overrides default palettes with specific hexadecimal colors.
+
+**Part 4:** In the tumor immunology, multiplexed cytokine profiles are not notoriously non-parametric. Relying on the statistical "mean" is critically flawed because it is heavily skewed by hyper-inflamed patients. The boxplot is mandatory here because it centers on the median, a robust metric resistant to extremes. Furthermore, highlighting the outliers in pink is not merely aesthetic. In clinical bioinformatics, these biological outliers are rarely technical MAGPIX errors, they often represent hyper-responsive patients. Highlighting the visually aids in generating vital biological and clinical hypotheses.
+
+-   `p_bpx <- ggplot(...)`: initializes the plot, Unlike histogram, the mapping shifts: the X-axis receives the categorical variable, and the Y-axis maps the continuous variable. `fill` colors the boxes based on the group.
+-   `geom_boxplot(...)`: renders the box-and-whisker plot. Unlike a standard bar chart that displays the mean, the boxplot visually represents the Median (the thick horizontal line inside the box) and the Interquartile Range (IQR) (the boundaries of the box, containing the middle 50% of our cohort).
+-   The outlier arguments (`outlier.color = "pink", outlier.shape = 16, outlier.size = 2`): instruct R to identify data points that fall statistically outside the whiskers and render them a solid dots (`shape = 16`), sized at `2`, and colored pink.
+-   `scale_fill_manual(...)`: applies our updated custom hexadecimal color palette.
+-   `theme(...)`: a publication-quality design tweak. Since the X-axis is already explicitly labeled with the group names, a side legend mapping colors to group is redundant. This command removes the legend, maximizing plotting area.
+
+**Part 5:** The inherent behavior of a loop is to overwrite its internal placeholder variables. When the IL-6 iteration finishes and loop moves to IL-10, the previous `p_hist` and `p_box` objects are overwritten and lost. Without storing them in a list, once the loop finishes iterating over all our cytokines, we would only have access to the plot of the very last molecule in the array. By employing this dynamic storage strategy, we compile a comprehensive, easily accessible graphic library within our R environment. If our PI later requests a high-resolution export of a specific mediator, we won't need to rerun the pipeline, executing \`plot_list\[\["cytokine_box"\]\] will instantly retrieve and render that specific figure.
+
+-   The `paste0()` function concatenates string without inserting whitespace. It takes the variable `cyt` and merges it with the `"_hist"` or `"_box"` suffices, generating a unique identifier string, such as `"IL_6_hist"`.
+-   The double brackets `[[]]` use this generated string to name a specific slot within our previously initializes `plot_list`.
+-   The assignment operator `<-` the stores the fully rendered ggplot objects (`p_hist` and `p_box`) into these precisely named slots.
+
+**Part 6:** The `print()` function explicitly commands R to display the `p_hist` and `p_box` graphical objects visually on our screen. If we execute the name of a ggplot object (like `p_hist`) directly in the console, it renders automatically. However, **inside a loop**, R defaults to a "silent mode" to optimize processing speed. It evaluates the plot and stores in the memory (in our list), but it suppresses visual output. Without explicitly wrapping the plot objects in the `print()` function, our script would run flawlessly, but our final document would be completely blank. This command forces the rendering engine to actively draw and embed each histogram and boxplot into our report dynamically as the loop iterates.
+
+```{r}
+for (cyt in cytokine_names) {
+  #--Subsetting data--
+  #Create a specific dataframe for the current cytokine, dropping missing values (NA)
+  df_temp <- data.cytokines %>%
+    select(all_of(condition), all_of(cyt))%>%
+    drop_na()
+
+  #Store the specific cytokine dataframe into out list
+  df_list[[cyt]] <- df_temp
+
+  #--Histogram Plot--
+  #Evaluates the data distribution
+  p_hist <- ggplot(df_temp, aes(x = .data[[cyt]], fill = .data[[condition]])) +
+    geom_histogram(alpha = 0.6, position = "identity", bins = 30, color = "black") +
+    theme_minimal()+
+    labs(
+      title = paste("Distribuição da", cyt),
+      subtitle = "Histograma para avaliação da distribuição",
+      x = "Concentração (pg/mL)",
+      y = "Frequência"
+    ) +
+    scale_fill_manual(values = c("#e34230ff", "#345edbff")) #Blue for control, Red for cancer
+
+  #--Boxplot--
+  #Evaluates medians, interquartile ranges, and biological outliers
+  p_box <- ggplot(df_temp, aes(x = .data[[condition]], y = .data[[cyt]], fill = .data[[condition]])) +
+    geom_boxplot(alpha = 0.7, outlier.color = "pink", outlier.shape = 16, outlier.size = 2) +
+    theme_minimal() +
+    labs(
+      title = paste("Nível de", cyt, "por grupo"),
+      x = "Grupo Clínico",
+      y = "Concentração (pg/mL)"
+    ) +
+    scale_fill_manual(values = c("#e34230ff", "#345edbff")) +
+    theme(legend.position = "none") #Hides legend since x-axis already has the group names
+
+  #Store plots in the list
+  plot_list[[paste0(cyt, "_hist")]] <- p_hist
+  plot_list[[paste0(cyt, "_box")]] <- p_box
+
+  #Render plots in the document
+  print(p_hist)
+  print(p_box)
+
+}
+
+#In case we need to access a specific cytokine
+
+#df_IL6 <- df_list[["IL.6"]]
+```
