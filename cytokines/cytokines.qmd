@@ -31,7 +31,6 @@ data.cytokines <- read.csv("/Users/beatrizbelicha/Documents/bioinfo/citocina/cit
 #| warning: false
 #| output: false
 
-install.packages("tidyverse")
 library(tidyverse)
 ```
 
@@ -157,4 +156,63 @@ for (cyt in cytokine_names) {
 #In case we need to access a specific cytokine
 
 #df_IL6 <- df_list[["IL.6"]]
+```
+
+# Testing the normality of each cytokine.
+
+## Initialize an empty dataframe to store the final results
+
+```{r}
+normality_results <- data.frame(
+  Citocina = character(),
+  Condição = character(),
+  p_valor = numeric(),
+  Distribuição = character(),
+  stringsAsFactors = FALSE
+)
+```
+
+## Create the loop
+
+Here we need to separaete, because testing distinct immunological states within the same sample triggers the bimodal distribution trap, yielding false negatives. 
+
+
+```{r}
+for (cyt in cytokine_names) {
+  # Retrive the cleaned dataframe for the current cytokine from our list
+  df_temp <- df_list[[cyt]]
+
+  #--Separating the groups--
+  #Filter data by clinical group
+  df_control <- df_temp |> filter(.data[[condition]] == "controle")
+  df_cancer <- df_temp |> filter(.data[[condition]] == "cancer")
+
+  #Extract purely the numeric vectors for the test
+  vec_control <- df_control[[cyt]]
+  vec_cancer <- df_cancer[[cyt]]
+
+  #--Shapiro-Wilk Normality Test
+  #Run the test and extract only p-value
+  p.value_control <- shapiro.test(vec_control)$p.value
+  p.value_cancer <- shapiro.test(vec_cancer)$p.value
+
+  #Determine distribution based on the p-value threshold (Alpha = 0.05)
+  dist_control <- ifelse(p.value_control > 0.05, "Normal", "Não Normal")
+  dist_cancer <- ifelse(p.value_cancer > 0.05, "Normal", "Não Normal")
+
+  #--Consolidating the results--
+  temp_results <- data.frame(
+    Citocina = c(cyt, cyt), 
+    Condição = c("Controle", "Câncer"), 
+    p_valor = c(p.value_control, p.value_cancer),
+    Distribuição = c(dist_control, dist_cancer), 
+    stringsAsFactors = FALSE
+  )
+
+  #Append these results to our main general dataframe
+  normality_results <- bind_rows(normality_results, temp_results)
+}
+
+#Display the final table 
+print(normality_results)
 ```
