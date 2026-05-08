@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -31,9 +66,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="cytokines_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="cytokines_files/libs/quarto-html/anchor.min.js"></script>
 <link href="cytokines_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="cytokines_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="cytokines_files/libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="cytokines_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="cytokines_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="cytokines_files/libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="cytokines_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="cytokines_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="cytokines_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="cytokines_files/libs/bootstrap/bootstrap-82a8e0681529fff444bbc39736ff6b3a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -213,9 +248,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Sumário</h2>
    
   <ul>
-  <li><a href="#files-extraction" id="toc-files-extraction" class="nav-link active" data-scroll-target="#files-extraction"><span class="header-section-number">1</span> Files extraction</a>
+  <li><a href="#data-import" id="toc-data-import" class="nav-link active" data-scroll-target="#data-import"><span class="header-section-number">1</span> Data import</a></li>
+  <li><a href="#distributions-and-outliers" id="toc-distributions-and-outliers" class="nav-link" data-scroll-target="#distributions-and-outliers"><span class="header-section-number">2</span> Distributions and Outliers</a>
   <ul class="collapse">
-  <li><a href="#choose-directory" id="toc-choose-directory" class="nav-link" data-scroll-target="#choose-directory"><span class="header-section-number">1.1</span> Choose directory</a></li>
+  <li><a href="#loading-packages" id="toc-loading-packages" class="nav-link" data-scroll-target="#loading-packages"><span class="header-section-number">2.1</span> loading packages</a></li>
+  <li><a href="#define-the-metadata-column-that-separates-groups" id="toc-define-the-metadata-column-that-separates-groups" class="nav-link" data-scroll-target="#define-the-metadata-column-that-separates-groups"><span class="header-section-number">2.2</span> Define the metadata column that separates groups</a></li>
+  <li><a href="#identify-cytokines-columns" id="toc-identify-cytokines-columns" class="nav-link" data-scroll-target="#identify-cytokines-columns"><span class="header-section-number">2.3</span> Identify cytokines columns</a></li>
+  <li><a href="#create-empty-lists-to-store-the-individual-dataframes-and-plots" id="toc-create-empty-lists-to-store-the-individual-dataframes-and-plots" class="nav-link" data-scroll-target="#create-empty-lists-to-store-the-individual-dataframes-and-plots"><span class="header-section-number">2.4</span> Create empty lists to store the individual dataframes and plots</a></li>
+  <li><a href="#correcting-from-to-." id="toc-correcting-from-to-." class="nav-link" data-scroll-target="#correcting-from-to-."><span class="header-section-number">2.5</span> Correcting from , to .</a></li>
+  <li><a href="#loop-through-each-cytokine-to-subset-data-and-generate-plot" id="toc-loop-through-each-cytokine-to-subset-data-and-generate-plot" class="nav-link" data-scroll-target="#loop-through-each-cytokine-to-subset-data-and-generate-plot"><span class="header-section-number">2.6</span> Loop through each cytokine to subset data and generate plot</a></li>
+  </ul></li>
+  <li><a href="#testing-the-normality-of-each-cytokine." id="toc-testing-the-normality-of-each-cytokine." class="nav-link" data-scroll-target="#testing-the-normality-of-each-cytokine."><span class="header-section-number">3</span> Testing the normality of each cytokine.</a>
+  <ul class="collapse">
+  <li><a href="#initialize-an-empty-dataframe-to-store-the-final-results" id="toc-initialize-an-empty-dataframe-to-store-the-final-results" class="nav-link" data-scroll-target="#initialize-an-empty-dataframe-to-store-the-final-results"><span class="header-section-number">3.1</span> Initialize an empty dataframe to store the final results</a></li>
+  <li><a href="#create-the-loop" id="toc-create-the-loop" class="nav-link" data-scroll-target="#create-the-loop"><span class="header-section-number">3.2</span> Create the loop</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -244,16 +290,628 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="quarto-figure quarto-figure-center">
+<p>![script author: Beatriz Belicha, contact: abeatrizbiomed@gmail.com]</p>
+<section id="data-import" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Data import</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data.cytokines <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"/Users/beatrizbelicha/Documents/bioinfo/citocina/citocinas.csv"</span>, <span class="at">header =</span> T, <span class="at">stringsAsFactors =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="distributions-and-outliers" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Distributions and Outliers</h1>
+<section id="loading-packages" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="loading-packages"><span class="header-section-number">2.1</span> loading packages</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="define-the-metadata-column-that-separates-groups" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="define-the-metadata-column-that-separates-groups"><span class="header-section-number">2.2</span> Define the metadata column that separates groups</h2>
+<p>Here we are assigns the string “condicao” (the name of our clinical metadata column) to the variable <code>condition</code>. This parameterizes the script. By assigning the grouping variable (e.g., controle x câncer) to an object, avoid hardcoding the column name throughout the pipeline. This makes the code dynamic and easily adaptable for future datasets.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>condition <span class="ot">&lt;-</span> <span class="st">"condicao"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="identify-cytokines-columns" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="identify-cytokines-columns"><span class="header-section-number">2.3</span> Identify cytokines columns</h2>
+<p><code>colnames()</code> extracts all column names, and <code>ncol()</code> counts the total number of columns. The <code>12:ncol()</code> indexing subsets the vector of names, selecting only those from the 12th column to the last. Early columns contain categorical metadata, we assume the actual biomarker concentrations begin at column 12. Isolating these names into <code>cytokines_names</code> allows us to apply mathematical transformations exclusively to analytical variables, preventing execution errors on demographic columns.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cytokine_names <span class="ot">&lt;-</span> <span class="fu">colnames</span>(data.cytokines)[<span class="dv">12</span><span class="sc">:</span><span class="fu">ncol</span>(data.cytokines)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="create-empty-lists-to-store-the-individual-dataframes-and-plots" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="create-empty-lists-to-store-the-individual-dataframes-and-plots"><span class="header-section-number">2.4</span> Create empty lists to store the individual dataframes and plots</h2>
+<p><code>list()</code> initializes empty list objects, which act as structured storage containers. To handle multiplexed data iteratively (via loops) without polluting the Global Environment. These lists act as clean folders to store individual cytokine dataframe (<code>df_list</code>) and their corresponding plots (<code>plot_list</code>) systematically during the loop execution.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plot_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="correcting-from-to-." class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="correcting-from-to-."><span class="header-section-number">2.5</span> Correcting from , to .</h2>
+<p>MAGPIX software often exports numerical data with commas (e.g., 140,5) and out-of-range string (e.g., “OOR&lt;”). R interprets these columns as discrete characters. This specific combination rectifies the decimal formatting (140.5) and forces non-numerical strings into <code>NA</code>. This is an absolute prerequisite for rendering continuous plots and running non-parametric statistical test correctly.</p>
+<p>The pipe <code>|&gt;</code> forwards the raw data to <code>mutate</code>, which modifies columns. The <code>acroos</code> function applies a rule simultaneously to all columns specified in <code>cytokine_names</code>. The rule uses <code>gsubs(",", ".", .)</code> to find commas and replace them with dots, followed by <code>as.numeric</code> to coerce the result into a continuous numeric format.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data.cytokines <span class="ot">&lt;-</span> data.cytokines <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">all_of</span>(cytokine_names), <span class="sc">~</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">"."</span>, .))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="loop-through-each-cytokine-to-subset-data-and-generate-plot" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="loop-through-each-cytokine-to-subset-data-and-generate-plot"><span class="header-section-number">2.6</span> Loop through each cytokine to subset data and generate plot</h2>
+<p><strong>Part 1:</strong> The <code>for (cyt in cytokine_names)</code> statement initializes a loop. It instructs R to take the first cytokine name from the list, assign it to the placeholder <code>cyt</code>, and run the code block; then repeat for the next name, until the list ends.</p>
+<ul>
+<li>Inside the loop, a temporary dataframe named <code>df_temp</code> is created. The pipe (<code>%&gt;%</code>) takes the main dataset (<code>data.cytokines</code>) and uses the <code>select</code>function to subset only two columns: the clinical group column (<code>condition</code>) and the current cytokine column (<code>cyt</code>).</li>
+<li>Finnaly, the <code>drop_na</code> function scans this two-column dataframe and removes any row (patient) containing a missing value (NA).</li>
+</ul>
+<p><strong>Part 2:</strong> This line takes the newly cleaned, two-column temporary dataframe (<code>df_temp</code>) and stores it inside the previously initialized list (<code>df_list</code>). The double bracket indexing <code>[[cyt]]</code> dynamically names this specific element/slot in the list using the current cytokine’s string name (e.g., IL_6).</p>
+<p>A loop is iterative. Without this lines of code, the <code>df_temp</code> object would be overwritten in the very next cycle, and the previous cytokine’s cleaned data would be permanently lost. By storing each <code>df_temp</code> into <code>df_list</code>, we ensure that after the loop finishes, all subsetted and cleaned datasets are preserved and neatly organized in your RAM. If, after generating the plots, we decide to run a Shapiro-Wilk normality test exclusively on a specific cytokine, we don’t need to subset the data again, we simply call <code>df_list[["Cytokine"]]</code>` to retrieve the exact dataset.</p>
+<p><strong>Part 3:</strong> In tumor immunology, before computing any <em>p-value</em>, we must visually assess the data distribution. Cytokine-driven immune responses rely on positive feedback amplification loops. Consequently, the data rarely follows a perfect “bell curve” (Gaussian distribution). Instead, the cancer group will likely exhibit a long right-tail, reflecting biological outliers (patients with a hyper-inflamed tumor microenvironment). The transparency (<code>alpha</code>) and non-stacked overlapping (<code>identity</code>) arguments are crucial here: they allow you to see the exact translucent intersection between the basal immune tone of the control group and the pathological profile of the Gastric Cancer cohort on the same visual plane.</p>
+<ul>
+<li><code>p_hist &lt;- ggplot()</code>: initializes the plot canvas and assigns is to the object <code>p_hist</code>.</li>
+<li><code>aes(...)</code>: The <code>aes</code> (aesthetics) function maps the visual properties. The X-axis represents the cytokine concentration. The <code>.data[]</code> syntax is an advanced tidyverse pronoun used inside loops to dynamically evaluate the string variable as a column name. The <code>fill</code> argument colors the bars according to the patient’s clinical group.</li>
+<li><code>geom_histogram(...)</code>: instructs ggplot to render frequency bars. <code>alpha = 0.6</code> adds transparency. <code>position = "identity"</code> forces the bars to overlap on the same baseline rather than stacking on top of each other. <code>bins = 30</code> divides the data range into 30 intervals. And <code>color = "black"</code> adds borders to the bars.</li>
+<li><code>theme_minimal()</code>: strips away the default gray background, applying a clean.</li>
+<li><code>labs(...)</code>: uses the <code>paste()</code> function to concatenate strings dynamically (e.g., “Distribuição da” + “IL_6”), generating the title, subtitle and axis labels.</li>
+<li><code>scale_fill_manual(...)</code>: overrides default palettes with specific hexadecimal colors.</li>
+</ul>
+<p><strong>Part 4:</strong> In the tumor immunology, multiplexed cytokine profiles are not notoriously non-parametric. Relying on the statistical “mean” is critically flawed because it is heavily skewed by hyper-inflamed patients. The boxplot is mandatory here because it centers on the median, a robust metric resistant to extremes. Furthermore, highlighting the outliers in pink is not merely aesthetic. In clinical bioinformatics, these biological outliers are rarely technical MAGPIX errors, they often represent hyper-responsive patients. Highlighting the visually aids in generating vital biological and clinical hypotheses.</p>
+<ul>
+<li><code>p_bpx &lt;- ggplot(...)</code>: initializes the plot, Unlike histogram, the mapping shifts: the X-axis receives the categorical variable, and the Y-axis maps the continuous variable. <code>fill</code> colors the boxes based on the group.</li>
+<li><code>geom_boxplot(...)</code>: renders the box-and-whisker plot. Unlike a standard bar chart that displays the mean, the boxplot visually represents the Median (the thick horizontal line inside the box) and the Interquartile Range (IQR) (the boundaries of the box, containing the middle 50% of our cohort).</li>
+<li>The outlier arguments (<code>outlier.color = "pink", outlier.shape = 16, outlier.size = 2</code>): instruct R to identify data points that fall statistically outside the whiskers and render them a solid dots (<code>shape = 16</code>), sized at <code>2</code>, and colored pink.</li>
+<li><code>scale_fill_manual(...)</code>: applies our updated custom hexadecimal color palette.</li>
+<li><code>theme(...)</code>: a publication-quality design tweak. Since the X-axis is already explicitly labeled with the group names, a side legend mapping colors to group is redundant. This command removes the legend, maximizing plotting area.</li>
+</ul>
+<p><strong>Part 5:</strong> The inherent behavior of a loop is to overwrite its internal placeholder variables. When the IL-6 iteration finishes and loop moves to IL-10, the previous <code>p_hist</code> and <code>p_box</code> objects are overwritten and lost. Without storing them in a list, once the loop finishes iterating over all our cytokines, we would only have access to the plot of the very last molecule in the array. By employing this dynamic storage strategy, we compile a comprehensive, easily accessible graphic library within our R environment. If our PI later requests a high-resolution export of a specific mediator, we won’t need to rerun the pipeline, executing `plot_list[[“cytokine_box”]] will instantly retrieve and render that specific figure.</p>
+<ul>
+<li>The <code>paste0()</code> function concatenates string without inserting whitespace. It takes the variable <code>cyt</code> and merges it with the <code>"_hist"</code> or <code>"_box"</code> suffices, generating a unique identifier string, such as <code>"IL_6_hist"</code>.</li>
+<li>The double brackets <code>[[]]</code> use this generated string to name a specific slot within our previously initializes <code>plot_list</code>.</li>
+<li>The assignment operator <code>&lt;-</code> the stores the fully rendered ggplot objects (<code>p_hist</code> and <code>p_box</code>) into these precisely named slots.</li>
+</ul>
+<p><strong>Part 6:</strong> The <code>print()</code> function explicitly commands R to display the <code>p_hist</code> and <code>p_box</code> graphical objects visually on our screen. If we execute the name of a ggplot object (like <code>p_hist</code>) directly in the console, it renders automatically. However, <strong>inside a loop</strong>, R defaults to a “silent mode” to optimize processing speed. It evaluates the plot and stores in the memory (in our list), but it suppresses visual output. Without explicitly wrapping the plot objects in the <code>print()</code> function, our script would run flawlessly, but our final document would be completely blank. This command forces the rendering engine to actively draw and embed each histogram and boxplot into our report dynamically as the loop iterates.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (cyt <span class="cf">in</span> cytokine_names) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Subsetting data--</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Create a specific dataframe for the current cytokine, dropping missing values (NA)</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  df_temp <span class="ot">&lt;-</span> data.cytokines <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="fu">all_of</span>(condition), <span class="fu">all_of</span>(cyt))<span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Store the specific cytokine dataframe into out list</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  df_list[[cyt]] <span class="ot">&lt;-</span> df_temp</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Histogram Plot--</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Evaluates the data distribution</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  p_hist <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_temp, <span class="fu">aes</span>(<span class="at">x =</span> .data[[cyt]], <span class="at">fill =</span> .data[[condition]])) <span class="sc">+</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">position =</span> <span class="st">"identity"</span>, <span class="at">bins =</span> <span class="dv">30</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Distribuição da"</span>, cyt),</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">"Histograma para avaliação da distribuição"</span>,</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Concentração (pg/mL)"</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Frequência"</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#e34230ff"</span>, <span class="st">"#345edbff"</span>)) <span class="co">#Blue for control, Red for cancer</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Boxplot--</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Evaluates medians, interquartile ranges, and biological outliers</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  p_box <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_temp, <span class="fu">aes</span>(<span class="at">x =</span> .data[[condition]], <span class="at">y =</span> .data[[cyt]], <span class="at">fill =</span> .data[[condition]])) <span class="sc">+</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">outlier.color =</span> <span class="st">"pink"</span>, <span class="at">outlier.shape =</span> <span class="dv">16</span>, <span class="at">outlier.size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Nível de"</span>, cyt, <span class="st">"por grupo"</span>),</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Grupo Clínico"</span>,</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Concentração (pg/mL)"</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#e34230ff"</span>, <span class="st">"#345edbff"</span>)) <span class="sc">+</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="co">#Hides legend since x-axis already has the group names</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Store plots in the list</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  plot_list[[<span class="fu">paste0</span>(cyt, <span class="st">"_hist"</span>)]] <span class="ot">&lt;-</span> p_hist</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  plot_list[[<span class="fu">paste0</span>(cyt, <span class="st">"_box"</span>)]] <span class="ot">&lt;-</span> p_box</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Render plots in the document</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(p_hist)</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(p_box)</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
 <figure class="figure">
-<p><img src="Pictures/Logo_Beatriz.png" class="img-fluid figure-img" width="296"></p>
-<figcaption>script author: Beatriz Belicha, contact: abeatrizbiomed@gmail.com</figcaption>
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
-<section id="files-extraction" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Files extraction</h1>
-<section id="choose-directory" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="choose-directory"><span class="header-section-number">1.1</span> Choose directory</h2>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-7.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-8.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-9.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-10.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-11.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-12.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-13.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-14.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-15.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-16.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-17.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-18.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-19.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-20.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-21.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-22.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-23.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-24.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-25.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-26.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-27.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-28.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-29.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-30.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-31.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-32.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-33.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-34.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-35.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-36.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-37.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-38.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-39.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-40.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-41.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-42.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-43.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-44.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-45.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-46.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-47.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-48.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-49.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-50.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-51.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-52.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-53.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-7-54.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#In case we need to access a specific cytokine</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#df_IL6 &lt;- df_list[["IL.6"]]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="testing-the-normality-of-each-cytokine." class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Testing the normality of each cytokine.</h1>
+<section id="initialize-an-empty-dataframe-to-store-the-final-results" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="initialize-an-empty-dataframe-to-store-the-final-results"><span class="header-section-number">3.1</span> Initialize an empty dataframe to store the final results</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>normality_results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Citocina =</span> <span class="fu">character</span>(),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  Condição <span class="ot">=</span> <span class="fu">character</span>(),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_valor =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  Distribuição <span class="ot">=</span> <span class="fu">character</span>(),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="create-the-loop" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="create-the-loop"><span class="header-section-number">3.2</span> Create the loop</h2>
+<p>Here we need to separaete, because testing distinct immunological states within the same sample triggers the bimodal distribution trap, yielding false negatives.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (cyt <span class="cf">in</span> cytokine_names) {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Retrive the cleaned dataframe for the current cytokine from our list</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  df_temp <span class="ot">&lt;-</span> df_list[[cyt]]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Separating the groups--</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Filter data by clinical group</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  df_control <span class="ot">&lt;-</span> df_temp <span class="sc">|&gt;</span> <span class="fu">filter</span>(.data[[condition]] <span class="sc">==</span> <span class="st">"controle"</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  df_cancer <span class="ot">&lt;-</span> df_temp <span class="sc">|&gt;</span> <span class="fu">filter</span>(.data[[condition]] <span class="sc">==</span> <span class="st">"cancer"</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Extract purely the numeric vectors for the test</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  vec_control <span class="ot">&lt;-</span> df_control[[cyt]]</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  vec_cancer <span class="ot">&lt;-</span> df_cancer[[cyt]]</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Shapiro-Wilk Normality Test</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Run the test and extract only p-value</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  p.value_control <span class="ot">&lt;-</span> <span class="fu">shapiro.test</span>(vec_control)<span class="sc">$</span>p.value</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  p.value_cancer <span class="ot">&lt;-</span> <span class="fu">shapiro.test</span>(vec_cancer)<span class="sc">$</span>p.value</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Determine distribution based on the p-value threshold (Alpha = 0.05)</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  dist_control <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(p.value_control <span class="sc">&gt;</span> <span class="fl">0.05</span>, <span class="st">"Normal"</span>, <span class="st">"Não Normal"</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  dist_cancer <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(p.value_cancer <span class="sc">&gt;</span> <span class="fl">0.05</span>, <span class="st">"Normal"</span>, <span class="st">"Não Normal"</span>)</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Consolidating the results--</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  temp_results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">Citocina =</span> <span class="fu">c</span>(cyt, cyt), </span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    Condição <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Controle"</span>, <span class="st">"Câncer"</span>), </span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_valor =</span> <span class="fu">c</span>(p.value_control, p.value_cancer),</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    Distribuição <span class="ot">=</span> <span class="fu">c</span>(dist_control, dist_cancer), </span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Append these results to our main general dataframe</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  normality_results <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(normality_results, temp_results)</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="co">#Display the final table </span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(normality_results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Citocina Condição      p_valor Distribuição
+1     IL.17 Controle 8.546725e-01       Normal
+2     IL.17   Câncer 7.457467e-01       Normal
+3     IL.1B Controle 2.025583e-01       Normal
+4     IL.1B   Câncer 1.325877e-01       Normal
+5    IL.1RA Controle 7.270463e-01       Normal
+6    IL.1RA   Câncer 5.545093e-04   Não Normal
+7      IL.2 Controle 9.397433e-01       Normal
+8      IL.2   Câncer 7.809557e-01       Normal
+9      IL.4 Controle 7.002857e-01       Normal
+10     IL.4   Câncer 1.685267e-02   Não Normal
+11     IL.5 Controle 2.990106e-01       Normal
+12     IL.5   Câncer 4.940161e-01       Normal
+13     IL.6 Controle 6.741233e-01       Normal
+14     IL.6   Câncer 2.542191e-06   Não Normal
+15     IL.7 Controle 5.403858e-01       Normal
+16     IL.7   Câncer 5.159237e-06   Não Normal
+17     IL.8 Controle 5.473380e-01       Normal
+18     IL.8   Câncer 2.637536e-04   Não Normal
+19     IL.9 Controle 9.975532e-01       Normal
+20     IL.9   Câncer 1.089375e-03   Não Normal
+21    IL.10 Controle 1.392322e-04   Não Normal
+22    IL.10   Câncer 6.501848e-08   Não Normal
+23    IL.11 Controle 2.101322e-04   Não Normal
+24    IL.11   Câncer 3.485232e-01       Normal
+25    IL.12 Controle 4.523035e-04   Não Normal
+26    IL.12   Câncer 1.265890e-04   Não Normal
+27    IL.13 Controle 7.046222e-01       Normal
+28    IL.13   Câncer 1.387213e-01       Normal
+29    IL.15 Controle 3.712776e-01       Normal
+30    IL.15   Câncer 8.760546e-02       Normal
+31  Eotaxin Controle 9.978114e-01       Normal
+32  Eotaxin   Câncer 7.190393e-01       Normal
+33 FGFbasic Controle 9.980468e-01       Normal
+34 FGFbasic   Câncer 1.691875e-02   Não Normal
+35     GCSF Controle 3.620188e-01       Normal
+36     GCSF   Câncer 2.320781e-02   Não Normal
+37   GM.CSF Controle 6.543784e-01       Normal
+38   GM.CSF   Câncer 3.284467e-02   Não Normal
+39     IFNG Controle 1.216486e-01       Normal
+40     IFNG   Câncer 1.497607e-07   Não Normal
+41    IP.10 Controle 4.641779e-02   Não Normal
+42    IP.10   Câncer 1.657698e-01       Normal
+43    MPC.1 Controle 5.543534e-02       Normal
+44    MPC.1   Câncer 2.279293e-07   Não Normal
+45    MIP1a Controle 7.793256e-01       Normal
+46    MIP1a   Câncer 3.416221e-01       Normal
+47    MIP1b Controle 9.859106e-01       Normal
+48    MIP1b   Câncer 8.012187e-07   Não Normal
+49   RANTES Controle 5.612044e-04   Não Normal
+50   RANTES   Câncer 2.547784e-04   Não Normal
+51     TNFa Controle 2.506317e-01       Normal
+52     TNFa   Câncer 2.225119e-01       Normal
+53     VEGF Controle 2.047945e-04   Não Normal
+54     VEGF   Câncer 2.796445e-03   Não Normal</code></pre>
+</div>
+</div>
 </section>
 </section>
 
