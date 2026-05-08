@@ -31,7 +31,12 @@ data.cytokines <- read.csv("/Users/beatrizbelicha/Documents/bioinfo/citocina/cit
 #| warning: false
 #| output: false
 
+if (!requireNamespace("tidyverse", quietly = TRUE)) {
+  install.packages("tidyverse")
+} 
+
 library(tidyverse)
+
 ```
 
 ## Define the metadata column that separates groups
@@ -178,11 +183,10 @@ Here we need to separate, because testing distinct immunological states within t
 
 **Part 1:** The `filter()` function acts as a strict subsetting funnel. It scans the rows of our `df_temp` and creates `df_control`containing only the patients where the condition column matches "controle". It repeats this logic for the "cancer" cohort. The `filter` function guarantees biological isolation prior to testing. Furthermore, R's native `Shapiro-Wilk` function strictly requires a continuous numeric vector as its input, not a multi-variable dataframe. - The `[[cyt]]` indexing extracts the specific cytokine column from the dataframe and coerces it into a pure numeric vector (a simple array of numbers).
 
-**Parte 2:** In the Shapiro-Wilk framework, the Null Hipothesis (H0) assumes the data is normally distributed. Statistically, a *p-value* < 0.05 rejects this normality. Automating this logical step with `ifelse()` eliminates the need for manual interpretation of dozens of *p-values*, effectively neutralizing the risk of human error in our data pipeline. The script makes the statistical triage. 
+**Parte 2:** In the Shapiro-Wilk framework, the Null Hipothesis (H0) assumes the data is normally distributed. Statistically, a *p-value* \< 0.05 rejects this normality. Automating this logical step with `ifelse()` eliminates the need for manual interpretation of dozens of *p-values*, effectively neutralizing the risk of human error in our data pipeline. The script makes the statistical triage.
 
 - The `shapiro.teste()` function computes the Shapiro-Wilk mathematical algorithm on our numeric vector.
-- The `$p.value` suffix acts as a data extractor: the test outputs a larger list of statistics, but we command R to surgically extract only the *p-value*, storing it in `p.value_control` ou `p.value_cancer`.
--The `ifelse(condition, true, false)` function is a logical decision engine. It evaluates the *p-value* threshold. If *p* > 0.05, it outputs the string `"Normal"`. If not, it outputs `"Não Normal"`. 
+- The `$p.value` suffix acts as a data extractor: the test outputs a larger list of statistics, but we command R to surgically extract only the *p-value*, storing it in `p.value_control` ou `p.value_cancer`. -The `ifelse(condition, true, false)` function is a logical decision engine. It evaluates the *p-value* threshold. If *p* \> 0.05, it outputs the string `"Normal"`. If not, it outputs `"Não Normal"`.
 
 **Part 3:** We create a two-row temporary table (`temp_results`) containing the cytokine name, the group, the *p-value*, and the distribution status. Finally, `bind-rows`function "pastes" these two rows at the bottom of our main table (`normality_results`).
 
@@ -228,12 +232,28 @@ print(normality_results)
 
 # Appling the transformation
 
-## Log 
+Cytokine data commonly follows a right-skewed distribution, with most values clustered at the lower end and a few extreme high values. This violates the normality assumptions required by many parametric statistical tests.
+
+## Log
+
+The transformation in one the most widely used strategies to address the problem of normality, as it compresses the scale of high values and pulls the distribution closer to a normal curve. However. it's essential to verify whether the transformation was actually effective by comparing the data distribution before and after, for example, using plots or normality test. Applying a transformation without testing it can create a false sense that the assumptions have been met, ultimately compromising the validity of downstream analyses.
+
+This code create a new datarame called `data.log` from `data.cytokines`, applying a natural logarithm transformation to all cytokine columns. The pipe operator (`|>`) passes `data.cytokines` as the first argument to the next function. The `mutate()` function, from the `dplyr` package, modifies or create columns in a dataframe, in this case, it overwrites the selected cytokines columns with their log-transformed values.
+
+The `across()` function applies a transformation to multiple columns simultaneously, avoiding repetitive column-by-column operations. It takes two arguments:
+
+1.  `all_of(cytokines_names)`, which selects only the columns listed in the `cytokines_names` vector and raises an error if any name is missing from the dataframe;
+
+2.  `~log(.)`, an anonymous function where `~` defines the formula and `.` refers each column being processed, computing the natural logarithm (base *e*) of every value.
 
 ```{r}
 data.log <- data.cytokines |> 
   mutate(across(all_of(cytokine_names), ~ log(.)))
 ```
+
+This code creates an empty dataframe called `normality_log`, which servers as a structured container to store the results of normality tests applied to the transformed data. Each arguments defines a column with it corresponding data type:
+
+- `Transformação = character()` and `Citocinas = character()` store, respectively, the name of the transformation applied and the name of cytokine tested. `Condição = character()` identifies the experimental group. `p_valor = numeric()` holds the *p-value* returned by the test. `Distribuição = character()` records the conclusion about the data distribution. Finally, `stringsAsFactor = FALSE` instructs R to keep text columns as character type, preventing them from being automatically converted to factor, which could cause issues when appending new rows to the dataframe.
 
 ```{r}
 normality_log <- data.frame(
@@ -285,6 +305,9 @@ print(normality_log1p)
 ```
 
 ## Log1p
+
+The `log()` function computes the pure natural logarithm, if any value in the data is zero, the result will be `-Inf`, which breaks downstream analyses. The `log1p()` function, on the other hand, computes `log(1 + x)`, adding 1 to each value before applying the logarithm. This ensures that zeros are transformed to `log(1) = 0`, avoiding the problem entirely. For cytokines data, where zero values are biologically plausible, `log1p()` is generally the safer choice.
+
 ```{r}
 data.log1p <- data.cytokines |> 
   mutate(across(all_of(cytokine_names), ~ log1p(.)))
@@ -339,95 +362,39 @@ for (cyt in cytokine_names) {
 print(normality_log1p)
 ```
 
-## Box-Cox
-
-```{r}
-library(MASS)
-library(tidyverse)
-```
-
-```{r}
-data.boxcox <- data.cytokines
-
-for (cyt in cytokine_names) {
-
-  x <- data.boxcox[[cyt]]
-
-  #Avoid zeros
-  x <- x + 1
-
-  #Necessary model to Box Cox
-  bc <- boxcox(lm(x ~ 1), plotit = FALSE)
-
-  lambda <- bc$x[which.max(bc$y)]
-
-  # transformação
-  if (lambda == 0) {
-    x_trans <- log(x)
-  } else {
-    x_trans <- (x^lambda - 1) / lambda
-  }
-
-  data.boxcox[[cyt]] <- x_trans
-}
-```
-
-```{r}
-normality_boxcox <- data.frame(
-  Transformação = character(),
-  Citocina = character(),
-  Condição = character(),
-  p_valor = numeric(),
-  Distribuição = character(),
-  stringsAsFactors = FALSE
-)
-
-for (cyt in cytokine_names) {
-
-  df_temp <- data.boxcox %>%
-    dplyr::select(all_of(condition), all_of(cyt)) %>%
-    drop_na()
-
-  vec_control <- df_temp %>%
-    filter(.data[[condition]] == "controle") %>%
-    pull(all_of(cyt))
-
-  vec_cancer <- df_temp %>%
-    filter(.data[[condition]] == "cancer") %>%
-    pull(all_of(cyt))
-
-  p.value_control <- shapiro.test(vec_control)$p.value
-  p.value_cancer <- shapiro.test(vec_cancer)$p.value
-
-  dist_control <- ifelse(p.value_control > 0.05, "Normal", "Não Normal")
-  dist_cancer <- ifelse(p.value_cancer > 0.05, "Normal", "Não Normal")
-
-  temp_results <- data.frame(
-    Transformação = "BoxCox",
-    Citocina = c(cyt, cyt),
-    Condição = c("Controle", "Câncer"),
-    p_valor = c(p.value_control, p.value_cancer),
-    Distribuição = c(dist_control, dist_cancer),
-    stringsAsFactors = FALSE
-  )
-
-  normality_boxcox <- bind_rows(normality_boxcox, temp_results)
-}
-
-print(normality_boxcox)
-```
-
 ```{r}
 table(normality_log1p$Distribuição)
 table(normality_log$Distribuição)
 table(normality_results$Distribuição)
-table(normality_boxcox$Distribuição)
 ```
+
 No significant results !!!
 
 # PCA
 
 ## Raw data
+
+This code creates a matrix called `pca.raw.matrix` by selecting only the cytokines columns from the dataframe `data.cytokines`. The `dplyr::select()` function is called with explicit package notation to make clear which package it comes from and to avoid conflicts with functions of the same name loaded from other packages in the session. The result is a dataframe containing only the raw, untransformed cytokines values, which will be used as input for the Principal Component Analysis (PCA).
+
+The `prcomp()` function runs a PCA on the raw cytokines data and stores the results in the object `pca.raw`. The function is R's built-in PCA implementation and takes the following arguments:
+
+- `pca.raw.matrix`: is the dataframe containing only the raw cytokine values, prepared in the previous step;
+
+- `center = TRUE`: centers the data by subtracting the mean of each variable, so that all columns have a mean of zero, this is essential to prevent variables with very different means from dominating the principal components;
+
+- `scale. = TRUE`: scales the data by dividing by the standard deviation of each variable, giving all of them a variance pf 1. This is particularly important when cytokines are measured on different scales or units, preventing those with numerically larger values from having a disproportionate influence on the analysis. The dot in the argument name is a quirk of the function designed to avoid conflict with R's base `scale()` function.
+
+We now prepare the PCA results for visualization by organizing them into a dataframe and extracting the variance explained by each component.
+
+`pca.raw$x` accesses the scores matrix from the `prcomp()` output, which contains the coordinates of each sample in the new dimensional space defined by the principal components. The `as.data.frame()` function converts this matrix into a dataframe, a more convenient format for plotting. A new column called `condicao` is then added to the dataframe. The `pull()` function from `dplyr` extracts a single column from a dataframe as a plain vector — in this case, the column whose name is stored in the variable `condition`. This allows each point in the PCA plot to be colored or grouped according to the experimental condition of each sample. Finally, `summary(pca.raw)$importance` returns a matrix of metrics for each principal component, where row `[2,]` corresponds to the proportion of variance explained. The `[1:2]` index selects only the first two components (PC1 and PC2), which are the ones that will be plotted. The result is multiplied by 100 to convert to a percentage and rounded to one decimal place using `round(..., 1)`.
+
+Finally, the PCA is plotted using `ggplot2`. The `pca.raw.df` dataframe is passed as the base data, and within `aes()` the aesthetic mappings are defined: `x = PC1` and `y = PC2` position each sample on the cartesian plane according to its coordinates in the first two principal components, while `color = condicao` colors each point according to the experimental group of that sample.
+
+- `geom_point(size = 3)` adds the points to the plot, with size 3 for better visibility.
+
+- `labs()` defines the plot's text elements, `title` names the plot, and the `x` and `y` arguments dynamically build the axis labels using `paste0()`, which concatenates the component name with its explained variance from the `var.raw` vector, producing labels such as "PC1 (32.5%)".
+
+- `theme_minimal()` applies a clean visual theme that removes unnecessary graphical elements, making the plot more elegant and easier to interpret.
 
 ```{r}
 #Cytokines matrix
@@ -545,4 +512,191 @@ ggplot(pca_log1p_df,
   ) +
 
   theme_minimal()
+```
+
+# Mann-Whitney
+
+```{r}
+#| message: false
+#| warning: false
+#| output: false
+
+if (!requireNamespace("rstatix", quietly = TRUE)) {
+  install.packages("rstatix")
+}
+
+library(rstatix)
+```
+
+## Raw data
+
+```{r}
+results.mann.raw <- data.frame(
+  Citocina = character(),
+  p_value = numeric(),
+  Resultado = character()
+)
+```
+
+```{r}
+for(cyt in cytokine_names){
+  #--Creating the standard formula--
+  formula.test <- as.formula(
+    paste(cyt, "~", condition)
+  )
+  #--Running Mann-Whitney--
+  test <- wilcox.test(
+    formula.test, data.cytokines
+  )
+  #--Saving the results--
+  temp <- data.frame(
+    Citocina = cyt,
+    p_value = test$p.value, 
+    Resultado = ifelse(test$p.value > 0.05, "Não Significativo", "Significativo")
+  )
+  #Append these results to our main general dataframe
+  results.mann.raw <- bind_rows(
+    results.mann.raw,
+    temp
+  )
+}
+
+print(results.mann.raw)
+table(results.mann.raw$Resultado)
+```
+
+## Log
+```{r}
+results.mann.log <- data.frame(
+  Citocina = character(),
+  p_value = numeric(),
+  Resultado = character()
+)
+```
+
+```{r}
+for(cyt in cytokine_names){
+  #--Creating the standard formula--
+  formula.test <- as.formula(
+    paste(cyt, "~", condition)
+  )
+  #--Running Mann-Whitney--
+  test <- wilcox.test(
+    formula.test, data.log
+  )
+  #--Saving the results--
+  temp <- data.frame(
+    Citocina = cyt,
+    p_value = test$p.value, 
+    Resultado = ifelse(test$p.value > 0.05, "Não Significativo", "Significativo")
+  )
+  #Append these results to our main general dataframe
+  results.mann.log <- bind_rows(
+    results.mann.log,
+    temp
+  )
+}
+
+print(results.mann.log)
+table(results.mann.log$Resultado)
+```
+
+# Welch's t-test for normal cytokines
+
+```{r}
+normal.cytokines <- c("IL.17", "IL.1B", "IL.2", "IL.13", "IL.15", "Eotaxin", "GCSF", "MIP1a", "MIP1b")
+```
+
+```{r}
+results.ttest <- data.frame(
+  Citocina = character(),
+  p_value = numeric(),
+  Resultado = character(),
+  stringsAsFactors = FALSE
+)
+```
+
+```{r}
+for(cyt in normal.cytokines){
+
+  formula.test <- as.formula(
+    paste(cyt, "~", condition)
+  )
+
+  test <- t.test(
+    formula.test, data.log,
+  )
+
+  temp <- data.frame(
+    Citocina = cyt,
+    p_value = test$p.value,
+    Resultado = ifelse(
+      test$p.value < 0.05,
+      "Significativo",
+      "Não significativo"
+    )
+  )
+
+  results.ttest <- bind_rows(
+    results.ttest,
+    temp
+  )
+}
+
+print(results.ttest)
+table(results.ttest$Resultado)
+```
+
+As a result, IL.15, which was previously classified as "Não Significativo", has now become "Significativo". The remaining results remained unchanged. 
+
+# Heatmap
+
+```{r}
+#| message: false
+#| warning: false
+#| output: false
+
+if (!requireNamespace("pheatmap", quietly = TRUE)) {
+  install.packages("pheatmap")
+}
+
+library(pheatmap)
+```
+
+```{r}
+heatmap.matrix <- data.log |> 
+  dplyr::select(all_of(cytokine_names)) |> 
+  as.matrix()
+```
+
+```{r}
+rownames(heatmap.matrix) <- paste0("amostra_", 1:nrow(heatmap.matrix))
+```
+
+```{r}
+annotation.df <- data.frame(
+  Grupo = data.log[[condition]]
+)
+
+rownames(annotation.df) <- rownames(heatmap.matrix)
+```
+
+```{r}
+annotation_colors <- list(
+  Grupo = c(
+    cancer = "#e34230ff",
+    controle = "#345edbff"
+  )
+)
+```
+```{r}
+pheatmap(
+  t(heatmap.matrix),
+  scale = "row",
+  annotation_col = annotation.df,
+  annotation_colors = annotation_colors,
+  clustering_method = "complete", 
+  border_color = "#fcfcfc",
+  fontsize = 10
+)
 ```
