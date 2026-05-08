@@ -301,7 +301,7 @@ for (cyt in cytokine_names) {
 }
 
 # Display final table
-print(normality_log1p)
+print(normality_log)
 ```
 
 ## Log1p

@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Rede_beatriz</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -61,19 +64,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="cytokines_files/libs/clipboard/clipboard.min.js"></script>
 <script src="cytokines_files/libs/quarto-html/quarto.js" type="module"></script>
 <script src="cytokines_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="cytokines_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="cytokines_files/libs/quarto-html/popper.min.js"></script>
 <script src="cytokines_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="cytokines_files/libs/quarto-html/anchor.min.js"></script>
 <link href="cytokines_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="cytokines_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="cytokines_files/libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="cytokines_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="cytokines_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="cytokines_files/libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="cytokines_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="cytokines_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="cytokines_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="cytokines_files/libs/bootstrap/bootstrap-82a8e0681529fff444bbc39736ff6b3a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="cytokines_files/libs/bootstrap/bootstrap-dark-534f9e6eb4fde8fa3495dc6c45b1673d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="cytokines_files/libs/bootstrap/bootstrap-82a8e0681529fff444bbc39736ff6b3a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="cytokines_files/libs/bootstrap/bootstrap-1a9011c99ff3470dca5095ea45ed0705.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="cytokines_files/libs/bootstrap/bootstrap-dark-500aeadae14b15f901b7842fbe74e66a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="cytokines_files/libs/bootstrap/bootstrap-1a9011c99ff3470dca5095ea45ed0705.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -263,6 +265,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#initialize-an-empty-dataframe-to-store-the-final-results" id="toc-initialize-an-empty-dataframe-to-store-the-final-results" class="nav-link" data-scroll-target="#initialize-an-empty-dataframe-to-store-the-final-results"><span class="header-section-number">3.1</span> Initialize an empty dataframe to store the final results</a></li>
   <li><a href="#create-the-loop" id="toc-create-the-loop" class="nav-link" data-scroll-target="#create-the-loop"><span class="header-section-number">3.2</span> Create the loop</a></li>
   </ul></li>
+  <li><a href="#appling-the-transformation" id="toc-appling-the-transformation" class="nav-link" data-scroll-target="#appling-the-transformation"><span class="header-section-number">4</span> Appling the transformation</a>
+  <ul class="collapse">
+  <li><a href="#log" id="toc-log" class="nav-link" data-scroll-target="#log"><span class="header-section-number">4.1</span> Log</a></li>
+  <li><a href="#log1p" id="toc-log1p" class="nav-link" data-scroll-target="#log1p"><span class="header-section-number">4.2</span> Log1p</a></li>
+  </ul></li>
+  <li><a href="#pca" id="toc-pca" class="nav-link" data-scroll-target="#pca"><span class="header-section-number">5</span> PCA</a>
+  <ul class="collapse">
+  <li><a href="#raw-data" id="toc-raw-data" class="nav-link" data-scroll-target="#raw-data"><span class="header-section-number">5.1</span> Raw data</a></li>
+  <li><a href="#log-1" id="toc-log-1" class="nav-link" data-scroll-target="#log-1"><span class="header-section-number">5.2</span> Log</a></li>
+  <li><a href="#log1p-1" id="toc-log1p-1" class="nav-link" data-scroll-target="#log1p-1"><span class="header-section-number">5.3</span> Log1p</a></li>
+  </ul></li>
+  <li><a href="#mann-whitney" id="toc-mann-whitney" class="nav-link" data-scroll-target="#mann-whitney"><span class="header-section-number">6</span> Mann-Whitney</a>
+  <ul class="collapse">
+  <li><a href="#raw-data-1" id="toc-raw-data-1" class="nav-link" data-scroll-target="#raw-data-1"><span class="header-section-number">6.1</span> Raw data</a></li>
+  <li><a href="#log-2" id="toc-log-2" class="nav-link" data-scroll-target="#log-2"><span class="header-section-number">6.2</span> Log</a></li>
+  </ul></li>
+  <li><a href="#welchs-t-test-for-normal-cytokines" id="toc-welchs-t-test-for-normal-cytokines" class="nav-link" data-scroll-target="#welchs-t-test-for-normal-cytokines"><span class="header-section-number">7</span> Welch’s t-test for normal cytokines</a></li>
+  <li><a href="#heatmap" id="toc-heatmap" class="nav-link" data-scroll-target="#heatmap"><span class="header-section-number">8</span> Heatmap</a></li>
   </ul>
 </nav>
 </div>
@@ -302,7 +322,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="loading-packages" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="loading-packages"><span class="header-section-number">2.1</span> loading packages</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"tidyverse"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="define-the-metadata-column-that-separates-groups" class="level2" data-number="2.2">
@@ -815,7 +839,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="create-the-loop" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="create-the-loop"><span class="header-section-number">3.2</span> Create the loop</h2>
-<p>Here we need to separaete, because testing distinct immunological states within the same sample triggers the bimodal distribution trap, yielding false negatives.</p>
+<p>Here we need to separate, because testing distinct immunological states within the same sample triggers the bimodal distribution trap, yielding false negatives. The control group and the cancer group do not belong the same biological population.</p>
+<p><strong>Part 1:</strong> The <code>filter()</code> function acts as a strict subsetting funnel. It scans the rows of our <code>df_temp</code> and creates <code>df_control</code>containing only the patients where the condition column matches “controle”. It repeats this logic for the “cancer” cohort. The <code>filter</code> function guarantees biological isolation prior to testing. Furthermore, R’s native <code>Shapiro-Wilk</code> function strictly requires a continuous numeric vector as its input, not a multi-variable dataframe. - The <code>[[cyt]]</code> indexing extracts the specific cytokine column from the dataframe and coerces it into a pure numeric vector (a simple array of numbers).</p>
+<p><strong>Parte 2:</strong> In the Shapiro-Wilk framework, the Null Hipothesis (H0) assumes the data is normally distributed. Statistically, a <em>p-value</em> &lt; 0.05 rejects this normality. Automating this logical step with <code>ifelse()</code> eliminates the need for manual interpretation of dozens of <em>p-values</em>, effectively neutralizing the risk of human error in our data pipeline. The script makes the statistical triage.</p>
+<ul>
+<li>The <code>shapiro.teste()</code> function computes the Shapiro-Wilk mathematical algorithm on our numeric vector.</li>
+<li>The <code>$p.value</code> suffix acts as a data extractor: the test outputs a larger list of statistics, but we command R to surgically extract only the <em>p-value</em>, storing it in <code>p.value_control</code> ou <code>p.value_cancer</code>. -The <code>ifelse(condition, true, false)</code> function is a logical decision engine. It evaluates the <em>p-value</em> threshold. If <em>p</em> &gt; 0.05, it outputs the string <code>"Normal"</code>. If not, it outputs <code>"Não Normal"</code>.</li>
+</ul>
+<p><strong>Part 3:</strong> We create a two-row temporary table (<code>temp_results</code>) containing the cytokine name, the group, the <em>p-value</em>, and the distribution status. Finally, <code>bind-rows</code>function “pastes” these two rows at the bottom of our main table (<code>normality_results</code>).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (cyt <span class="cf">in</span> cytokine_names) {</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Retrive the cleaned dataframe for the current cytokine from our list</span></span>
@@ -913,6 +944,776 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
+</section>
+<section id="appling-the-transformation" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Appling the transformation</h1>
+<p>Cytokine data commonly follows a right-skewed distribution, with most values clustered at the lower end and a few extreme high values. This violates the normality assumptions required by many parametric statistical tests.</p>
+<section id="log" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="log"><span class="header-section-number">4.1</span> Log</h2>
+<p>The transformation in one the most widely used strategies to address the problem of normality, as it compresses the scale of high values and pulls the distribution closer to a normal curve. However. it’s essential to verify whether the transformation was actually effective by comparing the data distribution before and after, for example, using plots or normality test. Applying a transformation without testing it can create a false sense that the assumptions have been met, ultimately compromising the validity of downstream analyses.</p>
+<p>This code create a new datarame called <code>data.log</code> from <code>data.cytokines</code>, applying a natural logarithm transformation to all cytokine columns. The pipe operator (<code>|&gt;</code>) passes <code>data.cytokines</code> as the first argument to the next function. The <code>mutate()</code> function, from the <code>dplyr</code> package, modifies or create columns in a dataframe, in this case, it overwrites the selected cytokines columns with their log-transformed values.</p>
+<p>The <code>across()</code> function applies a transformation to multiple columns simultaneously, avoiding repetitive column-by-column operations. It takes two arguments:</p>
+<ol type="1">
+<li><p><code>all_of(cytokines_names)</code>, which selects only the columns listed in the <code>cytokines_names</code> vector and raises an error if any name is missing from the dataframe;</p></li>
+<li><p><code>~log(.)</code>, an anonymous function where <code>~</code> defines the formula and <code>.</code> refers each column being processed, computing the natural logarithm (base <em>e</em>) of every value.</p></li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data.log <span class="ot">&lt;-</span> data.cytokines <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">all_of</span>(cytokine_names), <span class="sc">~</span> <span class="fu">log</span>(.)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This code creates an empty dataframe called <code>normality_log</code>, which servers as a structured container to store the results of normality tests applied to the transformed data. Each arguments defines a column with it corresponding data type:</p>
+<ul>
+<li><code>Transformação = character()</code> and <code>Citocinas = character()</code> store, respectively, the name of the transformation applied and the name of cytokine tested. <code>Condição = character()</code> identifies the experimental group. <code>p_valor = numeric()</code> holds the <em>p-value</em> returned by the test. <code>Distribuição = character()</code> records the conclusion about the data distribution. Finally, <code>stringsAsFactor = FALSE</code> instructs R to keep text columns as character type, preventing them from being automatically converted to factor, which could cause issues when appending new rows to the dataframe.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>normality_log <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  Transformação <span class="ot">=</span> <span class="fu">character</span>(),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Citocina =</span> <span class="fu">character</span>(),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  Condição <span class="ot">=</span> <span class="fu">character</span>(),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_valor =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  Distribuição <span class="ot">=</span> <span class="fu">character</span>(),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (cyt <span class="cf">in</span> cytokine_names) {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  df_temp <span class="ot">&lt;-</span> data.log <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="fu">all_of</span>(condition), <span class="fu">all_of</span>(cyt)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  vec_control <span class="ot">&lt;-</span> df_temp <span class="sc">%&gt;%</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(.data[[condition]] <span class="sc">==</span> <span class="st">"controle"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(<span class="fu">all_of</span>(cyt))</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  vec_cancer <span class="ot">&lt;-</span> df_temp <span class="sc">%&gt;%</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(.data[[condition]] <span class="sc">==</span> <span class="st">"cancer"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(<span class="fu">all_of</span>(cyt))</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  p.value_control <span class="ot">&lt;-</span> <span class="fu">shapiro.test</span>(vec_control)<span class="sc">$</span>p.value</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  p.value_cancer <span class="ot">&lt;-</span> <span class="fu">shapiro.test</span>(vec_cancer)<span class="sc">$</span>p.value</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  dist_control <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(p.value_control <span class="sc">&gt;</span> <span class="fl">0.05</span>, <span class="st">"Normal"</span>, <span class="st">"Não Normal"</span>)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  dist_cancer <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(p.value_cancer <span class="sc">&gt;</span> <span class="fl">0.05</span>, <span class="st">"Normal"</span>, <span class="st">"Não Normal"</span>)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  temp_results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    Transformação <span class="ot">=</span> <span class="st">"Log"</span>,</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">Citocina =</span> <span class="fu">c</span>(cyt, cyt),</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    Condição <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Controle"</span>, <span class="st">"Câncer"</span>),</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_valor =</span> <span class="fu">c</span>(p.value_control, p.value_cancer),</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    Distribuição <span class="ot">=</span> <span class="fu">c</span>(dist_control, dist_cancer),</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>  normality_log <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(normality_log, temp_results)</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Display final table</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(normality_log)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Transformação Citocina Condição      p_valor Distribuição
+1            Log    IL.17 Controle 2.320838e-01       Normal
+2            Log    IL.17   Câncer 3.181997e-01       Normal
+3            Log    IL.1B Controle 3.616677e-01       Normal
+4            Log    IL.1B   Câncer 2.499910e-01       Normal
+5            Log   IL.1RA Controle 9.325514e-01       Normal
+6            Log   IL.1RA   Câncer 1.471070e-02   Não Normal
+7            Log     IL.2 Controle 9.327749e-01       Normal
+8            Log     IL.2   Câncer 1.509554e-01       Normal
+9            Log     IL.4 Controle 2.554747e-01       Normal
+10           Log     IL.4   Câncer 3.627269e-03   Não Normal
+11           Log     IL.5 Controle 6.202696e-01       Normal
+12           Log     IL.5   Câncer 1.509486e-02   Não Normal
+13           Log     IL.6 Controle 7.568152e-01       Normal
+14           Log     IL.6   Câncer 1.230982e-02   Não Normal
+15           Log     IL.7 Controle 4.898269e-01       Normal
+16           Log     IL.7   Câncer 1.811055e-03   Não Normal
+17           Log     IL.8 Controle 4.767467e-01       Normal
+18           Log     IL.8   Câncer 3.205885e-02   Não Normal
+19           Log     IL.9 Controle 9.567532e-01       Normal
+20           Log     IL.9   Câncer 2.740533e-02   Não Normal
+21           Log    IL.10 Controle 1.564201e-03   Não Normal
+22           Log    IL.10   Câncer 1.284937e-05   Não Normal
+23           Log    IL.11 Controle 2.472530e-03   Não Normal
+24           Log    IL.11   Câncer 3.780047e-01       Normal
+25           Log    IL.12 Controle 1.035155e-02   Não Normal
+26           Log    IL.12   Câncer 2.317504e-03   Não Normal
+27           Log    IL.13 Controle 9.421265e-01       Normal
+28           Log    IL.13   Câncer 4.850554e-01       Normal
+29           Log    IL.15 Controle 9.480596e-01       Normal
+30           Log    IL.15   Câncer 8.394434e-01       Normal
+31           Log  Eotaxin Controle 9.684988e-01       Normal
+32           Log  Eotaxin   Câncer 2.901299e-01       Normal
+33           Log FGFbasic Controle 9.993495e-01       Normal
+34           Log FGFbasic   Câncer 2.782353e-02   Não Normal
+35           Log     GCSF Controle 5.560523e-01       Normal
+36           Log     GCSF   Câncer 1.133161e-01       Normal
+37           Log   GM.CSF Controle 7.727069e-01       Normal
+38           Log   GM.CSF   Câncer 4.136929e-02   Não Normal
+39           Log     IFNG Controle 3.625176e-01       Normal
+40           Log     IFNG   Câncer 4.696811e-03   Não Normal
+41           Log    IP.10 Controle 6.992630e-02       Normal
+42           Log    IP.10   Câncer 1.321145e-02   Não Normal
+43           Log    MPC.1 Controle 1.052673e-01       Normal
+44           Log    MPC.1   Câncer 1.313067e-05   Não Normal
+45           Log    MIP1a Controle 9.727502e-01       Normal
+46           Log    MIP1a   Câncer 1.061493e-01       Normal
+47           Log    MIP1b Controle 1.270780e-01       Normal
+48           Log    MIP1b   Câncer 5.085188e-02       Normal
+49           Log   RANTES Controle 1.872687e-04   Não Normal
+50           Log   RANTES   Câncer 7.940329e-05   Não Normal
+51           Log     TNFa Controle 4.983000e-01       Normal
+52           Log     TNFa   Câncer 4.600515e-02   Não Normal
+53           Log     VEGF Controle 4.739283e-03   Não Normal
+54           Log     VEGF   Câncer 4.405790e-02   Não Normal</code></pre>
+</div>
+</div>
+</section>
+<section id="log1p" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="log1p"><span class="header-section-number">4.2</span> Log1p</h2>
+<p>The <code>log()</code> function computes the pure natural logarithm, if any value in the data is zero, the result will be <code>-Inf</code>, which breaks downstream analyses. The <code>log1p()</code> function, on the other hand, computes <code>log(1 + x)</code>, adding 1 to each value before applying the logarithm. This ensures that zeros are transformed to <code>log(1) = 0</code>, avoiding the problem entirely. For cytokines data, where zero values are biologically plausible, <code>log1p()</code> is generally the safer choice.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data.log1p <span class="ot">&lt;-</span> data.cytokines <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">all_of</span>(cytokine_names), <span class="sc">~</span> <span class="fu">log1p</span>(.)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>normality_log1p <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  Transformação <span class="ot">=</span> <span class="fu">character</span>(),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Citocina =</span> <span class="fu">character</span>(),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  Condição <span class="ot">=</span> <span class="fu">character</span>(),</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_valor =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  Distribuição <span class="ot">=</span> <span class="fu">character</span>(),</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (cyt <span class="cf">in</span> cytokine_names) {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  df_temp <span class="ot">&lt;-</span> data.log1p <span class="sc">%&gt;%</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="fu">all_of</span>(condition), <span class="fu">all_of</span>(cyt)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>()</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  vec_control <span class="ot">&lt;-</span> df_temp <span class="sc">%&gt;%</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(.data[[condition]] <span class="sc">==</span> <span class="st">"controle"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(<span class="fu">all_of</span>(cyt))</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  vec_cancer <span class="ot">&lt;-</span> df_temp <span class="sc">%&gt;%</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(.data[[condition]] <span class="sc">==</span> <span class="st">"cancer"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(<span class="fu">all_of</span>(cyt))</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  p.value_control <span class="ot">&lt;-</span> <span class="fu">shapiro.test</span>(vec_control)<span class="sc">$</span>p.value</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  p.value_cancer <span class="ot">&lt;-</span> <span class="fu">shapiro.test</span>(vec_cancer)<span class="sc">$</span>p.value</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  dist_control <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(p.value_control <span class="sc">&gt;</span> <span class="fl">0.05</span>, <span class="st">"Normal"</span>, <span class="st">"Não Normal"</span>)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  dist_cancer <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(p.value_cancer <span class="sc">&gt;</span> <span class="fl">0.05</span>, <span class="st">"Normal"</span>, <span class="st">"Não Normal"</span>)</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  temp_results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    Transformação <span class="ot">=</span> <span class="st">"Log1p"</span>,</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">Citocina =</span> <span class="fu">c</span>(cyt, cyt),</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    Condição <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Controle"</span>, <span class="st">"Câncer"</span>),</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_valor =</span> <span class="fu">c</span>(p.value_control, p.value_cancer),</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    Distribuição <span class="ot">=</span> <span class="fu">c</span>(dist_control, dist_cancer),</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>  normality_log1p <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(normality_log1p, temp_results)</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Display final table</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(normality_log1p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Transformação Citocina Condição      p_valor Distribuição
+1          Log1p    IL.17 Controle 2.366706e-01       Normal
+2          Log1p    IL.17   Câncer 3.236423e-01       Normal
+3          Log1p    IL.1B Controle 3.578781e-01       Normal
+4          Log1p    IL.1B   Câncer 2.562400e-01       Normal
+5          Log1p   IL.1RA Controle 9.295062e-01       Normal
+6          Log1p   IL.1RA   Câncer 1.395646e-02   Não Normal
+7          Log1p     IL.2 Controle 9.334929e-01       Normal
+8          Log1p     IL.2   Câncer 1.614285e-01       Normal
+9          Log1p     IL.4 Controle 2.635521e-01       Normal
+10         Log1p     IL.4   Câncer 3.718968e-03   Não Normal
+11         Log1p     IL.5 Controle 6.166245e-01       Normal
+12         Log1p     IL.5   Câncer 1.873607e-02   Não Normal
+13         Log1p     IL.6 Controle 7.551934e-01       Normal
+14         Log1p     IL.6   Câncer 1.099204e-02   Não Normal
+15         Log1p     IL.7 Controle 4.962258e-01       Normal
+16         Log1p     IL.7   Câncer 1.444400e-03   Não Normal
+17         Log1p     IL.8 Controle 4.785284e-01       Normal
+18         Log1p     IL.8   Câncer 3.026346e-02   Não Normal
+19         Log1p     IL.9 Controle 9.587111e-01       Normal
+20         Log1p     IL.9   Câncer 2.717749e-02   Não Normal
+21         Log1p    IL.10 Controle 1.464850e-03   Não Normal
+22         Log1p    IL.10   Câncer 1.182448e-05   Não Normal
+23         Log1p    IL.11 Controle 2.360790e-03   Não Normal
+24         Log1p    IL.11   Câncer 3.779175e-01       Normal
+25         Log1p    IL.12 Controle 8.778866e-03   Não Normal
+26         Log1p    IL.12   Câncer 1.991951e-03   Não Normal
+27         Log1p    IL.13 Controle 9.406161e-01       Normal
+28         Log1p    IL.13   Câncer 4.882140e-01       Normal
+29         Log1p    IL.15 Controle 9.480539e-01       Normal
+30         Log1p    IL.15   Câncer 8.441325e-01       Normal
+31         Log1p  Eotaxin Controle 9.700570e-01       Normal
+32         Log1p  Eotaxin   Câncer 3.001885e-01       Normal
+33         Log1p FGFbasic Controle 9.993553e-01       Normal
+34         Log1p FGFbasic   Câncer 2.853197e-02   Não Normal
+35         Log1p     GCSF Controle 5.540140e-01       Normal
+36         Log1p     GCSF   Câncer 1.132107e-01       Normal
+37         Log1p   GM.CSF Controle 7.706458e-01       Normal
+38         Log1p   GM.CSF   Câncer 4.295385e-02   Não Normal
+39         Log1p     IFNG Controle 3.619810e-01       Normal
+40         Log1p     IFNG   Câncer 4.612519e-03   Não Normal
+41         Log1p    IP.10 Controle 6.970866e-02       Normal
+42         Log1p    IP.10   Câncer 1.399555e-02   Não Normal
+43         Log1p    MPC.1 Controle 1.034646e-01       Normal
+44         Log1p    MPC.1   Câncer 1.196581e-05   Não Normal
+45         Log1p    MIP1a Controle 9.728245e-01       Normal
+46         Log1p    MIP1a   Câncer 1.069494e-01       Normal
+47         Log1p    MIP1b Controle 1.288698e-01       Normal
+48         Log1p    MIP1b   Câncer 5.018469e-02       Normal
+49         Log1p   RANTES Controle 1.872789e-04   Não Normal
+50         Log1p   RANTES   Câncer 7.940946e-05   Não Normal
+51         Log1p     TNFa Controle 4.932323e-01       Normal
+52         Log1p     TNFa   Câncer 4.865882e-02   Não Normal
+53         Log1p     VEGF Controle 4.565544e-03   Não Normal
+54         Log1p     VEGF   Câncer 4.304312e-02   Não Normal</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(normality_log1p<span class="sc">$</span>Distribuição)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Não Normal     Normal 
+        22         32 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(normality_log<span class="sc">$</span>Distribuição)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Não Normal     Normal 
+        22         32 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(normality_results<span class="sc">$</span>Distribuição)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Não Normal     Normal 
+        22         32 </code></pre>
+</div>
+</div>
+<p>No significant results !!!</p>
+</section>
+</section>
+<section id="pca" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> PCA</h1>
+<section id="raw-data" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="raw-data"><span class="header-section-number">5.1</span> Raw data</h2>
+<p>This code creates a matrix called <code>pca.raw.matrix</code> by selecting only the cytokines columns from the dataframe <code>data.cytokines</code>. The <code>dplyr::select()</code> function is called with explicit package notation to make clear which package it comes from and to avoid conflicts with functions of the same name loaded from other packages in the session. The result is a dataframe containing only the raw, untransformed cytokines values, which will be used as input for the Principal Component Analysis (PCA).</p>
+<p>The <code>prcomp()</code> function runs a PCA on the raw cytokines data and stores the results in the object <code>pca.raw</code>. The function is R’s built-in PCA implementation and takes the following arguments:</p>
+<ul>
+<li><p><code>pca.raw.matrix</code>: is the dataframe containing only the raw cytokine values, prepared in the previous step;</p></li>
+<li><p><code>center = TRUE</code>: centers the data by subtracting the mean of each variable, so that all columns have a mean of zero, this is essential to prevent variables with very different means from dominating the principal components;</p></li>
+<li><p><code>scale. = TRUE</code>: scales the data by dividing by the standard deviation of each variable, giving all of them a variance pf 1. This is particularly important when cytokines are measured on different scales or units, preventing those with numerically larger values from having a disproportionate influence on the analysis. The dot in the argument name is a quirk of the function designed to avoid conflict with R’s base <code>scale()</code> function.</p></li>
+</ul>
+<p>We now prepare the PCA results for visualization by organizing them into a dataframe and extracting the variance explained by each component.</p>
+<p><code>pca.raw$x</code> accesses the scores matrix from the <code>prcomp()</code> output, which contains the coordinates of each sample in the new dimensional space defined by the principal components. The <code>as.data.frame()</code> function converts this matrix into a dataframe, a more convenient format for plotting. A new column called <code>condicao</code> is then added to the dataframe. The <code>pull()</code> function from <code>dplyr</code> extracts a single column from a dataframe as a plain vector — in this case, the column whose name is stored in the variable <code>condition</code>. This allows each point in the PCA plot to be colored or grouped according to the experimental condition of each sample. Finally, <code>summary(pca.raw)$importance</code> returns a matrix of metrics for each principal component, where row <code>[2,]</code> corresponds to the proportion of variance explained. The <code>[1:2]</code> index selects only the first two components (PC1 and PC2), which are the ones that will be plotted. The result is multiplied by 100 to convert to a percentage and rounded to one decimal place using <code>round(..., 1)</code>.</p>
+<p>Finally, the PCA is plotted using <code>ggplot2</code>. The <code>pca.raw.df</code> dataframe is passed as the base data, and within <code>aes()</code> the aesthetic mappings are defined: <code>x = PC1</code> and <code>y = PC2</code> position each sample on the cartesian plane according to its coordinates in the first two principal components, while <code>color = condicao</code> colors each point according to the experimental group of that sample.</p>
+<ul>
+<li><p><code>geom_point(size = 3)</code> adds the points to the plot, with size 3 for better visibility.</p></li>
+<li><p><code>labs()</code> defines the plot’s text elements, <code>title</code> names the plot, and the <code>x</code> and <code>y</code> arguments dynamically build the axis labels using <code>paste0()</code>, which concatenates the component name with its explained variance from the <code>var.raw</code> vector, producing labels such as “PC1 (32.5%)”.</p></li>
+<li><p><code>theme_minimal()</code> applies a clean visual theme that removes unnecessary graphical elements, making the plot more elegant and easier to interpret.</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Cytokines matrix</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>pca.raw.matrix <span class="ot">&lt;-</span> data.cytokines <span class="sc">|&gt;</span> </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">all_of</span>(cytokine_names))</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#PCA</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>pca.raw <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  pca.raw.matrix,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">center =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale. =</span> <span class="cn">TRUE</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Dataframe to plot</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>pca.raw.df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca.raw<span class="sc">$</span>x)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Add condition</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>pca.raw.df<span class="sc">$</span>condicao <span class="ot">&lt;-</span> data.cytokines <span class="sc">|&gt;</span> </span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(<span class="fu">all_of</span>(condition))</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="co">#Variance</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>var.raw <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">summary</span>(pca.raw)<span class="sc">$</span>importance[<span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">1</span>)</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pca.raw.df, </span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="fu">aes</span>(<span class="at">x =</span> PC1,</span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="at">y =</span> PC2,</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="at">color =</span> condicao)) <span class="sc">+</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"PCA - Dados Brutos"</span>,</span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"PC1 ("</span>, var.raw[<span class="dv">1</span>], <span class="st">"%)"</span>),</span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"PC2 ("</span>, var.raw[<span class="dv">2</span>], <span class="st">"%)"</span>)</span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="log-1" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="log-1"><span class="header-section-number">5.2</span> Log</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pca_log_matrix <span class="ot">&lt;-</span> data.log <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">all_of</span>(cytokine_names))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># PCA</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>pca_log <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  pca_log_matrix,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">center =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale. =</span> <span class="cn">TRUE</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co"># dataframe</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>pca_log_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca_log<span class="sc">$</span>x)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="co"># condição</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>pca_log_df<span class="sc">$</span>condicao <span class="ot">&lt;-</span> data.log1p <span class="sc">%&gt;%</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(<span class="fu">all_of</span>(condition))</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="co"># variância explicada</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>var_log <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">summary</span>(pca_log)<span class="sc">$</span>importance[<span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">1</span>)</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="co"># gráfico</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pca_log_df,</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> PC1,</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> PC2,</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> condicao)) <span class="sc">+</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"PCA - Dados Log"</span>,</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"PC1 ("</span>, var_log[<span class="dv">1</span>], <span class="st">"%)"</span>),</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"PC2 ("</span>, var_log[<span class="dv">2</span>], <span class="st">"%)"</span>)</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="log1p-1" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="log1p-1"><span class="header-section-number">5.3</span> Log1p</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pca_log1p_matrix <span class="ot">&lt;-</span> data.log1p <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">all_of</span>(cytokine_names))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># PCA</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>pca_log1p <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  pca_log1p_matrix,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">center =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale. =</span> <span class="cn">TRUE</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co"># dataframe</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>pca_log1p_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca_log1p<span class="sc">$</span>x)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="co"># condição</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>pca_log1p_df<span class="sc">$</span>condicao <span class="ot">&lt;-</span> data.log1p <span class="sc">%&gt;%</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(<span class="fu">all_of</span>(condition))</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="co"># variância explicada</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>var_log1p <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">summary</span>(pca_log1p)<span class="sc">$</span>importance[<span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">1</span>)</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="co"># gráfico</span></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pca_log1p_df,</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> PC1,</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> PC2,</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> condicao)) <span class="sc">+</span></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"PCA - Dados Log1p"</span>,</span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"PC1 ("</span>, var_log1p[<span class="dv">1</span>], <span class="st">"%)"</span>),</span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"PC2 ("</span>, var_log1p[<span class="dv">2</span>], <span class="st">"%)"</span>)</span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="mann-whitney" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Mann-Whitney</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"rstatix"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"rstatix"</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstatix)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="raw-data-1" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="raw-data-1"><span class="header-section-number">6.1</span> Raw data</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>results.mann.raw <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Citocina =</span> <span class="fu">character</span>(),</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_value =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Resultado =</span> <span class="fu">character</span>()</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(cyt <span class="cf">in</span> cytokine_names){</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Creating the standard formula--</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  formula.test <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(cyt, <span class="st">"~"</span>, condition)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Running Mann-Whitney--</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    formula.test, data.cytokines</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Saving the results--</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Citocina =</span> cyt,</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> test<span class="sc">$</span>p.value, </span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Resultado =</span> <span class="fu">ifelse</span>(test<span class="sc">$</span>p.value <span class="sc">&gt;</span> <span class="fl">0.05</span>, <span class="st">"Não Significativo"</span>, <span class="st">"Significativo"</span>)</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Append these results to our main general dataframe</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>  results.mann.raw <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>    results.mann.raw,</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>    temp</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results.mann.raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Citocina      p_value         Resultado
+1     IL.17 0.1611355580 Não Significativo
+2     IL.1B 0.0682584693 Não Significativo
+3    IL.1RA 0.0496743705     Significativo
+4      IL.2 0.0053894047     Significativo
+5      IL.4 0.3167766473 Não Significativo
+6      IL.5 0.9520351898 Não Significativo
+7      IL.6 0.0007106462     Significativo
+8      IL.7 0.1996400757 Não Significativo
+9      IL.8 0.0003947786     Significativo
+10     IL.9 0.0781090237 Não Significativo
+11    IL.10 0.0053197348     Significativo
+12    IL.11 0.0474584891     Significativo
+13    IL.12 0.1540257902 Não Significativo
+14    IL.13 0.0236387063     Significativo
+15    IL.15 0.0563964440 Não Significativo
+16  Eotaxin 0.0814915997 Não Significativo
+17 FGFbasic 0.0180188448     Significativo
+18     GCSF 0.0064799236     Significativo
+19   GM.CSF 0.0779588738 Não Significativo
+20     IFNG 0.8283065452 Não Significativo
+21    IP.10 0.3782852463 Não Significativo
+22    MPC.1 0.0180304806     Significativo
+23    MIP1a 0.8902471781 Não Significativo
+24    MIP1b 0.8902471781 Não Significativo
+25   RANTES 0.0563964440 Não Significativo
+26     TNFa 0.2975631265 Não Significativo
+27     VEGF 0.0337912365     Significativo</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(results.mann.raw<span class="sc">$</span>Resultado)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Não Significativo     Significativo 
+               16                11 </code></pre>
+</div>
+</div>
+</section>
+<section id="log-2" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="log-2"><span class="header-section-number">6.2</span> Log</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>results.mann.log <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Citocina =</span> <span class="fu">character</span>(),</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_value =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Resultado =</span> <span class="fu">character</span>()</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(cyt <span class="cf">in</span> cytokine_names){</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Creating the standard formula--</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  formula.test <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(cyt, <span class="st">"~"</span>, condition)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Running Mann-Whitney--</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    formula.test, data.log</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Saving the results--</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Citocina =</span> cyt,</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> test<span class="sc">$</span>p.value, </span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Resultado =</span> <span class="fu">ifelse</span>(test<span class="sc">$</span>p.value <span class="sc">&gt;</span> <span class="fl">0.05</span>, <span class="st">"Não Significativo"</span>, <span class="st">"Significativo"</span>)</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Append these results to our main general dataframe</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>  results.mann.log <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>    results.mann.log,</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>    temp</span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties
+Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot
+compute exact p-value with ties</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results.mann.log)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Citocina      p_value         Resultado
+1     IL.17 0.1611355580 Não Significativo
+2     IL.1B 0.0682584693 Não Significativo
+3    IL.1RA 0.0496743705     Significativo
+4      IL.2 0.0053894047     Significativo
+5      IL.4 0.3167766473 Não Significativo
+6      IL.5 0.9520351898 Não Significativo
+7      IL.6 0.0007106462     Significativo
+8      IL.7 0.1996400757 Não Significativo
+9      IL.8 0.0003947786     Significativo
+10     IL.9 0.0781090237 Não Significativo
+11    IL.10 0.0053197348     Significativo
+12    IL.11 0.0474584891     Significativo
+13    IL.12 0.1540257902 Não Significativo
+14    IL.13 0.0236387063     Significativo
+15    IL.15 0.0563964440 Não Significativo
+16  Eotaxin 0.0814915997 Não Significativo
+17 FGFbasic 0.0180188448     Significativo
+18     GCSF 0.0064799236     Significativo
+19   GM.CSF 0.0779588738 Não Significativo
+20     IFNG 0.8283065452 Não Significativo
+21    IP.10 0.3782852463 Não Significativo
+22    MPC.1 0.0180304806     Significativo
+23    MIP1a 0.8902471781 Não Significativo
+24    MIP1b 0.8902471781 Não Significativo
+25   RANTES 0.0563964440 Não Significativo
+26     TNFa 0.2975631265 Não Significativo
+27     VEGF 0.0337912365     Significativo</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(results.mann.log<span class="sc">$</span>Resultado)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Não Significativo     Significativo 
+               16                11 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="welchs-t-test-for-normal-cytokines" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Welch’s t-test for normal cytokines</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>normal.cytokines <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"IL.17"</span>, <span class="st">"IL.1B"</span>, <span class="st">"IL.2"</span>, <span class="st">"IL.13"</span>, <span class="st">"IL.15"</span>, <span class="st">"Eotaxin"</span>, <span class="st">"GCSF"</span>, <span class="st">"MIP1a"</span>, <span class="st">"MIP1b"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>results.ttest <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Citocina =</span> <span class="fu">character</span>(),</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_value =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Resultado =</span> <span class="fu">character</span>(),</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(cyt <span class="cf">in</span> normal.cytokines){</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  formula.test <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(cyt, <span class="st">"~"</span>, condition)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> <span class="fu">t.test</span>(</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>    formula.test, data.log,</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Citocina =</span> cyt,</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> test<span class="sc">$</span>p.value,</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Resultado =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>      test<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>,</span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Significativo"</span>,</span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Não significativo"</span></span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a>  results.ttest <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>    results.ttest,</span>
+<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a>    temp</span>
+<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb46-25"><a href="#cb46-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb46-26"><a href="#cb46-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-27"><a href="#cb46-27" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results.ttest)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Citocina     p_value         Resultado
+1    IL.17 0.352285562 Não significativo
+2    IL.1B 0.150779163 Não significativo
+3     IL.2 0.009734255     Significativo
+4    IL.13 0.019710621     Significativo
+5    IL.15 0.046485937     Significativo
+6  Eotaxin 0.081822627 Não significativo
+7     GCSF 0.014278296     Significativo
+8    MIP1a 0.744703310 Não significativo
+9    MIP1b 0.902822320 Não significativo</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(results.ttest<span class="sc">$</span>Resultado)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Não significativo     Significativo 
+                5                 4 </code></pre>
+</div>
+</div>
+<p>As a result, IL.15, which was previously classified as “Não Significativo”, has now become “Significativo”. The remaining results remained unchanged.</p>
+</section>
+<section id="heatmap" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Heatmap</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"pheatmap"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"pheatmap"</span>)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>heatmap.matrix <span class="ot">&lt;-</span> data.log <span class="sc">|&gt;</span> </span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">all_of</span>(cytokine_names)) <span class="sc">|&gt;</span> </span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(heatmap.matrix) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"amostra_"</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(heatmap.matrix))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>annotation.df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Grupo =</span> data.log[[condition]]</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(annotation.df) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(heatmap.matrix)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>annotation_colors <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Grupo =</span> <span class="fu">c</span>(</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cancer =</span> <span class="st">"#e34230ff"</span>,</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">controle =</span> <span class="st">"#345edbff"</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>(heatmap.matrix),</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> <span class="st">"row"</span>,</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation_col =</span> annotation.df,</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation_colors =</span> annotation_colors,</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering_method =</span> <span class="st">"complete"</span>, </span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">border_color =</span> <span class="st">"#fcfcfc"</span>,</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">fontsize =</span> <span class="dv">10</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 
 </main>
