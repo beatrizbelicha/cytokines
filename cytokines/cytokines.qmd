@@ -538,6 +538,22 @@ results.mann.raw <- data.frame(
 )
 ```
 
+This block runs the Mann-Whitney test for each cytokine individually and stores the results in a dataframe. The `for(cyt in cytokine_names)` loop iterates over each cytokine name in the `cytokine_names` vector, with `cyt` taking a different cytokine name at each iteration. Inside the loop, `as.formula(paste(cyt, "~", condition))` dynamically builds the statistical formula by concatenating the cytokine name, the tilde `~`, and the condition name into a string such as `"IL6 ~ group"`, then converting it into a formula object that R can interpret statistically.
+
+`wilcox.test()` runs the Mann-Whitney test (also known as the Wilcox rank-sum test) comparing cytokine values between the groups defined by condition variable. It is a non-parametric test, appropriate for data that does not follow normal distribution.
+
+At each iteration, a temporary dataframe `temp` is created with three columns:
+
+1.  The cytokine name;
+
+2.  The *p-value*;
+
+3.  Classification using `ifelse()`.
+
+The `ifelse()` function returns "Significativo" if the *p-value* is less than or equal to 0.05 and "Não Significativo" otherwise. The `bind_rows()` function from `dplyr` the appends temp to the main results `results.mann.raw` dataframe, accumulating results across iterations.
+
+After the loop, `print()` displays the complete results dataframe, and `table()` produces a quick count of how many cytokines were classified as significant or non-significant.
+
 ```{r}
 for(cyt in cytokine_names){
   #--Creating the standard formula--
@@ -566,6 +582,7 @@ table(results.mann.raw$Resultado)
 ```
 
 ## Log
+
 ```{r}
 results.mann.log <- data.frame(
   Citocina = character(),
@@ -647,7 +664,7 @@ print(results.ttest)
 table(results.ttest$Resultado)
 ```
 
-As a result, IL.15, which was previously classified as "Não Significativo", has now become "Significativo". The remaining results remained unchanged. 
+As a result, IL.15, which was previously classified as "Não Significativo", has now become "Significativo". The remaining results remained unchanged.
 
 # Heatmap
 
@@ -663,15 +680,29 @@ if (!requireNamespace("pheatmap", quietly = TRUE)) {
 library(pheatmap)
 ```
 
+This code prepares the data matrix that will be used to generate the heatmap. The pipe chains three operations on `data.log`:
+
+1.  `dplyr::select(all_of(cytokine_names))` selects only the cytokines columns;
+
+2.  `as.matrix()` then converts the resulting dataframe into a matrix. This conversion is necessary because `pheatmap()` function require the data to be in matrix format rather than a dataframe;
+
 ```{r}
 heatmap.matrix <- data.log |> 
   dplyr::select(all_of(cytokine_names)) |> 
   as.matrix()
 ```
 
+This code assigns names to the rows of the `heatmap.matrix`. The `rownames()` function defines or replaces the row names of matrix or dataframe. On the right-hand side, `paste0()` concatenates the string `"amostra_"` with a numeric sequence from 1 to the total number of rows in the matrix, generate by `1:nrow(heatmap.matrix)`. This produces labels such as `"amostra_1"`, and so on. These labels are important for heatmap visualization, as they identify each sample on the corresponding axis of the plot.
+
 ```{r}
 rownames(heatmap.matrix) <- paste0("amostra_", 1:nrow(heatmap.matrix))
 ```
+
+This code creates an annotation dataframe that will be used to color the samples in the heatmap according to their experimental group.
+
+`data.frame(Grupo = data.log[[condition]]` creates a dataframe with a single column called `Grupo`. The `[[condition]]` operator extracts the column whose name is stored in the variable `condition` from `data.log` as a plain vector, which is then assigned to the Grupo column. It's worth noting the difference between `[[]]` and `$`: the `$` operator requires the column name to be written directly in the code, whereas `[[]]` accepts a variable containing the name, making the code more flexible and reusable.
+
+`rownames(annotation.df) <– rownames(heatmap.matrix)` assigns the same row names from the heatmap matrix to the annotation dataframe. This is essential for the heatmap function to correctly align each sample with its corresponding group annotation.
 
 ```{r}
 annotation.df <- data.frame(
@@ -681,6 +712,10 @@ annotation.df <- data.frame(
 rownames(annotation.df) <- rownames(heatmap.matrix)
 ```
 
+This code creates a list called `annotation_colors` that defines the colors used to represent each group in the heatmap. In R, lists are structures that can hold elements of different types and sizes, and this is the format expected by functions such as `pheatmap()` for receiving annotation groups.
+
+The `Grupo` element of the list is a named color vector in hexadecimal format, where each name corresponds to a level of the experimental group: `cancer` will be displayed in red `"#e34230ff"` and `controle` in blue `"#345edbff"`. The name `Grupo` must be identical to the column name in `annotation.df`, as this is how the heatmap function matches the annotation to its corresponding colors.
+
 ```{r}
 annotation_colors <- list(
   Grupo = c(
@@ -689,6 +724,15 @@ annotation_colors <- list(
   )
 )
 ```
+
+This code generates the heatmap using pheatmap() function from the package of the same name. each argument controls a specific aspect of the visualization:
+
+- t(heatmap.matrix) transpose the matrix, swapping rows and columns so that cytokines appear as rows and samples as columns, which is the most common and intuitive orientation for biological heatmaps. `scale = "row"` normalizes the data by row, transforming the values of each cytokine into z-scores by subtracting the mean and dividing by the standard deviation. This allows the expression pattern of cytokines with very different magnitudes to be compared without one visually dominating the others.
+
+- `annotation_col = annotation.df` adds an annotation bar at the top of the columns, coloring each sample according to its experimental group using the annotation dataframe created earlier. `annotation_colors = annotation_colors` assigns the specific colors for each group in that annotation bar, using the color list defined previously.
+
+- `clustering_method = "complete"` sets the hierarchical clustering method used to order both samples and cytokines in the heatmap. The `"complete"` method calculates the distance between two clusters as the greatest distance between any two points belonging to them, tending to produce more compact and well-defined clusters. `border_color = "#fcfcfc"` sets the border color between heatmap cells to a near-white tone, creating a subtle separation without distracting from the visualization. Finally, `fontsize = 10` sets the font size of the labels in the plot.
+
 ```{r}
 pheatmap(
   t(heatmap.matrix),

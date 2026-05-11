@@ -1378,6 +1378,16 @@ Não Normal     Normal
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Resultado =</span> <span class="fu">character</span>()</span>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>This block runs the Mann-Whitney test for each cytokine individually and stores the results in a dataframe. The <code>for(cyt in cytokine_names)</code> loop iterates over each cytokine name in the <code>cytokine_names</code> vector, with <code>cyt</code> taking a different cytokine name at each iteration. Inside the loop, <code>as.formula(paste(cyt, "~", condition))</code> dynamically builds the statistical formula by concatenating the cytokine name, the tilde <code>~</code>, and the condition name into a string such as <code>"IL6 ~ group"</code>, then converting it into a formula object that R can interpret statistically.</p>
+<p><code>wilcox.test()</code> runs the Mann-Whitney test (also known as the Wilcox rank-sum test) comparing cytokine values between the groups defined by condition variable. It is a non-parametric test, appropriate for data that does not follow normal distribution.</p>
+<p>At each iteration, a temporary dataframe <code>temp</code> is created with three columns:</p>
+<ol type="1">
+<li><p>The cytokine name;</p></li>
+<li><p>The <em>p-value</em>;</p></li>
+<li><p>Classification using <code>ifelse()</code>.</p></li>
+</ol>
+<p>The <code>ifelse()</code> function returns “Significativo” if the <em>p-value</em> is less than or equal to 0.05 and “Não Significativo” otherwise. The <code>bind_rows()</code> function from <code>dplyr</code> the appends temp to the main results <code>results.mann.raw</code> dataframe, accumulating results across iterations.</p>
+<p>After the loop, <code>print()</code> displays the complete results dataframe, and <code>table()</code> produces a quick count of how many cytokines were classified as significant or non-significant.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(cyt <span class="cf">in</span> cytokine_names){</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Creating the standard formula--</span></span>
@@ -1673,14 +1683,23 @@ Não significativo     Significativo
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>This code prepares the data matrix that will be used to generate the heatmap. The pipe chains three operations on <code>data.log</code>:</p>
+<ol type="1">
+<li><p><code>dplyr::select(all_of(cytokine_names))</code> selects only the cytokines columns;</p></li>
+<li><p><code>as.matrix()</code> then converts the resulting dataframe into a matrix. This conversion is necessary because <code>pheatmap()</code> function require the data to be in matrix format rather than a dataframe;</p></li>
+</ol>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>heatmap.matrix <span class="ot">&lt;-</span> data.log <span class="sc">|&gt;</span> </span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">all_of</span>(cytokine_names)) <span class="sc">|&gt;</span> </span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>This code assigns names to the rows of the <code>heatmap.matrix</code>. The <code>rownames()</code> function defines or replaces the row names of matrix or dataframe. On the right-hand side, <code>paste0()</code> concatenates the string <code>"amostra_"</code> with a numeric sequence from 1 to the total number of rows in the matrix, generate by <code>1:nrow(heatmap.matrix)</code>. This produces labels such as <code>"amostra_1"</code>, and so on. These labels are important for heatmap visualization, as they identify each sample on the corresponding axis of the plot.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(heatmap.matrix) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"amostra_"</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(heatmap.matrix))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>This code creates an annotation dataframe that will be used to color the samples in the heatmap according to their experimental group.</p>
+<p><code>data.frame(Grupo = data.log[[condition]]</code> creates a dataframe with a single column called <code>Grupo</code>. The <code>[[condition]]</code> operator extracts the column whose name is stored in the variable <code>condition</code> from <code>data.log</code> as a plain vector, which is then assigned to the Grupo column. It’s worth noting the difference between <code>[[]]</code> and <code>$</code>: the <code>$</code> operator requires the column name to be written directly in the code, whereas <code>[[]]</code> accepts a variable containing the name, making the code more flexible and reusable.</p>
+<p><code>rownames(annotation.df) &lt;– rownames(heatmap.matrix)</code> assigns the same row names from the heatmap matrix to the annotation dataframe. This is essential for the heatmap function to correctly align each sample with its corresponding group annotation.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>annotation.df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Grupo =</span> data.log[[condition]]</span>
@@ -1688,6 +1707,8 @@ Não significativo     Significativo
 <span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(annotation.df) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(heatmap.matrix)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>This code creates a list called <code>annotation_colors</code> that defines the colors used to represent each group in the heatmap. In R, lists are structures that can hold elements of different types and sizes, and this is the format expected by functions such as <code>pheatmap()</code> for receiving annotation groups.</p>
+<p>The <code>Grupo</code> element of the list is a named color vector in hexadecimal format, where each name corresponds to a level of the experimental group: <code>cancer</code> will be displayed in red <code>"#e34230ff"</code> and <code>controle</code> in blue <code>"#345edbff"</code>. The name <code>Grupo</code> must be identical to the column name in <code>annotation.df</code>, as this is how the heatmap function matches the annotation to its corresponding colors.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>annotation_colors <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Grupo =</span> <span class="fu">c</span>(</span>
@@ -1696,6 +1717,12 @@ Não significativo     Significativo
 <span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>This code generates the heatmap using pheatmap() function from the package of the same name. each argument controls a specific aspect of the visualization:</p>
+<ul>
+<li><p>t(heatmap.matrix) transpose the matrix, swapping rows and columns so that cytokines appear as rows and samples as columns, which is the most common and intuitive orientation for biological heatmaps. <code>scale = "row"</code> normalizes the data by row, transforming the values of each cytokine into z-scores by subtracting the mean and dividing by the standard deviation. This allows the expression pattern of cytokines with very different magnitudes to be compared without one visually dominating the others.</p></li>
+<li><p><code>annotation_col = annotation.df</code> adds an annotation bar at the top of the columns, coloring each sample according to its experimental group using the annotation dataframe created earlier. <code>annotation_colors = annotation_colors</code> assigns the specific colors for each group in that annotation bar, using the color list defined previously.</p></li>
+<li><p><code>clustering_method = "complete"</code> sets the hierarchical clustering method used to order both samples and cytokines in the heatmap. The <code>"complete"</code> method calculates the distance between two clusters as the greatest distance between any two points belonging to them, tending to produce more compact and well-defined clusters. <code>border_color = "#fcfcfc"</code> sets the border color between heatmap cells to a near-white tone, creating a subtle separation without distracting from the visualization. Finally, <code>fontsize = 10</code> sets the font size of the labels in the plot.</p></li>
+</ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>(heatmap.matrix),</span>
