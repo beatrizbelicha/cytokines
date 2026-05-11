@@ -618,6 +618,28 @@ print(results.mann.log)
 table(results.mann.log$Resultado)
 ```
 
+
+This block applies a correction for multiple comparisons to the Mann-Whitney test results and updates the significance classification accordingly.
+
+`p.adjust(results.mann.log$p_value, method = "fdr")` adjusts the raw p-values using the Benjamini-Hochberg method, also known as the False Discovery Rate (FDR) correction. When multiple statistical tests are performed simultaneously — one for each cytokine — the probability of obtaining at least one false positive increases with each additional test. The FDR method controls the expected proportion of false positives among the results classified as significant, producing adjusted p-values that account for the total number of tests performed. These adjusted values are stored in a new column called `FDR` in the `results.mann.log` dataframe.
+
+`ifelse(results.mann.log$FDR < 0.05, "Sim", "Não")` then reclassifies each cytokine as significant or not based on the adjusted p-value rather than the raw one, which is the correct approach after applying a multiple comparisons correction. The result is stored in a new column called `Significativo_FDR`. It is common to find that some cytokines that appeared significant based on raw p-values lose their significance after FDR correction — this is expected and is precisely the purpose of the adjustment.
+
+```{r}
+results.mann.log$FDR <- p.adjust(
+  results.mann.log$p_value,
+  method = "fdr"
+)
+
+results.mann.log$Significativo_FDR <- ifelse(
+  results.mann.log$FDR < 0.05,
+  "Sim",
+  "Não"
+)
+```
+
+IL.2, IL.6, IL.8, IL.10 and GCSF remained significant. 
+
 # Welch's t-test for normal cytokines
 
 ```{r}
@@ -741,6 +763,61 @@ pheatmap(
   annotation_colors = annotation_colors,
   clustering_method = "complete", 
   border_color = "#fcfcfc",
+  color = colorRampPalette( c("#345edbff", "white", "#e34230ff"))(100),
+  fontsize = 10
+)
+```
+
+## Heatmap with significant cytokines
+
+```{r}
+significant_cytokines <- c(
+  "IL.1RA",
+  "IL.2",
+  "IL.6",
+  "IL.8",
+  "IL.10",
+  "IL.11",
+  "IL.13",
+  "FGFbasic",
+  "GCSF",
+  "MPC.1",
+  "VEGF"
+)
+```
+
+```{r}
+heatmap.sig <- data.log |>
+  dplyr::select(all_of(significant_cytokines)) |>
+  as.matrix()
+```
+
+```{r}
+rownames(heatmap.sig) <- paste0(
+  "amostra_",
+  1:nrow(heatmap.sig)
+)
+```
+
+```{r}
+annotation.df <- data.frame(
+  Grupo = data.log[[condition]]
+)
+
+rownames(annotation.df) <- rownames(heatmap.sig)
+```
+
+```{r}
+pheatmap(
+  t(heatmap.sig),
+  scale = "row",
+  annotation_col = annotation.df,
+  annotation_colors = annotation_colors,
+  clustering_method = "complete", 
+  border_color = "#fcfcfc",
+  color = colorRampPalette(
+    c("#345edbff", "white", "#e34230ff")
+  )(100),
   fontsize = 10
 )
 ```
