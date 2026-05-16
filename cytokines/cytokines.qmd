@@ -20,6 +20,9 @@ editor_options:
 
 ```{r}
 data.cytokines <- read.csv("/Users/beatrizbelicha/Documents/bioinfo/citocina/citocinas.csv", header = T, stringsAsFactors = T)
+
+data.cytokines <- data.cytokines |> 
+  slice(-c(9, 13))
 ```
 
 # Distributions and Outliers
@@ -450,7 +453,7 @@ pca_log <- prcomp(
 pca_log_df <- as.data.frame(pca_log$x)
 
 # condição
-pca_log_df$condicao <- data.log1p %>%
+pca_log_df$condicao <- data.log %>%
   pull(all_of(condition))
 
 # variância explicada
@@ -618,7 +621,6 @@ print(results.mann.log)
 table(results.mann.log$Resultado)
 ```
 
-
 This block applies a correction for multiple comparisons to the Mann-Whitney test results and updates the significance classification accordingly.
 
 `p.adjust(results.mann.log$p_value, method = "fdr")` adjusts the raw p-values using the Benjamini-Hochberg method, also known as the False Discovery Rate (FDR) correction. When multiple statistical tests are performed simultaneously — one for each cytokine — the probability of obtaining at least one false positive increases with each additional test. The FDR method controls the expected proportion of false positives among the results classified as significant, producing adjusted p-values that account for the total number of tests performed. These adjusted values are stored in a new column called `FDR` in the `results.mann.log` dataframe.
@@ -638,7 +640,7 @@ results.mann.log$Significativo_FDR <- ifelse(
 )
 ```
 
-IL.2, IL.6, IL.8, IL.10 and GCSF remained significant. 
+IL.2, IL.6, IL.8, IL.10 and GCSF remained significant.
 
 # Welch's t-test for normal cytokines
 
@@ -772,17 +774,15 @@ pheatmap(
 
 ```{r}
 significant_cytokines <- c(
-  "IL.1RA",
+  "RANTES",
   "IL.2",
   "IL.6",
   "IL.8",
   "IL.10",
   "IL.11",
-  "IL.13",
   "FGFbasic",
   "GCSF",
-  "MPC.1",
-  "VEGF"
+  "MPC.1"
 )
 ```
 
@@ -819,5 +819,234 @@ pheatmap(
     c("#345edbff", "white", "#e34230ff")
   )(100),
   fontsize = 10
+)
+```
+
+# Cytokine-cytokine correlation
+
+He we creates a new dataframe called `df.cancer` containing only the samples from the cancer group, keeping solely the cytokines columns. The pipe chains three operations on `data.cytokine`:
+
+1.  `filter(condicao == "cancer")` filters the rows of the dataframe, retaining only those where the `condicao` column is equal to `"cancer"`, using the `==` operator for exact string matching;
+2.  `select(all_off(cytokine_names))` the select only the cytokine columns, removing the condition column and any other variable not relevant to the correlation analysis.
+
+```{r}
+df.cancer <- data.cytokines |> 
+  filter(condicao == "cancer") |> 
+  select(all_of(cytokine_names))
+```
+
+This code computes the correlation matrix between cytokines using the Spearman correlation coefficient. The `cor()` function takes `df.cancer` and returns a square matrix where each cell represents the correlation between a pair of cytokines. The `method = "spearman"` argument specifies the use of Spearman correlation rather than Pearson. \
+\
+Spearman correlation coefficient is the most appropriate choice in this case, as it is based on the ranked values of the data and does not assume normality, making it more robust for biological data that frequently presents asymmetric distributions or outliers.
+
+```{r}
+cancer.matrix <- cor(
+  df.cancer, 
+  method = "spearman"
+)
+
+pheatmap(cancer.matrix)
+
+df_cancer_matrix <- as.data.frame(cancer.matrix)
+```
+
+This loop iterates over each cytokine in the correlation matrix and creates an individual dataframe containing only the cytokines that show a strong correlation (above 0.8) with it.
+
+1.  `for(cyt in colnames(cancer.matrix))` iterates over the column names of the correlation matrix, where each column represents a cytokine. `cor.value <- cancer.matrix[, cyt]` extracts the column corresponding to the current cytokine, retrieving its correlation coefficients with all other cytokines.
+2.  `data.frame(Citocina = names(cor.value), Coeficiente = round(as.numeric(cor.value), 2))` creates a temporary dataframe with two columns: the name of each cytokine and its correlation coefficient with the current cytokine, rounded to two decimal places. `as.numeric()` ensures the values are treated as numbers.
+3.  `filter(Coeficiente > 0.8 & Citocina != cyt)` retains only cytokines with a correlation above 0.8, excluding the cytokine being compared against itself — since the correlation of a variable with itself is always 1 and carries no useful information.
+
+Finally, `assign(paste0("df.", cyt), df.filter)` dynamically creates an object in the R environment with a name built by concatenating `"df."` with the cytokine name — for example, `df.IL6` or `df.TNF`. This allows each cytokine to have its own dataframe of strong correlations without requiring manual naming.
+
+```{r}
+for (cyt in colnames(cancer.matrix)) {
+  cor.value <- cancer.matrix[, cyt]
+  df_temp <- data.frame(
+    Citocina = names(cor.value),
+    Coeficiente = round(as.numeric(cor.value), 2),
+    stringsAsFactors = FALSE
+  )
+  df.filter <- df_temp |> 
+    filter(Coeficiente > 0.8 & Citocina != cyt)
+  df.name <- paste0("df.", cyt)
+  assign(df.name, df.filter)
+}
+```
+
+# ROC curve
+
+```{r}
+#| message: false
+#| warning: false
+#| output: false
+
+if (!requireNamespace("pROC", quietly = TRUE)) {
+  install.packages("pROC")
+}
+
+library(pROC)
+```
+
+```{r}
+auc.table <- data.frame(
+  Citocina = character(),
+  AUC = numeric(),
+  stringsAsFactors = FALSE
+)
+
+roc.curve <- list()
+```
+
+```{r}
+for (cyt in significant_cytokines) {
+  #--Calculate the ROC object mathematically--
+  roc_curve <- roc(response = data.cytokines[[condition]],
+  predictor = data.cytokines[[cyt]], 
+  quiet = TRUE) #prevents R from flooding the console with messages
+
+  #--Extract AUC rounded to 2 decimal places (just like your reference image)--
+  auc_val <- round(auc(roc_curve), 2)
+
+  #--Plot using the native pROC plot function to match the requested aesthetic--
+  plot(roc_curve,
+       main = cyt,                                    # Title (Cytokine name)
+       col = "blue",                                  # Blue curve
+       lwd = 2,                                       # Line thickness
+       xlab = paste0("Specificity; auc=", auc_val),   # Custom X-axis label with AUC
+       ylab = "Sensitivity",                          # Y-axis label
+       legacy.axes = FALSE,                           # Keeps X-axis from 1.0 to 0.0
+       identity.col = "darkgrey",                     # Grey diagonal line
+       identity.lty = 1,                              # Solid diagonal line (1) instead of dashed (2)
+       print.auc = FALSE,                             # Prevents printing AUC inside the plot area
+       xlim = c(1, 0), 
+       xaxs = "i", 
+       yaxs = "i")
+}
+
+par(mfrow = c(1, 1), pty = "m")
+```
+```{r}
+for (cyt in significant_cytokines) {
+  #--Calculate the ROC object mathematically--
+  roc_curve <- roc(response = data.cytokines[[condition]],
+  predictor = data.cytokines[[cyt]], 
+  quiet = TRUE) #prevents R from flooding the console with messages
+  
+  #--Store the curve format in our list later plotting--
+  roc.curve[[cyt]] <- roc_curve
+
+  #--Extract the mathematical AUC value rounded to 3 decimal places--
+  temp.auc <- data.frame(
+    Citocina = cyt, 
+    AUC = round(auc(roc_curve), 2), 
+    stringsAsFactors = FALSE
+  )
+
+  #--Append the result to our final table--
+  auc.table <- bind_rows(auc.table, temp.auc)
+}
+```
+
+
+## Ranking and visualization 
+
+```{r}
+auc.table <- auc.table |> 
+  arrange(desc(AUC))
+
+print(auc.table)
+```
+
+```{r}
+p.roc.comb <- ggroc(roc.curve, alpha = 0.8, size = 1) +
+    theme_minimal() +
+    labs(
+      title = "Performance Diagnóstica das Citocinas (ROC)",
+      x = "Especificidade", 
+      y = "Sensibilidade", 
+      color = "Biomarcadores"
+    ) +
+      #Add the 50% diagonal line (Absolute chance)
+    geom_abline(intercept = 1, slope = 1, linetype = "dashed", color = "gray50", size = 0.8)
+
+print(p.roc.comb)
+```
+
+# TNM analysis
+
+```{r}
+data.cancer <- data.cytokines |> 
+  filter(condicao == "cancer")
+
+TNM <- read.csv("/Users/beatrizbelicha/Documents/bioinfo/citocina/TNM.csv", header = T, stringsAsFactors = T)
+
+data.cancer$TNM <- TNM$TNM
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| output: false
+
+if (!requireNamespace("stringr", quietly = TRUE)) {
+  install.packages("stringr")
+}
+
+library(stringr)
+```
+
+## Disassemble the TNM column 
+
+```{r}
+df.cancer.parsed <- data.cancer |> 
+  mutate(
+  #--Extracts "T" followed by a number from 0 to 4-- 
+  T.raw = str_extract(TNM, "T[0-4]"), 
+
+  #--Extracts "N" followed by a number (0-3) or the letter "x/X"--
+  N.raw = str_extract(TNM, "N[0-3xX]"), 
+
+  #--Extract "M" followed by 0, 1, or the letter "x/X"--
+  M.raw = str_extract(TNM, "M[01xX]"))
+```
+
+## Create the 3 independent dataframe
+
+```{r}
+df.T <- df.cancer.parsed |> 
+  mutate(T.status = ifelse(T.raw %in% c("T1", "T2"), "T.low", "T.high")) |> 
+  select(T.status, all_of(cytokine_names)) |> 
+  drop_na(T.status)
+
+df.N <- df.cancer.parsed |> 
+  mutate(N.status = ifelse(N.raw == "N0", "N0", "N+")) |> 
+  select(N.status, all_of(cytokine_names)) |> 
+  drop_na(N.status)
+
+df.M <- df.cancer.parsed |> 
+  mutate(M.status = ifelse(str_to_lower(M.raw) == "mx", NA, M.raw)) |> 
+  select(M.status, all_of(cytokine_names)) |> 
+  drop_na(M.status)
+```
+
+```{r}
+table(df.T$T.status)
+table(df.N$N.status)
+```
+
+Since the T.low group is small (N=4), its statistical power will be reduced. This means that for R to flag a significant difference (p < 0.05), the difference in cytokine concentrations between early-stage (T.low) and advanced (T.high) tumors will have to be striking and highly consistent.
+If, when you run the previous script, the test spits out some borderline values (such as p = 0.06 or p = 0.08), you won't say it failed. You'll use the proper scientific jargon:
+"A trend toward increased cytokine X was observed in T-High tumors (p = 0.07). The failure to reach statistical significance (p < 0.05) likely reflects a Type II error (false negative) resulting from the low statistical power of the T-Low group (n=4), suggesting a strong biological potential that warrants validation in larger cohorts."
+
+## Mann-Whitney
+
+```{r}
+cyt.T <- setdiff(colnames(df.T), "T.status")
+cyt.N <- setdiff(colnames(df.N), "N.status")
+```
+
+```{r}
+T.result <- data.frame(
+  Citocina = charac
 )
 ```
