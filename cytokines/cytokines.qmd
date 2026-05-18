@@ -1047,6 +1047,40 @@ cyt.N <- setdiff(colnames(df.N), "N.status")
 
 ```{r}
 T.result <- data.frame(
-  Citocina = charac
+  Citocina = character(),
+  p_valor = numeric(),
+  stringsAsFactors = FALSE
 )
+```
+
+```{r}
+for (cit in citocinas_T) {
+  teste_T <- wilcox.test(df.T[[cit]] ~ df.T$T.status, exact = FALSE)
+  resultados_T <- bind_rows(resultados_T, data.frame(Citocina = cit, P_Valor = teste_T$p.value))
+}
+
+sig_T <- resultados_T %>%
+  filter(P_Valor < 0.05) %>%
+  arrange(P_Valor) %>%
+  mutate(P_Valor = signif(P_Valor, 3))
+```
+
+```{r}
+for (cit in citocinas_N) {
+  teste_N <- wilcox.test(df.N[[cit]] ~ df.N$N.status, exact = FALSE)
+  resultados_N <- bind_rows(resultados_N, data.frame(Citocina = cit, P_Valor = teste_N$p.value))
+}
+
+sig_N <- resultados_N %>%
+  filter(P_Valor < 0.05) %>%
+  arrange(P_Valor) %>%
+  mutate(P_Valor = signif(P_Valor, 3))
+```
+
+```{r}
+print("=== CITOCINAS SIGNIFICATIVAS: T (Tumor Inicial vs Avançado) ===")
+print(sig_T)
+
+print("=== CITOCINAS SIGNIFICATIVAS: N (Linfonodo Negativo vs Positivo) ===")
+print(sig_N)
 ```
