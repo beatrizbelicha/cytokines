@@ -253,12 +253,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#data-import" id="toc-data-import" class="nav-link active" data-scroll-target="#data-import"><span class="header-section-number">1</span> Data import</a></li>
   <li><a href="#distributions-and-outliers" id="toc-distributions-and-outliers" class="nav-link" data-scroll-target="#distributions-and-outliers"><span class="header-section-number">2</span> Distributions and Outliers</a>
   <ul class="collapse">
-  <li><a href="#loading-packages" id="toc-loading-packages" class="nav-link" data-scroll-target="#loading-packages"><span class="header-section-number">2.1</span> loading packages</a></li>
-  <li><a href="#define-the-metadata-column-that-separates-groups" id="toc-define-the-metadata-column-that-separates-groups" class="nav-link" data-scroll-target="#define-the-metadata-column-that-separates-groups"><span class="header-section-number">2.2</span> Define the metadata column that separates groups</a></li>
-  <li><a href="#identify-cytokines-columns" id="toc-identify-cytokines-columns" class="nav-link" data-scroll-target="#identify-cytokines-columns"><span class="header-section-number">2.3</span> Identify cytokines columns</a></li>
-  <li><a href="#create-empty-lists-to-store-the-individual-dataframes-and-plots" id="toc-create-empty-lists-to-store-the-individual-dataframes-and-plots" class="nav-link" data-scroll-target="#create-empty-lists-to-store-the-individual-dataframes-and-plots"><span class="header-section-number">2.4</span> Create empty lists to store the individual dataframes and plots</a></li>
-  <li><a href="#correcting-from-to-." id="toc-correcting-from-to-." class="nav-link" data-scroll-target="#correcting-from-to-."><span class="header-section-number">2.5</span> Correcting from , to .</a></li>
-  <li><a href="#loop-through-each-cytokine-to-subset-data-and-generate-plot" id="toc-loop-through-each-cytokine-to-subset-data-and-generate-plot" class="nav-link" data-scroll-target="#loop-through-each-cytokine-to-subset-data-and-generate-plot"><span class="header-section-number">2.6</span> Loop through each cytokine to subset data and generate plot</a></li>
+  <li><a href="#define-the-metadata-column-that-separates-groups" id="toc-define-the-metadata-column-that-separates-groups" class="nav-link" data-scroll-target="#define-the-metadata-column-that-separates-groups"><span class="header-section-number">2.1</span> Define the metadata column that separates groups</a></li>
+  <li><a href="#identify-cytokines-columns" id="toc-identify-cytokines-columns" class="nav-link" data-scroll-target="#identify-cytokines-columns"><span class="header-section-number">2.2</span> Identify cytokines columns</a></li>
+  <li><a href="#create-empty-lists-to-store-the-individual-dataframes-and-plots" id="toc-create-empty-lists-to-store-the-individual-dataframes-and-plots" class="nav-link" data-scroll-target="#create-empty-lists-to-store-the-individual-dataframes-and-plots"><span class="header-section-number">2.3</span> Create empty lists to store the individual dataframes and plots</a></li>
+  <li><a href="#correcting-from-to-." id="toc-correcting-from-to-." class="nav-link" data-scroll-target="#correcting-from-to-."><span class="header-section-number">2.4</span> Correcting from , to .</a></li>
+  <li><a href="#loop-through-each-cytokine-to-subset-data-and-generate-plot" id="toc-loop-through-each-cytokine-to-subset-data-and-generate-plot" class="nav-link" data-scroll-target="#loop-through-each-cytokine-to-subset-data-and-generate-plot"><span class="header-section-number">2.5</span> Loop through each cytokine to subset data and generate plot</a></li>
   </ul></li>
   <li><a href="#testing-the-normality-of-each-cytokine." id="toc-testing-the-normality-of-each-cytokine." class="nav-link" data-scroll-target="#testing-the-normality-of-each-cytokine."><span class="header-section-number">3</span> Testing the normality of each cytokine.</a>
   <ul class="collapse">
@@ -285,6 +284,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#heatmap" id="toc-heatmap" class="nav-link" data-scroll-target="#heatmap"><span class="header-section-number">8</span> Heatmap</a>
   <ul class="collapse">
   <li><a href="#heatmap-with-significant-cytokines" id="toc-heatmap-with-significant-cytokines" class="nav-link" data-scroll-target="#heatmap-with-significant-cytokines"><span class="header-section-number">8.1</span> Heatmap with significant cytokines</a></li>
+  </ul></li>
+  <li><a href="#cytokine-cytokine-correlation" id="toc-cytokine-cytokine-correlation" class="nav-link" data-scroll-target="#cytokine-cytokine-correlation"><span class="header-section-number">9</span> Cytokine-cytokine correlation</a></li>
+  <li><a href="#roc-curve" id="toc-roc-curve" class="nav-link" data-scroll-target="#roc-curve"><span class="header-section-number">10</span> ROC curve</a>
+  <ul class="collapse">
+  <li><a href="#ranking-and-visualization" id="toc-ranking-and-visualization" class="nav-link" data-scroll-target="#ranking-and-visualization"><span class="header-section-number">10.1</span> Ranking and visualization</a></li>
+  </ul></li>
+  <li><a href="#tnm-analysis" id="toc-tnm-analysis" class="nav-link" data-scroll-target="#tnm-analysis"><span class="header-section-number">11</span> TNM analysis</a>
+  <ul class="collapse">
+  <li><a href="#disassemble-the-tnm-column" id="toc-disassemble-the-tnm-column" class="nav-link" data-scroll-target="#disassemble-the-tnm-column"><span class="header-section-number">11.1</span> Disassemble the TNM column</a></li>
+  <li><a href="#create-the-3-independent-dataframe" id="toc-create-the-3-independent-dataframe" class="nav-link" data-scroll-target="#create-the-3-independent-dataframe"><span class="header-section-number">11.2</span> Create the 3 independent dataframe</a></li>
+  <li><a href="#mann-whitney-1" id="toc-mann-whitney-1" class="nav-link" data-scroll-target="#mann-whitney-1"><span class="header-section-number">11.3</span> Mann-Whitney</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -317,45 +327,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="data-import" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Data import</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data.cytokines <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"/Users/beatrizbelicha/Documents/bioinfo/citocina/citocinas.csv"</span>, <span class="at">header =</span> T, <span class="at">stringsAsFactors =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"tidyverse"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data.cytokines <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"/Users/beatrizbelicha/Documents/bioinfo/citocina/citocinas.csv"</span>, <span class="at">header =</span> T, <span class="at">stringsAsFactors =</span> T)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>data.cytokines <span class="ot">&lt;-</span> data.cytokines <span class="sc">|&gt;</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">13</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="distributions-and-outliers" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Distributions and Outliers</h1>
-<section id="loading-packages" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="loading-packages"><span class="header-section-number">2.1</span> loading packages</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"tidyverse"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>} </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="define-the-metadata-column-that-separates-groups" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="define-the-metadata-column-that-separates-groups"><span class="header-section-number">2.2</span> Define the metadata column that separates groups</h2>
+<section id="define-the-metadata-column-that-separates-groups" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="define-the-metadata-column-that-separates-groups"><span class="header-section-number">2.1</span> Define the metadata column that separates groups</h2>
 <p>Here we are assigns the string “condicao” (the name of our clinical metadata column) to the variable <code>condition</code>. This parameterizes the script. By assigning the grouping variable (e.g., controle x câncer) to an object, avoid hardcoding the column name throughout the pipeline. This makes the code dynamic and easily adaptable for future datasets.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>condition <span class="ot">&lt;-</span> <span class="st">"condicao"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="identify-cytokines-columns" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="identify-cytokines-columns"><span class="header-section-number">2.3</span> Identify cytokines columns</h2>
+<section id="identify-cytokines-columns" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="identify-cytokines-columns"><span class="header-section-number">2.2</span> Identify cytokines columns</h2>
 <p><code>colnames()</code> extracts all column names, and <code>ncol()</code> counts the total number of columns. The <code>12:ncol()</code> indexing subsets the vector of names, selecting only those from the 12th column to the last. Early columns contain categorical metadata, we assume the actual biomarker concentrations begin at column 12. Isolating these names into <code>cytokines_names</code> allows us to apply mathematical transformations exclusively to analytical variables, preventing execution errors on demographic columns.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cytokine_names <span class="ot">&lt;-</span> <span class="fu">colnames</span>(data.cytokines)[<span class="dv">12</span><span class="sc">:</span><span class="fu">ncol</span>(data.cytokines)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="create-empty-lists-to-store-the-individual-dataframes-and-plots" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="create-empty-lists-to-store-the-individual-dataframes-and-plots"><span class="header-section-number">2.4</span> Create empty lists to store the individual dataframes and plots</h2>
+<section id="create-empty-lists-to-store-the-individual-dataframes-and-plots" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="create-empty-lists-to-store-the-individual-dataframes-and-plots"><span class="header-section-number">2.3</span> Create empty lists to store the individual dataframes and plots</h2>
 <p><code>list()</code> initializes empty list objects, which act as structured storage containers. To handle multiplexed data iteratively (via loops) without polluting the Global Environment. These lists act as clean folders to store individual cytokine dataframe (<code>df_list</code>) and their corresponding plots (<code>plot_list</code>) systematically during the loop execution.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plot_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="correcting-from-to-." class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="correcting-from-to-."><span class="header-section-number">2.5</span> Correcting from , to .</h2>
+<section id="correcting-from-to-." class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="correcting-from-to-."><span class="header-section-number">2.4</span> Correcting from , to .</h2>
 <p>MAGPIX software often exports numerical data with commas (e.g., 140,5) and out-of-range string (e.g., “OOR&lt;”). R interprets these columns as discrete characters. This specific combination rectifies the decimal formatting (140.5) and forces non-numerical strings into <code>NA</code>. This is an absolute prerequisite for rendering continuous plots and running non-parametric statistical test correctly.</p>
 <p>The pipe <code>|&gt;</code> forwards the raw data to <code>mutate</code>, which modifies columns. The <code>acroos</code> function applies a rule simultaneously to all columns specified in <code>cytokine_names</code>. The rule uses <code>gsubs(",", ".", .)</code> to find commas and replace them with dots, followed by <code>as.numeric</code> to coerce the result into a continuous numeric format.</p>
 <div class="cell">
@@ -363,8 +373,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">all_of</span>(cytokine_names), <span class="sc">~</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">"."</span>, .))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="loop-through-each-cytokine-to-subset-data-and-generate-plot" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="loop-through-each-cytokine-to-subset-data-and-generate-plot"><span class="header-section-number">2.6</span> Loop through each cytokine to subset data and generate plot</h2>
+<section id="loop-through-each-cytokine-to-subset-data-and-generate-plot" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="loop-through-each-cytokine-to-subset-data-and-generate-plot"><span class="header-section-number">2.5</span> Loop through each cytokine to subset data and generate plot</h2>
 <p><strong>Part 1:</strong> The <code>for (cyt in cytokine_names)</code> statement initializes a loop. It instructs R to take the first cytokine name from the list, assign it to the placeholder <code>cyt</code>, and run the code block; then repeat for the next name, until the list ends.</p>
 <ul>
 <li>Inside the loop, a temporary dataframe named <code>df_temp</code> is created. The pipe (<code>%&gt;%</code>) takes the main dataset (<code>data.cytokines</code>) and uses the <code>select</code>function to subset only two columns: the clinical group column (<code>condition</code>) and the current cytokine column (<code>cyt</code>).</li>
@@ -891,59 +901,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code>   Citocina Condição      p_valor Distribuição
 1     IL.17 Controle 8.546725e-01       Normal
-2     IL.17   Câncer 7.457467e-01       Normal
+2     IL.17   Câncer 4.078455e-01       Normal
 3     IL.1B Controle 2.025583e-01       Normal
-4     IL.1B   Câncer 1.325877e-01       Normal
+4     IL.1B   Câncer 1.261096e-01       Normal
 5    IL.1RA Controle 7.270463e-01       Normal
-6    IL.1RA   Câncer 5.545093e-04   Não Normal
+6    IL.1RA   Câncer 4.013040e-04   Não Normal
 7      IL.2 Controle 9.397433e-01       Normal
-8      IL.2   Câncer 7.809557e-01       Normal
+8      IL.2   Câncer 3.069592e-01       Normal
 9      IL.4 Controle 7.002857e-01       Normal
-10     IL.4   Câncer 1.685267e-02   Não Normal
+10     IL.4   Câncer 4.582279e-03   Não Normal
 11     IL.5 Controle 2.990106e-01       Normal
-12     IL.5   Câncer 4.940161e-01       Normal
+12     IL.5   Câncer 4.482287e-01       Normal
 13     IL.6 Controle 6.741233e-01       Normal
-14     IL.6   Câncer 2.542191e-06   Não Normal
+14     IL.6   Câncer 5.939980e-06   Não Normal
 15     IL.7 Controle 5.403858e-01       Normal
-16     IL.7   Câncer 5.159237e-06   Não Normal
+16     IL.7   Câncer 9.491460e-06   Não Normal
 17     IL.8 Controle 5.473380e-01       Normal
-18     IL.8   Câncer 2.637536e-04   Não Normal
+18     IL.8   Câncer 9.630193e-04   Não Normal
 19     IL.9 Controle 9.975532e-01       Normal
-20     IL.9   Câncer 1.089375e-03   Não Normal
+20     IL.9   Câncer 3.785192e-02   Não Normal
 21    IL.10 Controle 1.392322e-04   Não Normal
-22    IL.10   Câncer 6.501848e-08   Não Normal
+22    IL.10   Câncer 1.866542e-05   Não Normal
 23    IL.11 Controle 2.101322e-04   Não Normal
-24    IL.11   Câncer 3.485232e-01       Normal
+24    IL.11   Câncer 3.212724e-01       Normal
 25    IL.12 Controle 4.523035e-04   Não Normal
-26    IL.12   Câncer 1.265890e-04   Não Normal
+26    IL.12   Câncer 5.141228e-04   Não Normal
 27    IL.13 Controle 7.046222e-01       Normal
-28    IL.13   Câncer 1.387213e-01       Normal
+28    IL.13   Câncer 5.098772e-02       Normal
 29    IL.15 Controle 3.712776e-01       Normal
-30    IL.15   Câncer 8.760546e-02       Normal
+30    IL.15   Câncer 8.975587e-03   Não Normal
 31  Eotaxin Controle 9.978114e-01       Normal
-32  Eotaxin   Câncer 7.190393e-01       Normal
+32  Eotaxin   Câncer 7.196644e-01       Normal
 33 FGFbasic Controle 9.980468e-01       Normal
-34 FGFbasic   Câncer 1.691875e-02   Não Normal
+34 FGFbasic   Câncer 4.495106e-02   Não Normal
 35     GCSF Controle 3.620188e-01       Normal
-36     GCSF   Câncer 2.320781e-02   Não Normal
+36     GCSF   Câncer 2.172250e-02   Não Normal
 37   GM.CSF Controle 6.543784e-01       Normal
-38   GM.CSF   Câncer 3.284467e-02   Não Normal
+38   GM.CSF   Câncer 1.990648e-02   Não Normal
 39     IFNG Controle 1.216486e-01       Normal
-40     IFNG   Câncer 1.497607e-07   Não Normal
+40     IFNG   Câncer 5.624036e-07   Não Normal
 41    IP.10 Controle 4.641779e-02   Não Normal
-42    IP.10   Câncer 1.657698e-01       Normal
+42    IP.10   Câncer 2.332688e-01       Normal
 43    MPC.1 Controle 5.543534e-02       Normal
-44    MPC.1   Câncer 2.279293e-07   Não Normal
+44    MPC.1   Câncer 1.036937e-06   Não Normal
 45    MIP1a Controle 7.793256e-01       Normal
-46    MIP1a   Câncer 3.416221e-01       Normal
+46    MIP1a   Câncer 9.205597e-01       Normal
 47    MIP1b Controle 9.859106e-01       Normal
-48    MIP1b   Câncer 8.012187e-07   Não Normal
+48    MIP1b   Câncer 2.840460e-06   Não Normal
 49   RANTES Controle 5.612044e-04   Não Normal
-50   RANTES   Câncer 2.547784e-04   Não Normal
+50   RANTES   Câncer 1.162936e-03   Não Normal
 51     TNFa Controle 2.506317e-01       Normal
-52     TNFa   Câncer 2.225119e-01       Normal
+52     TNFa   Câncer 2.084187e-01       Normal
 53     VEGF Controle 2.047945e-04   Não Normal
-54     VEGF   Câncer 2.796445e-03   Não Normal</code></pre>
+54     VEGF   Câncer 1.095579e-02   Não Normal</code></pre>
 </div>
 </div>
 </section>
@@ -1015,60 +1025,60 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(normality_log)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Transformação Citocina Condição      p_valor Distribuição
-1            Log    IL.17 Controle 2.320838e-01       Normal
-2            Log    IL.17   Câncer 3.181997e-01       Normal
-3            Log    IL.1B Controle 3.616677e-01       Normal
-4            Log    IL.1B   Câncer 2.499910e-01       Normal
-5            Log   IL.1RA Controle 9.325514e-01       Normal
-6            Log   IL.1RA   Câncer 1.471070e-02   Não Normal
-7            Log     IL.2 Controle 9.327749e-01       Normal
-8            Log     IL.2   Câncer 1.509554e-01       Normal
-9            Log     IL.4 Controle 2.554747e-01       Normal
-10           Log     IL.4   Câncer 3.627269e-03   Não Normal
-11           Log     IL.5 Controle 6.202696e-01       Normal
-12           Log     IL.5   Câncer 1.509486e-02   Não Normal
-13           Log     IL.6 Controle 7.568152e-01       Normal
-14           Log     IL.6   Câncer 1.230982e-02   Não Normal
-15           Log     IL.7 Controle 4.898269e-01       Normal
-16           Log     IL.7   Câncer 1.811055e-03   Não Normal
-17           Log     IL.8 Controle 4.767467e-01       Normal
-18           Log     IL.8   Câncer 3.205885e-02   Não Normal
-19           Log     IL.9 Controle 9.567532e-01       Normal
-20           Log     IL.9   Câncer 2.740533e-02   Não Normal
-21           Log    IL.10 Controle 1.564201e-03   Não Normal
-22           Log    IL.10   Câncer 1.284937e-05   Não Normal
-23           Log    IL.11 Controle 2.472530e-03   Não Normal
-24           Log    IL.11   Câncer 3.780047e-01       Normal
-25           Log    IL.12 Controle 1.035155e-02   Não Normal
-26           Log    IL.12   Câncer 2.317504e-03   Não Normal
-27           Log    IL.13 Controle 9.421265e-01       Normal
-28           Log    IL.13   Câncer 4.850554e-01       Normal
-29           Log    IL.15 Controle 9.480596e-01       Normal
-30           Log    IL.15   Câncer 8.394434e-01       Normal
-31           Log  Eotaxin Controle 9.684988e-01       Normal
-32           Log  Eotaxin   Câncer 2.901299e-01       Normal
-33           Log FGFbasic Controle 9.993495e-01       Normal
-34           Log FGFbasic   Câncer 2.782353e-02   Não Normal
-35           Log     GCSF Controle 5.560523e-01       Normal
-36           Log     GCSF   Câncer 1.133161e-01       Normal
-37           Log   GM.CSF Controle 7.727069e-01       Normal
-38           Log   GM.CSF   Câncer 4.136929e-02   Não Normal
-39           Log     IFNG Controle 3.625176e-01       Normal
-40           Log     IFNG   Câncer 4.696811e-03   Não Normal
-41           Log    IP.10 Controle 6.992630e-02       Normal
-42           Log    IP.10   Câncer 1.321145e-02   Não Normal
-43           Log    MPC.1 Controle 1.052673e-01       Normal
-44           Log    MPC.1   Câncer 1.313067e-05   Não Normal
-45           Log    MIP1a Controle 9.727502e-01       Normal
-46           Log    MIP1a   Câncer 1.061493e-01       Normal
-47           Log    MIP1b Controle 1.270780e-01       Normal
-48           Log    MIP1b   Câncer 5.085188e-02       Normal
-49           Log   RANTES Controle 1.872687e-04   Não Normal
-50           Log   RANTES   Câncer 7.940329e-05   Não Normal
-51           Log     TNFa Controle 4.983000e-01       Normal
-52           Log     TNFa   Câncer 4.600515e-02   Não Normal
-53           Log     VEGF Controle 4.739283e-03   Não Normal
-54           Log     VEGF   Câncer 4.405790e-02   Não Normal</code></pre>
+1            Log    IL.17 Controle 0.2320837840       Normal
+2            Log    IL.17   Câncer 0.1451465733       Normal
+3            Log    IL.1B Controle 0.3616676760       Normal
+4            Log    IL.1B   Câncer 0.2257186581       Normal
+5            Log   IL.1RA Controle 0.9325514166       Normal
+6            Log   IL.1RA   Câncer 0.0097033271   Não Normal
+7            Log     IL.2 Controle 0.9327749034       Normal
+8            Log     IL.2   Câncer 0.1030389236       Normal
+9            Log     IL.4 Controle 0.2554747369       Normal
+10           Log     IL.4   Câncer 0.0013253524   Não Normal
+11           Log     IL.5 Controle 0.6202695674       Normal
+12           Log     IL.5   Câncer 0.0108228112   Não Normal
+13           Log     IL.6 Controle 0.7568152097       Normal
+14           Log     IL.6   Câncer 0.0106143303   Não Normal
+15           Log     IL.7 Controle 0.4898269205       Normal
+16           Log     IL.7   Câncer 0.0013824112   Não Normal
+17           Log     IL.8 Controle 0.4767466917       Normal
+18           Log     IL.8   Câncer 0.0768966623       Normal
+19           Log     IL.9 Controle 0.9567532172       Normal
+20           Log     IL.9   Câncer 0.0333372284   Não Normal
+21           Log    IL.10 Controle 0.0015642009   Não Normal
+22           Log    IL.10   Câncer 0.0005312897   Não Normal
+23           Log    IL.11 Controle 0.0024725296   Não Normal
+24           Log    IL.11   Câncer 0.3625503782       Normal
+25           Log    IL.12 Controle 0.0103515461   Não Normal
+26           Log    IL.12   Câncer 0.0128846475   Não Normal
+27           Log    IL.13 Controle 0.9421264962       Normal
+28           Log    IL.13   Câncer 0.3489765751       Normal
+29           Log    IL.15 Controle 0.9480596376       Normal
+30           Log    IL.15   Câncer 0.2189792723       Normal
+31           Log  Eotaxin Controle 0.9684987790       Normal
+32           Log  Eotaxin   Câncer 0.2935573833       Normal
+33           Log FGFbasic Controle 0.9993495030       Normal
+34           Log FGFbasic   Câncer 0.0754126480       Normal
+35           Log     GCSF Controle 0.5560523053       Normal
+36           Log     GCSF   Câncer 0.1156655819       Normal
+37           Log   GM.CSF Controle 0.7727068973       Normal
+38           Log   GM.CSF   Câncer 0.0262224123   Não Normal
+39           Log     IFNG Controle 0.3625175513       Normal
+40           Log     IFNG   Câncer 0.0088019433   Não Normal
+41           Log    IP.10 Controle 0.0699262991       Normal
+42           Log    IP.10   Câncer 0.0209459443   Não Normal
+43           Log    MPC.1 Controle 0.1052672872       Normal
+44           Log    MPC.1   Câncer 0.0000507512   Não Normal
+45           Log    MIP1a Controle 0.9727502196       Normal
+46           Log    MIP1a   Câncer 0.0052769411   Não Normal
+47           Log    MIP1b Controle 0.1270780382       Normal
+48           Log    MIP1b   Câncer 0.0803461348       Normal
+49           Log   RANTES Controle 0.0001872687   Não Normal
+50           Log   RANTES   Câncer 0.0003899805   Não Normal
+51           Log     TNFa Controle 0.4983000232       Normal
+52           Log     TNFa   Câncer 0.0513143570       Normal
+53           Log     VEGF Controle 0.0047392831   Não Normal
+54           Log     VEGF   Câncer 0.1154994956       Normal</code></pre>
 </div>
 </div>
 </section>
@@ -1127,59 +1137,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code>   Transformação Citocina Condição      p_valor Distribuição
 1          Log1p    IL.17 Controle 2.366706e-01       Normal
-2          Log1p    IL.17   Câncer 3.236423e-01       Normal
+2          Log1p    IL.17   Câncer 1.480553e-01       Normal
 3          Log1p    IL.1B Controle 3.578781e-01       Normal
-4          Log1p    IL.1B   Câncer 2.562400e-01       Normal
+4          Log1p    IL.1B   Câncer 2.308322e-01       Normal
 5          Log1p   IL.1RA Controle 9.295062e-01       Normal
-6          Log1p   IL.1RA   Câncer 1.395646e-02   Não Normal
+6          Log1p   IL.1RA   Câncer 9.256707e-03   Não Normal
 7          Log1p     IL.2 Controle 9.334929e-01       Normal
-8          Log1p     IL.2   Câncer 1.614285e-01       Normal
+8          Log1p     IL.2   Câncer 1.087795e-01       Normal
 9          Log1p     IL.4 Controle 2.635521e-01       Normal
-10         Log1p     IL.4   Câncer 3.718968e-03   Não Normal
+10         Log1p     IL.4   Câncer 1.354749e-03   Não Normal
 11         Log1p     IL.5 Controle 6.166245e-01       Normal
-12         Log1p     IL.5   Câncer 1.873607e-02   Não Normal
+12         Log1p     IL.5   Câncer 1.316244e-02   Não Normal
 13         Log1p     IL.6 Controle 7.551934e-01       Normal
-14         Log1p     IL.6   Câncer 1.099204e-02   Não Normal
+14         Log1p     IL.6   Câncer 9.562453e-03   Não Normal
 15         Log1p     IL.7 Controle 4.962258e-01       Normal
-16         Log1p     IL.7   Câncer 1.444400e-03   Não Normal
+16         Log1p     IL.7   Câncer 1.136162e-03   Não Normal
 17         Log1p     IL.8 Controle 4.785284e-01       Normal
-18         Log1p     IL.8   Câncer 3.026346e-02   Não Normal
+18         Log1p     IL.8   Câncer 7.307025e-02       Normal
 19         Log1p     IL.9 Controle 9.587111e-01       Normal
-20         Log1p     IL.9   Câncer 2.717749e-02   Não Normal
+20         Log1p     IL.9   Câncer 3.434204e-02   Não Normal
 21         Log1p    IL.10 Controle 1.464850e-03   Não Normal
-22         Log1p    IL.10   Câncer 1.182448e-05   Não Normal
+22         Log1p    IL.10   Câncer 4.944200e-04   Não Normal
 23         Log1p    IL.11 Controle 2.360790e-03   Não Normal
-24         Log1p    IL.11   Câncer 3.779175e-01       Normal
+24         Log1p    IL.11   Câncer 3.622514e-01       Normal
 25         Log1p    IL.12 Controle 8.778866e-03   Não Normal
-26         Log1p    IL.12   Câncer 1.991951e-03   Não Normal
+26         Log1p    IL.12   Câncer 1.099599e-02   Não Normal
 27         Log1p    IL.13 Controle 9.406161e-01       Normal
-28         Log1p    IL.13   Câncer 4.882140e-01       Normal
+28         Log1p    IL.13   Câncer 3.481591e-01       Normal
 29         Log1p    IL.15 Controle 9.480539e-01       Normal
-30         Log1p    IL.15   Câncer 8.441325e-01       Normal
+30         Log1p    IL.15   Câncer 2.148337e-01       Normal
 31         Log1p  Eotaxin Controle 9.700570e-01       Normal
-32         Log1p  Eotaxin   Câncer 3.001885e-01       Normal
+32         Log1p  Eotaxin   Câncer 3.035099e-01       Normal
 33         Log1p FGFbasic Controle 9.993553e-01       Normal
-34         Log1p FGFbasic   Câncer 2.853197e-02   Não Normal
+34         Log1p FGFbasic   Câncer 7.707044e-02       Normal
 35         Log1p     GCSF Controle 5.540140e-01       Normal
-36         Log1p     GCSF   Câncer 1.132107e-01       Normal
+36         Log1p     GCSF   Câncer 1.154889e-01       Normal
 37         Log1p   GM.CSF Controle 7.706458e-01       Normal
-38         Log1p   GM.CSF   Câncer 4.295385e-02   Não Normal
+38         Log1p   GM.CSF   Câncer 2.705474e-02   Não Normal
 39         Log1p     IFNG Controle 3.619810e-01       Normal
-40         Log1p     IFNG   Câncer 4.612519e-03   Não Normal
+40         Log1p     IFNG   Câncer 8.646325e-03   Não Normal
 41         Log1p    IP.10 Controle 6.970866e-02       Normal
-42         Log1p    IP.10   Câncer 1.399555e-02   Não Normal
+42         Log1p    IP.10   Câncer 2.215194e-02   Não Normal
 43         Log1p    MPC.1 Controle 1.034646e-01       Normal
-44         Log1p    MPC.1   Câncer 1.196581e-05   Não Normal
+44         Log1p    MPC.1   Câncer 4.643407e-05   Não Normal
 45         Log1p    MIP1a Controle 9.728245e-01       Normal
-46         Log1p    MIP1a   Câncer 1.069494e-01       Normal
+46         Log1p    MIP1a   Câncer 5.320314e-03   Não Normal
 47         Log1p    MIP1b Controle 1.288698e-01       Normal
-48         Log1p    MIP1b   Câncer 5.018469e-02       Normal
+48         Log1p    MIP1b   Câncer 7.934544e-02       Normal
 49         Log1p   RANTES Controle 1.872789e-04   Não Normal
-50         Log1p   RANTES   Câncer 7.940946e-05   Não Normal
+50         Log1p   RANTES   Câncer 3.900093e-04   Não Normal
 51         Log1p     TNFa Controle 4.932323e-01       Normal
-52         Log1p     TNFa   Câncer 4.865882e-02   Não Normal
+52         Log1p     TNFa   Câncer 5.392340e-02       Normal
 53         Log1p     VEGF Controle 4.565544e-03   Não Normal
-54         Log1p     VEGF   Câncer 4.304312e-02   Não Normal</code></pre>
+54         Log1p     VEGF   Câncer 1.135407e-01       Normal</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1187,19 +1197,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Não Normal     Normal 
-        22         32 </code></pre>
+        19         35 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(normality_log<span class="sc">$</span>Distribuição)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Não Normal     Normal 
-        22         32 </code></pre>
+        19         35 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(normality_results<span class="sc">$</span>Distribuição)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Não Normal     Normal 
-        22         32 </code></pre>
+        23         31 </code></pre>
 </div>
 </div>
 <p>No significant results !!!</p>
@@ -1285,7 +1295,7 @@ Não Normal     Normal
 <span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>pca_log_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca_log<span class="sc">$</span>x)</span>
 <span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="co"># condição</span></span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>pca_log_df<span class="sc">$</span>condicao <span class="ot">&lt;-</span> data.log1p <span class="sc">%&gt;%</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>pca_log_df<span class="sc">$</span>condicao <span class="ot">&lt;-</span> data.log <span class="sc">%&gt;%</span></span>
 <span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(<span class="fu">all_of</span>(condition))</span>
 <span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="co"># variância explicada</span></span>
@@ -1462,39 +1472,39 @@ compute exact p-value with ties</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results.mann.raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Citocina      p_value         Resultado
-1     IL.17 0.1611355580 Não Significativo
-2     IL.1B 0.0682584693 Não Significativo
-3    IL.1RA 0.0496743705     Significativo
-4      IL.2 0.0053894047     Significativo
-5      IL.4 0.3167766473 Não Significativo
-6      IL.5 0.9520351898 Não Significativo
-7      IL.6 0.0007106462     Significativo
-8      IL.7 0.1996400757 Não Significativo
-9      IL.8 0.0003947786     Significativo
-10     IL.9 0.0781090237 Não Significativo
-11    IL.10 0.0053197348     Significativo
-12    IL.11 0.0474584891     Significativo
-13    IL.12 0.1540257902 Não Significativo
-14    IL.13 0.0236387063     Significativo
-15    IL.15 0.0563964440 Não Significativo
-16  Eotaxin 0.0814915997 Não Significativo
-17 FGFbasic 0.0180188448     Significativo
-18     GCSF 0.0064799236     Significativo
-19   GM.CSF 0.0779588738 Não Significativo
-20     IFNG 0.8283065452 Não Significativo
-21    IP.10 0.3782852463 Não Significativo
-22    MPC.1 0.0180304806     Significativo
-23    MIP1a 0.8902471781 Não Significativo
-24    MIP1b 0.8902471781 Não Significativo
-25   RANTES 0.0563964440 Não Significativo
-26     TNFa 0.2975631265 Não Significativo
-27     VEGF 0.0337912365     Significativo</code></pre>
+1     IL.17 0.1359136428 Não Significativo
+2     IL.1B 0.0754735936 Não Significativo
+3    IL.1RA 0.1141361232 Não Significativo
+4      IL.2 0.0132010320     Significativo
+5      IL.4 0.2924057651 Não Significativo
+6      IL.5 1.0000000000 Não Significativo
+7      IL.6 0.0016977082     Significativo
+8      IL.7 0.1876591673 Não Significativo
+9      IL.8 0.0009286298     Significativo
+10     IL.9 0.1604264955 Não Significativo
+11    IL.10 0.0101469022     Significativo
+12    IL.11 0.0413589223     Significativo
+13    IL.12 0.1867312460 Não Significativo
+14    IL.13 0.0562908768 Não Significativo
+15    IL.15 0.0616421555 Não Significativo
+16  Eotaxin 0.0756538191 Não Significativo
+17 FGFbasic 0.0313784083     Significativo
+18     GCSF 0.0158562919     Significativo
+19   GM.CSF 0.0953866286 Não Significativo
+20     IFNG 0.9140830735 Não Significativo
+21    IP.10 0.5834420611 Não Significativo
+22    MPC.1 0.0251032303     Significativo
+23    MIP1a 0.8799339089 Não Significativo
+24    MIP1b 0.8123376024 Não Significativo
+25   RANTES 0.0283306379     Significativo
+26     TNFa 0.2631665098 Não Significativo
+27     VEGF 0.0592135636 Não Significativo</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(results.mann.raw<span class="sc">$</span>Resultado)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Não Significativo     Significativo 
-               16                11 </code></pre>
+               18                 9 </code></pre>
 </div>
 </div>
 </section>
@@ -1578,39 +1588,39 @@ compute exact p-value with ties</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results.mann.log)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Citocina      p_value         Resultado
-1     IL.17 0.1611355580 Não Significativo
-2     IL.1B 0.0682584693 Não Significativo
-3    IL.1RA 0.0496743705     Significativo
-4      IL.2 0.0053894047     Significativo
-5      IL.4 0.3167766473 Não Significativo
-6      IL.5 0.9520351898 Não Significativo
-7      IL.6 0.0007106462     Significativo
-8      IL.7 0.1996400757 Não Significativo
-9      IL.8 0.0003947786     Significativo
-10     IL.9 0.0781090237 Não Significativo
-11    IL.10 0.0053197348     Significativo
-12    IL.11 0.0474584891     Significativo
-13    IL.12 0.1540257902 Não Significativo
-14    IL.13 0.0236387063     Significativo
-15    IL.15 0.0563964440 Não Significativo
-16  Eotaxin 0.0814915997 Não Significativo
-17 FGFbasic 0.0180188448     Significativo
-18     GCSF 0.0064799236     Significativo
-19   GM.CSF 0.0779588738 Não Significativo
-20     IFNG 0.8283065452 Não Significativo
-21    IP.10 0.3782852463 Não Significativo
-22    MPC.1 0.0180304806     Significativo
-23    MIP1a 0.8902471781 Não Significativo
-24    MIP1b 0.8902471781 Não Significativo
-25   RANTES 0.0563964440 Não Significativo
-26     TNFa 0.2975631265 Não Significativo
-27     VEGF 0.0337912365     Significativo</code></pre>
+1     IL.17 0.1359136428 Não Significativo
+2     IL.1B 0.0754735936 Não Significativo
+3    IL.1RA 0.1141361232 Não Significativo
+4      IL.2 0.0132010320     Significativo
+5      IL.4 0.2924057651 Não Significativo
+6      IL.5 1.0000000000 Não Significativo
+7      IL.6 0.0016977082     Significativo
+8      IL.7 0.1876591673 Não Significativo
+9      IL.8 0.0009286298     Significativo
+10     IL.9 0.1604264955 Não Significativo
+11    IL.10 0.0101469022     Significativo
+12    IL.11 0.0413589223     Significativo
+13    IL.12 0.1867312460 Não Significativo
+14    IL.13 0.0562908768 Não Significativo
+15    IL.15 0.0616421555 Não Significativo
+16  Eotaxin 0.0756538191 Não Significativo
+17 FGFbasic 0.0313784083     Significativo
+18     GCSF 0.0158562919     Significativo
+19   GM.CSF 0.0953866286 Não Significativo
+20     IFNG 0.9140830735 Não Significativo
+21    IP.10 0.5834420611 Não Significativo
+22    MPC.1 0.0251032303     Significativo
+23    MIP1a 0.8799339089 Não Significativo
+24    MIP1b 0.8123376024 Não Significativo
+25   RANTES 0.0283306379     Significativo
+26     TNFa 0.2631665098 Não Significativo
+27     VEGF 0.0592135636 Não Significativo</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(results.mann.log<span class="sc">$</span>Resultado)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Não Significativo     Significativo 
-               16                11 </code></pre>
+               18                 9 </code></pre>
 </div>
 </div>
 <p>This block applies a correction for multiple comparisons to the Mann-Whitney test results and updates the significance classification accordingly.</p>
@@ -1673,22 +1683,22 @@ Não Significativo     Significativo
 <span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results.ttest)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Citocina     p_value         Resultado
-1    IL.17 0.352285562 Não significativo
-2    IL.1B 0.150779163 Não significativo
-3     IL.2 0.009734255     Significativo
-4    IL.13 0.019710621     Significativo
-5    IL.15 0.046485937     Significativo
-6  Eotaxin 0.081822627 Não significativo
-7     GCSF 0.014278296     Significativo
-8    MIP1a 0.744703310 Não significativo
-9    MIP1b 0.902822320 Não significativo</code></pre>
+<pre><code>  Citocina    p_value         Resultado
+1    IL.17 0.33887896 Não significativo
+2    IL.1B 0.18325813 Não significativo
+3     IL.2 0.03272569     Significativo
+4    IL.13 0.06097825 Não significativo
+5    IL.15 0.05729029 Não significativo
+6  Eotaxin 0.10476359 Não significativo
+7     GCSF 0.04133718     Significativo
+8    MIP1a 0.69620320 Não significativo
+9    MIP1b 0.94608867 Não significativo</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(results.ttest<span class="sc">$</span>Resultado)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Não significativo     Significativo 
-                5                 4 </code></pre>
+                7                 2 </code></pre>
 </div>
 </div>
 <p>As a result, IL.15, which was previously classified as “Não Significativo”, has now become “Significativo”. The remaining results remained unchanged.</p>
@@ -1765,18 +1775,16 @@ Não significativo     Significativo
 <h2 data-number="8.1" class="anchored" data-anchor-id="heatmap-with-significant-cytokines"><span class="header-section-number">8.1</span> Heatmap with significant cytokines</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>significant_cytokines <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"IL.1RA"</span>,</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"RANTES"</span>,</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"IL.2"</span>,</span>
 <span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"IL.6"</span>,</span>
 <span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"IL.8"</span>,</span>
 <span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"IL.10"</span>,</span>
 <span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"IL.11"</span>,</span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"IL.13"</span>,</span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"FGFbasic"</span>,</span>
-<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"GCSF"</span>,</span>
-<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MPC.1"</span>,</span>
-<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"VEGF"</span></span>
-<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"FGFbasic"</span>,</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"GCSF"</span>,</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MPC.1"</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>heatmap.sig <span class="ot">&lt;-</span> data.log <span class="sc">|&gt;</span></span>
@@ -1815,6 +1823,366 @@ Não significativo     Significativo
 <p><img src="cytokines_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
+</div>
+</div>
+</section>
+</section>
+<section id="cytokine-cytokine-correlation" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Cytokine-cytokine correlation</h1>
+<p>He we creates a new dataframe called <code>df.cancer</code> containing only the samples from the cancer group, keeping solely the cytokines columns. The pipe chains three operations on <code>data.cytokine</code>:</p>
+<ol type="1">
+<li><code>filter(condicao == "cancer")</code> filters the rows of the dataframe, retaining only those where the <code>condicao</code> column is equal to <code>"cancer"</code>, using the <code>==</code> operator for exact string matching;</li>
+<li><code>select(all_off(cytokine_names))</code> the select only the cytokine columns, removing the condition column and any other variable not relevant to the correlation analysis.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>df.cancer <span class="ot">&lt;-</span> data.cytokines <span class="sc">|&gt;</span> </span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(condicao <span class="sc">==</span> <span class="st">"cancer"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(cytokine_names))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This code computes the correlation matrix between cytokines using the Spearman correlation coefficient. The <code>cor()</code> function takes <code>df.cancer</code> and returns a square matrix where each cell represents the correlation between a pair of cytokines. The <code>method = "spearman"</code> argument specifies the use of Spearman correlation rather than Pearson.<br>
+<br>
+Spearman correlation coefficient is the most appropriate choice in this case, as it is based on the ranked values of the data and does not assume normality, making it more robust for biological data that frequently presents asymmetric distributions or outliers.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>cancer.matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  df.cancer, </span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"spearman"</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(cancer.matrix)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>df_cancer_matrix <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(cancer.matrix)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This loop iterates over each cytokine in the correlation matrix and creates an individual dataframe containing only the cytokines that show a strong correlation (above 0.8) with it.</p>
+<ol type="1">
+<li><code>for(cyt in colnames(cancer.matrix))</code> iterates over the column names of the correlation matrix, where each column represents a cytokine. <code>cor.value &lt;- cancer.matrix[, cyt]</code> extracts the column corresponding to the current cytokine, retrieving its correlation coefficients with all other cytokines.</li>
+<li><code>data.frame(Citocina = names(cor.value), Coeficiente = round(as.numeric(cor.value), 2))</code> creates a temporary dataframe with two columns: the name of each cytokine and its correlation coefficient with the current cytokine, rounded to two decimal places. <code>as.numeric()</code> ensures the values are treated as numbers.</li>
+<li><code>filter(Coeficiente &gt; 0.8 &amp; Citocina != cyt)</code> retains only cytokines with a correlation above 0.8, excluding the cytokine being compared against itself — since the correlation of a variable with itself is always 1 and carries no useful information.</li>
+</ol>
+<p>Finally, <code>assign(paste0("df.", cyt), df.filter)</code> dynamically creates an object in the R environment with a name built by concatenating <code>"df."</code> with the cytokine name — for example, <code>df.IL6</code> or <code>df.TNF</code>. This allows each cytokine to have its own dataframe of strong correlations without requiring manual naming.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (cyt <span class="cf">in</span> <span class="fu">colnames</span>(cancer.matrix)) {</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  cor.value <span class="ot">&lt;-</span> cancer.matrix[, cyt]</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  df_temp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Citocina =</span> <span class="fu">names</span>(cor.value),</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Coeficiente =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(cor.value), <span class="dv">2</span>),</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>  df.filter <span class="ot">&lt;-</span> df_temp <span class="sc">|&gt;</span> </span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Coeficiente <span class="sc">&gt;</span> <span class="fl">0.8</span> <span class="sc">&amp;</span> Citocina <span class="sc">!=</span> cyt)</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>  df.name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"df."</span>, cyt)</span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(df.name, df.filter)</span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="roc-curve" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> ROC curve</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"pROC"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"pROC"</span>)</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>auc.table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Citocina =</span> <span class="fu">character</span>(),</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">AUC =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>roc.curve <span class="ot">&lt;-</span> <span class="fu">list</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (cyt <span class="cf">in</span> significant_cytokines) {</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Calculate the ROC object mathematically--</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  roc_curve <span class="ot">&lt;-</span> <span class="fu">roc</span>(<span class="at">response =</span> data.cytokines[[condition]],</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">predictor =</span> data.cytokines[[cyt]], </span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">quiet =</span> <span class="cn">TRUE</span>) <span class="co">#prevents R from flooding the console with messages</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Extract AUC rounded to 2 decimal places (just like your reference image)--</span></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>  auc_val <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">auc</span>(roc_curve), <span class="dv">2</span>)</span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Plot using the native pROC plot function to match the requested aesthetic--</span></span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(roc_curve,</span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">main =</span> cyt,                                    <span class="co"># Title (Cytokine name)</span></span>
+<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">"blue"</span>,                                  <span class="co"># Blue curve</span></span>
+<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">2</span>,                                       <span class="co"># Line thickness</span></span>
+<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="fu">paste0</span>(<span class="st">"Specificity; auc="</span>, auc_val),   <span class="co"># Custom X-axis label with AUC</span></span>
+<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="st">"Sensitivity"</span>,                          <span class="co"># Y-axis label</span></span>
+<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">legacy.axes =</span> <span class="cn">FALSE</span>,                           <span class="co"># Keeps X-axis from 1.0 to 0.0</span></span>
+<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">identity.col =</span> <span class="st">"darkgrey"</span>,                     <span class="co"># Grey diagonal line</span></span>
+<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">identity.lty =</span> <span class="dv">1</span>,                              <span class="co"># Solid diagonal line (1) instead of dashed (2)</span></span>
+<span id="cb68-20"><a href="#cb68-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">print.auc =</span> <span class="cn">FALSE</span>,                             <span class="co"># Prevents printing AUC inside the plot area</span></span>
+<span id="cb68-21"><a href="#cb68-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), </span>
+<span id="cb68-22"><a href="#cb68-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">xaxs =</span> <span class="st">"i"</span>, </span>
+<span id="cb68-23"><a href="#cb68-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">yaxs =</span> <span class="st">"i"</span>)</span>
+<span id="cb68-24"><a href="#cb68-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-45-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-45-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-45-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-45-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-45-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-45-7.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-45-8.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-45-9.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">pty =</span> <span class="st">"m"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (cyt <span class="cf">in</span> significant_cytokines) {</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Calculate the ROC object mathematically--</span></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  roc_curve <span class="ot">&lt;-</span> <span class="fu">roc</span>(<span class="at">response =</span> data.cytokines[[condition]],</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">predictor =</span> data.cytokines[[cyt]], </span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">quiet =</span> <span class="cn">TRUE</span>) <span class="co">#prevents R from flooding the console with messages</span></span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Store the curve format in our list later plotting--</span></span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a>  roc.curve[[cyt]] <span class="ot">&lt;-</span> roc_curve</span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Extract the mathematical AUC value rounded to 3 decimal places--</span></span>
+<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a>  temp.auc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb70-12"><a href="#cb70-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Citocina =</span> cyt, </span>
+<span id="cb70-13"><a href="#cb70-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">AUC =</span> <span class="fu">round</span>(<span class="fu">auc</span>(roc_curve), <span class="dv">2</span>), </span>
+<span id="cb70-14"><a href="#cb70-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb70-15"><a href="#cb70-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb70-16"><a href="#cb70-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-17"><a href="#cb70-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Append the result to our final table--</span></span>
+<span id="cb70-18"><a href="#cb70-18" aria-hidden="true" tabindex="-1"></a>  auc.table <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(auc.table, temp.auc)</span>
+<span id="cb70-19"><a href="#cb70-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="ranking-and-visualization" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="ranking-and-visualization"><span class="header-section-number">10.1</span> Ranking and visualization</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>auc.table <span class="ot">&lt;-</span> auc.table <span class="sc">|&gt;</span> </span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(AUC))</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(auc.table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Citocina  AUC
+1     IL.8 0.87
+2     IL.6 0.85
+3    IL.10 0.78
+4     IL.2 0.77
+5     GCSF 0.77
+6    MPC.1 0.75
+7   RANTES 0.74
+8 FGFbasic 0.74
+9    IL.11 0.73</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>p.roc.comb <span class="ot">&lt;-</span> <span class="fu">ggroc</span>(roc.curve, <span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Performance Diagnóstica das Citocinas (ROC)"</span>,</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Especificidade"</span>, </span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Sensibilidade"</span>, </span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> <span class="st">"Biomarcadores"</span></span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">#Add the 50% diagonal line (Absolute chance)</span></span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">1</span>, <span class="at">slope =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray50"</span>, <span class="at">size =</span> <span class="fl">0.8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.
+ℹ The deprecated feature was likely used in the pROC package.
+  Please report the issue at &lt;https://github.com/xrobin/pROC/issues&gt;.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p.roc.comb)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cytokines_files/figure-html/unnamed-chunk-48-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="tnm-analysis" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> TNM analysis</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>data.cancer <span class="ot">&lt;-</span> data.cytokines <span class="sc">|&gt;</span> </span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(condicao <span class="sc">==</span> <span class="st">"cancer"</span>)</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>TNM <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"/Users/beatrizbelicha/Documents/bioinfo/citocina/TNM.csv"</span>, <span class="at">header =</span> T, <span class="at">stringsAsFactors =</span> T)</span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>data.cancer<span class="sc">$</span>TNM <span class="ot">&lt;-</span> TNM<span class="sc">$</span>TNM</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"stringr"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"stringr"</span>)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="disassemble-the-tnm-column" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="disassemble-the-tnm-column"><span class="header-section-number">11.1</span> Disassemble the TNM column</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>df.cancer.parsed <span class="ot">&lt;-</span> data.cancer <span class="sc">|&gt;</span> </span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Extracts "T" followed by a number from 0 to 4-- </span></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">T.raw =</span> <span class="fu">str_extract</span>(TNM, <span class="st">"T[0-4]"</span>), </span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Extracts "N" followed by a number (0-3) or the letter "x/X"--</span></span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">N.raw =</span> <span class="fu">str_extract</span>(TNM, <span class="st">"N[0-3xX]"</span>), </span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">#--Extract "M" followed by 0, 1, or the letter "x/X"--</span></span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">M.raw =</span> <span class="fu">str_extract</span>(TNM, <span class="st">"M[01xX]"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="create-the-3-independent-dataframe" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="create-the-3-independent-dataframe"><span class="header-section-number">11.2</span> Create the 3 independent dataframe</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>df.T <span class="ot">&lt;-</span> df.cancer.parsed <span class="sc">|&gt;</span> </span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">T.status =</span> <span class="fu">ifelse</span>(T.raw <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"T1"</span>, <span class="st">"T2"</span>), <span class="st">"T.low"</span>, <span class="st">"T.high"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(T.status, <span class="fu">all_of</span>(cytokine_names)) <span class="sc">|&gt;</span> </span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(T.status)</span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>df.N <span class="ot">&lt;-</span> df.cancer.parsed <span class="sc">|&gt;</span> </span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">N.status =</span> <span class="fu">ifelse</span>(N.raw <span class="sc">==</span> <span class="st">"N0"</span>, <span class="st">"N0"</span>, <span class="st">"N+"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(N.status, <span class="fu">all_of</span>(cytokine_names)) <span class="sc">|&gt;</span> </span>
+<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(N.status)</span>
+<span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-11"><a href="#cb79-11" aria-hidden="true" tabindex="-1"></a>df.M <span class="ot">&lt;-</span> df.cancer.parsed <span class="sc">|&gt;</span> </span>
+<span id="cb79-12"><a href="#cb79-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">M.status =</span> <span class="fu">ifelse</span>(<span class="fu">str_to_lower</span>(M.raw) <span class="sc">==</span> <span class="st">"mx"</span>, <span class="cn">NA</span>, M.raw)) <span class="sc">|&gt;</span> </span>
+<span id="cb79-13"><a href="#cb79-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(M.status, <span class="fu">all_of</span>(cytokine_names)) <span class="sc">|&gt;</span> </span>
+<span id="cb79-14"><a href="#cb79-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(M.status)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df.T<span class="sc">$</span>T.status)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+T.high  T.low 
+    12      4 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df.N<span class="sc">$</span>N.status)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+N+ N0 
+10  6 </code></pre>
+</div>
+</div>
+<p>Since the T.low group is small (N=4), its statistical power will be reduced. This means that for R to flag a significant difference (p &lt; 0.05), the difference in cytokine concentrations between early-stage (T.low) and advanced (T.high) tumors will have to be striking and highly consistent. If, when you run the previous script, the test spits out some borderline values (such as p = 0.06 or p = 0.08), you won’t say it failed. You’ll use the proper scientific jargon: “A trend toward increased cytokine X was observed in T-High tumors (p = 0.07). The failure to reach statistical significance (p &lt; 0.05) likely reflects a Type II error (false negative) resulting from the low statistical power of the T-Low group (n=4), suggesting a strong biological potential that warrants validation in larger cohorts.”</p>
+</section>
+<section id="mann-whitney-1" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="mann-whitney-1"><span class="header-section-number">11.3</span> Mann-Whitney</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>cyt.T <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">colnames</span>(df.T), <span class="st">"T.status"</span>)</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>cyt.N <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">colnames</span>(df.N), <span class="st">"N.status"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>T.result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Citocina =</span> <span class="fu">character</span>(),</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_valor =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (cit <span class="cf">in</span> cyt.T) {</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>  teste_T <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(df.T[[cit]] <span class="sc">~</span> df.T<span class="sc">$</span>T.status, <span class="at">exact =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  T.result <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(T.result, <span class="fu">data.frame</span>(<span class="at">Citocina =</span> cit, <span class="at">P_Valor =</span> teste_T<span class="sc">$</span>p.value))</span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>sig_T <span class="ot">&lt;-</span>  T.result <span class="sc">%&gt;%</span></span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(P_Valor <span class="sc">&lt;</span> <span class="fl">0.05</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(P_Valor) <span class="sc">%&gt;%</span></span>
+<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">P_Valor =</span> <span class="fu">signif</span>(P_Valor, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>N.result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Citocina =</span> <span class="fu">character</span>(),</span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_valor =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (cit <span class="cf">in</span> cyt.N) {</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>  teste_N <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(df.N[[cit]] <span class="sc">~</span> df.N<span class="sc">$</span>N.status, <span class="at">exact =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>  N.result <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(N.result, <span class="fu">data.frame</span>(<span class="at">Citocina =</span> cit, <span class="at">P_Valor =</span> teste_N<span class="sc">$</span>p.value))</span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a>sig_N <span class="ot">&lt;-</span> N.result <span class="sc">%&gt;%</span></span>
+<span id="cb88-7"><a href="#cb88-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(P_Valor <span class="sc">&lt;</span> <span class="fl">0.05</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb88-8"><a href="#cb88-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(P_Valor) <span class="sc">%&gt;%</span></span>
+<span id="cb88-9"><a href="#cb88-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">P_Valor =</span> <span class="fu">signif</span>(P_Valor, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"=== CITOCINAS SIGNIFICATIVAS: T (Tumor Inicial vs Avançado) ==="</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "=== CITOCINAS SIGNIFICATIVAS: T (Tumor Inicial vs Avançado) ==="</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sig_T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Citocina p_valor P_Valor
+1    IL.13      NA  0.0289</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"=== CITOCINAS SIGNIFICATIVAS: N (Linfonodo Negativo vs Positivo) ==="</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "=== CITOCINAS SIGNIFICATIVAS: N (Linfonodo Negativo vs Positivo) ==="</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sig_N)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Citocina p_valor  P_Valor 
+&lt;0 rows&gt; (or 0-length row.names)</code></pre>
 </div>
 </div>
 </section>

@@ -19,17 +19,6 @@ editor_options:
 # Data import
 
 ```{r}
-data.cytokines <- read.csv("/Users/beatrizbelicha/Documents/bioinfo/citocina/citocinas.csv", header = T, stringsAsFactors = T)
-
-data.cytokines <- data.cytokines |> 
-  slice(-c(9, 13))
-```
-
-# Distributions and Outliers
-
-## loading packages
-
-```{r}
 #| message: false
 #| warning: false
 #| output: false
@@ -41,6 +30,15 @@ if (!requireNamespace("tidyverse", quietly = TRUE)) {
 library(tidyverse)
 
 ```
+
+```{r}
+data.cytokines <- read.csv("/Users/beatrizbelicha/Documents/bioinfo/citocina/citocinas.csv", header = T, stringsAsFactors = T)
+
+data.cytokines <- data.cytokines |> 
+  slice(-c(9, 13))
+```
+
+# Distributions and Outliers
 
 ## Define the metadata column that separates groups
 
@@ -782,7 +780,8 @@ significant_cytokines <- c(
   "IL.11",
   "FGFbasic",
   "GCSF",
-  "MPC.1"
+  "MPC.1", 
+  "IL.13"
 )
 ```
 
@@ -925,6 +924,7 @@ for (cyt in significant_cytokines) {
 
 par(mfrow = c(1, 1), pty = "m")
 ```
+
 ```{r}
 for (cyt in significant_cytokines) {
   #--Calculate the ROC object mathematically--
@@ -977,110 +977,66 @@ print(p.roc.comb)
 ```{r}
 data.cancer <- data.cytokines |> 
   filter(condicao == "cancer")
-
-TNM <- read.csv("/Users/beatrizbelicha/Documents/bioinfo/citocina/TNM.csv", header = T, stringsAsFactors = T)
-
-data.cancer$TNM <- TNM$TNM
 ```
 
 ```{r}
-#| message: false
-#| warning: false
-#| output: false
-
-if (!requireNamespace("stringr", quietly = TRUE)) {
-  install.packages("stringr")
-}
-
-library(stringr)
-```
-
-## Disassemble the TNM column 
-
-```{r}
-df.cancer.parsed <- data.cancer |> 
-  mutate(
-  #--Extracts "T" followed by a number from 0 to 4-- 
-  T.raw = str_extract(TNM, "T[0-4]"), 
-
-  #--Extracts "N" followed by a number (0-3) or the letter "x/X"--
-  N.raw = str_extract(TNM, "N[0-3xX]"), 
-
-  #--Extract "M" followed by 0, 1, or the letter "x/X"--
-  M.raw = str_extract(TNM, "M[01xX]"))
-```
-
-## Create the 3 independent dataframe
-
-```{r}
-df.T <- df.cancer.parsed |> 
-  mutate(T.status = ifelse(T.raw %in% c("T1", "T2"), "T.low", "T.high")) |> 
-  select(T.status, all_of(cytokine_names)) |> 
-  drop_na(T.status)
-
-df.N <- df.cancer.parsed |> 
-  mutate(N.status = ifelse(N.raw == "N0", "N0", "N+")) |> 
-  select(N.status, all_of(cytokine_names)) |> 
-  drop_na(N.status)
-
-df.M <- df.cancer.parsed |> 
-  mutate(M.status = ifelse(str_to_lower(M.raw) == "mx", NA, M.raw)) |> 
-  select(M.status, all_of(cytokine_names)) |> 
-  drop_na(M.status)
-```
-
-```{r}
-table(df.T$T.status)
-table(df.N$N.status)
-```
-
-Since the T.low group is small (N=4), its statistical power will be reduced. This means that for R to flag a significant difference (p < 0.05), the difference in cytokine concentrations between early-stage (T.low) and advanced (T.high) tumors will have to be striking and highly consistent.
-If, when you run the previous script, the test spits out some borderline values (such as p = 0.06 or p = 0.08), you won't say it failed. You'll use the proper scientific jargon:
-"A trend toward increased cytokine X was observed in T-High tumors (p = 0.07). The failure to reach statistical significance (p < 0.05) likely reflects a Type II error (false negative) resulting from the low statistical power of the T-Low group (n=4), suggesting a strong biological potential that warrants validation in larger cohorts."
-
-## Mann-Whitney
-
-```{r}
-cyt.T <- setdiff(colnames(df.T), "T.status")
-cyt.N <- setdiff(colnames(df.N), "N.status")
-```
-
-```{r}
-T.result <- data.frame(
+mann.TNM <- data.frame(
   Citocina = character(),
-  p_valor = numeric(),
+  p_value = numeric(),
+  Resultado = character(),
   stringsAsFactors = FALSE
 )
+TNM <- "TNM"
+
+```
+```{r}
+for(cyt in cytokine_names){ 
+
+  #--Creating the standard formula-- 
+  formula.test <- as.formula( paste(cyt, "~", TNM) ) 
+
+  #--Running Mann-Whitney-- 
+  test <- wilcox.test( formula.test, data.cancer, exact = FALSE ) 
+
+  #--Saving the results-- 
+  temp <- data.frame( 
+    Citocina = cyt, 
+    p_value = test$p.value, 
+    Resultado = ifelse(test$p.value > 0.05, "Não Significativo", "Significativo") ) 
+
+  #Append these results to our main general dataframe 
+  mann.lauren <- bind_rows( mann.TNM, temp ) }
+
 ```
 
-```{r}
-for (cit in citocinas_T) {
-  teste_T <- wilcox.test(df.T[[cit]] ~ df.T$T.status, exact = FALSE)
-  resultados_T <- bind_rows(resultados_T, data.frame(Citocina = cit, P_Valor = teste_T$p.value))
-}
+# Lauren's Classification 
 
-sig_T <- resultados_T %>%
-  filter(P_Valor < 0.05) %>%
-  arrange(P_Valor) %>%
-  mutate(P_Valor = signif(P_Valor, 3))
+```{r}
+mann.lauren <- data.frame(
+  Citocina = character(),
+  p_value = numeric(),
+  Resultado = character(),
+  stringsAsFactors = FALSE
+)
+subclass <- "subclass"
+
 ```
-
 ```{r}
-for (cit in citocinas_N) {
-  teste_N <- wilcox.test(df.N[[cit]] ~ df.N$N.status, exact = FALSE)
-  resultados_N <- bind_rows(resultados_N, data.frame(Citocina = cit, P_Valor = teste_N$p.value))
-}
+for(cyt in cytokine_names){ 
 
-sig_N <- resultados_N %>%
-  filter(P_Valor < 0.05) %>%
-  arrange(P_Valor) %>%
-  mutate(P_Valor = signif(P_Valor, 3))
-```
+  #--Creating the standard formula-- 
+  formula.test <- as.formula( paste(cyt, "~", subclass) ) 
 
-```{r}
-print("=== CITOCINAS SIGNIFICATIVAS: T (Tumor Inicial vs Avançado) ===")
-print(sig_T)
+  #--Running Mann-Whitney-- 
+  test <- wilcox.test( formula.test, data.cancer, exact = FALSE ) 
 
-print("=== CITOCINAS SIGNIFICATIVAS: N (Linfonodo Negativo vs Positivo) ===")
-print(sig_N)
+  #--Saving the results-- 
+  temp <- data.frame( 
+    Citocina = cyt, 
+    p_value = test$p.value, 
+    Resultado = ifelse(test$p.value > 0.05, "Não Significativo", "Significativo") ) 
+
+  #Append these results to our main general dataframe 
+  mann.lauren <- bind_rows( mann.lauren, temp ) }
+
 ```
