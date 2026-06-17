@@ -829,12 +829,12 @@ He we creates a new dataframe called `df.cancer` containing only the samples fro
 2.  `select(all_off(cytokine_names))` the select only the cytokine columns, removing the condition column and any other variable not relevant to the correlation analysis.
 
 ```{r}
-df.cancer <- data.cytokines |> 
+df.cancer <- data.log |> 
   filter(condicao == "cancer") |> 
   select(all_of(cytokine_names))
 ```
 
-This code computes the correlation matrix between cytokines using the Spearman correlation coefficient. The `cor()` function takes `df.cancer` and returns a square matrix where each cell represents the correlation between a pair of cytokines. The `method = "spearman"` argument specifies the use of Spearman correlation rather than Pearson. \
+This code computes the correlation matrix between cytokines using the Spearman correlation coefficient. The `cor()` function takes `df.cancer` and returns a square matrix where each cell represents the correlation between a pair of cytokines. The `method = "spearman"` argument specifies the use of Spearman correlation rather than Pearson.\
 \
 Spearman correlation coefficient is the most appropriate choice in this case, as it is based on the ranked values of the data and does not assume normality, making it more robust for biological data that frequently presents asymmetric distributions or outliers.
 
@@ -872,7 +872,220 @@ for (cyt in colnames(cancer.matrix)) {
 }
 ```
 
-# ROC curve
+# Logistic Regression (LR)
+
+Following the Events Per Variable (EPV) rule, 2 cytokines will be selected based on four criteria:
+
+1.  Highest significance in Univariate Logistic Regression;
+2.  Lowest correlation between them (to avoid multicollinearity);
+3.  Highest AUC in ROC curve analysis;
+4.  Strong scientific evidence in the literature.
+
+## Univariate LR
+
+### IL-2
+
+```{r}
+
+uniil.2 <- data.frame(
+    condition = data.log$condicao,
+    IL.2 = data.log$IL.2
+)
+
+uniil.2$condition <- factor(with(uniil.2, ifelse(condition=="cancer", "1", "0")))
+
+model.il2 <- glm(condition~IL.2, family = binomial(link = "logit"), data = uniil.2)
+summary(model.il2)
+
+coef.il2 <- coef(model.il2)
+round(exp(coef(model.il2)), 2)
+
+
+levegare.esperado <- round(2/29, 2)
+
+library(dplyr)
+
+# dataframe of diagnosis
+diagnostico_il2 <- data.frame(
+  IL_2 = uniil.2$IL.2,                         
+  Condicao = uniil.2$condition,                
+  Residuos_Pad = rstandard(model.il2),         # Resíduos Padronizados
+  Leverage = hatvalues(model.il2),             # Valores de Alavancagem (Hat values)
+  Dist_Cook = cooks.distance(model.il2)        # (Bônus) Distância de Cook
+)
+
+diagnostico_il2 <- diagnostico_il2 %>%
+  arrange(desc(abs(Residuos_Pad)))
+
+print(diagnostico_il2)
+
+exp(cbind(
+  OR = coef(model.il2),
+  confint(model.il2)))
+
+#without pacient 6
+
+out6 <- uniil.2[-6, ]
+model.out6 <- glm(condition~IL.2, family = binomial(link = "logit"), data = out6)
+summary(model.out6)
+coef.out6 <- coef(model.out6)
+round(exp(coef(model.out6)), 2)
+
+exp(cbind(
+  OR = coef(model.out6),
+  confint(model.out6)))
+
+
+
+```
+
+Without patient 6, the p-value decreased, but the model showed signs of instability, with an inflated odds ratio and a substantially wider 95% confidence interval.
+
+### IL-6
+
+```{r}
+uniil.6 <- data.frame(
+    condition = data.log$condicao,
+    IL.6 = data.log$IL.6
+)
+
+uniil.6$condition <- factor(with(uniil.6, ifelse(condition=="cancer", "1", "0")))
+
+model.il6 <- glm(condition~IL.6, family = binomial(link = "logit"), data = uniil.6)
+summary(model.il6)
+
+round(exp(coef(model.il6)), 2)
+
+diag.il6 <- data.frame(
+  IL_6 = uniil.6$IL.6,                         
+  Condicao = uniil.6$condition,                
+  Residuos_Pad = rstandard(model.il6),         # Resíduos Padronizados
+  Leverage = hatvalues(model.il6),             # Valores de Alavancagem (Hat values)
+  Dist_Cook = cooks.distance(model.il6)        # (Bônus) Distância de Cook
+)
+
+diag.il6 <- diag.il6 %>%
+  arrange(desc(abs(Residuos_Pad)))
+
+print(diag.il6)
+
+exp(cbind(
+  OR = coef(model.il6),
+  confint(model.il6)))
+```
+
+### IL-8
+
+```{r}
+uniil.8 <- data.frame(
+    condition = data.log$condicao,
+    IL.8 = data.log$IL.8
+)
+
+uniil.8$condition <- factor(with(uniil.8, ifelse(condition=="cancer", "1", "0")))
+
+model.il8 <- glm(condition~IL.8, family = binomial(link = "logit"), data = uniil.8)
+summary(model.il8)
+
+round(exp(coef(model.il8)), 2)
+
+diag.il8 <- data.frame(
+  IL_8 = uniil.8$IL.8,                         
+  Condicao = uniil.8$condition,                
+  Residuos_Pad = rstandard(model.il8),         # Resíduos Padronizados
+  Leverage = hatvalues(model.il8),             # Valores de Alavancagem (Hat values)
+  Dist_Cook = cooks.distance(model.il8)        # (Bônus) Distância de Cook
+)
+
+diag.il8 <- diag.il8 %>%
+  arrange(desc(abs(Residuos_Pad)))
+
+print(diag.il8)
+
+exp(cbind(
+  OR = coef(model.il8),
+  confint(model.il8)))
+```
+
+### IL-10
+
+```{r}
+uniil.10 <- data.frame(
+    condition = data.log$condicao,
+    IL.10 = data.log$IL.10
+)
+
+uniil.10$condition <- factor(with(uniil.10, ifelse(condition=="cancer", "1", "0")))
+
+model.il10 <- glm(condition~IL.10, family = binomial(link = "logit"), data = uniil.10)
+summary(model.il10)
+
+round(exp(coef(model.il10)), 2)
+
+diag.il10 <- data.frame(
+  IL_10 = uniil.10$IL.10,                         
+  Condicao = uniil.10$condition,                
+  Residuos_Pad = rstandard(model.il10),         # Resíduos Padronizados
+  Leverage = hatvalues(model.il10),             # Valores de Alavancagem (Hat values)
+  Dist_Cook = cooks.distance(model.il10)        # (Bônus) Distância de Cook
+)
+
+diag.il10 <- diag.il10 %>%
+  arrange(desc(abs(Residuos_Pad)))
+
+print(diag.il10)
+
+exp(cbind(
+  OR = coef(model.il10),
+  confint(model.il10)))
+```
+
+## LR Firth
+
+```{r}
+install.packages("logistf")
+library(logistf)
+```
+
+```{r}
+#IL-2
+
+firth.il2 <- logistf(condition ~ IL.2, data = uniil.2)
+summary(firth.il2)
+
+#IL-6
+
+firth.il6 <- logistf(condition ~ IL.6, data = uniil.6)
+summary(firth.il6)
+
+#IL-8
+
+firth.il8 <- logistf(condition ~ IL.8, data = uniil.8)
+summary(firth.il8)
+
+#IL-10
+
+firth.il10 <- logistf(condition ~ IL.10, data = uniil.10)
+summary(firth.il10)
+```
+
+## Correlation between cytokines 
+
+    
+
+IL-6 + IL-8 = 0.75
+
+IL-6 + IL-10 = 0.68
+
+IL-8 + IL-10 = 0.34
+
+IL-2 + IL-6 = 0.51
+
+IL-2 + IL-8 = 0.26
+
+IL-2 + IL-10 = 0.77
+
+## ROC curve
 
 ```{r}
 #| message: false
@@ -947,8 +1160,7 @@ for (cyt in significant_cytokines) {
 }
 ```
 
-
-## Ranking and visualization 
+## Ranking and visualization
 
 ```{r}
 auc.table <- auc.table |> 
@@ -972,6 +1184,144 @@ p.roc.comb <- ggroc(roc.curve, alpha = 0.8, size = 1) +
 print(p.roc.comb)
 ```
 
+## Multivariate LR
+
+### IL-2 + IL-6
+
+```{r}
+il2.il6 <- data.frame(
+  condition = data.log$condicao,
+  IL.2 = data.log$IL.2,
+  IL.6 = data.log$IL.6
+)
+
+il2.il6$condition <- factor(with(il2.il6, ifelse(condition=="cancer", "1", "0")))
+
+firth.il2.il6 <- logistf(condition ~ IL.2 + IL.6, data = il2.il6)
+summary(firth.il2.il6)
+
+#OR
+
+round(exp(coef(firth.il2.il6)), 2)
+
+#IC95%
+exp(cbind(
+  OR = coef(firth.il2.il6),
+  confint(firth.il2.il6)
+))
+
+#AUC
+
+prob1 <- predict(firth.il2.il6, type = "response")
+roc.1 <- roc(il2.il6$condition, prob1)
+auc(roc.1)
+```
+
+
+### IL-2 + IL-8
+
+```{r}
+il2.il8 <- data.frame(
+  condition = data.log$condicao,
+  IL.2 = data.log$IL.2,
+  IL.8 = data.log$IL.8
+)
+
+il2.il8$condition <- factor(with(il2.il8, ifelse(condition=="cancer", "1", "0")))
+
+firth.il2.il8 <- logistf(condition ~ IL.2 + IL.8, data = il2.il8)
+summary(firth.il2.il8)
+
+#OR
+
+round(exp(coef(firth.il2.il8)), 2)
+
+#IC95%
+exp(cbind(
+  OR = coef(firth.il2.il8),
+  confint(firth.il2.il8)
+))
+
+#AUC
+
+prob2 <- predict(firth.il2.il8, type = "response")
+roc.2 <- roc(il2.il8$condition, prob2)
+auc(roc.2)
+```
+
+
+### IL-6 + IL-8
+
+```{r}
+il6.il8 <- data.frame(
+  condition = data.log$condicao,
+  IL.6 = data.log$IL.6,
+  IL.8 = data.log$IL.8
+)
+
+il6.il8$condition <- factor(with(il6.il8, ifelse(condition=="cancer", "1", "0")))
+
+firth.il6.il8 <- logistf(condition ~ IL.6 + IL.8, data = il6.il8)
+summary(firth.il6.il8)
+
+#OR
+
+round(exp(coef(firth.il6.il8)), 2)
+
+#IC95%
+exp(cbind(
+  OR = coef(firth.il6.il8),
+  confint(firth.il6.il8)
+))
+
+#AUC
+
+prob3 <- predict(firth.il6.il8, type = "response")
+roc.3 <- roc(il6.il8$condition, prob3)
+auc(roc.3)
+```
+
+
+```{r}
+firth.il2.il8 <- logistf(condition ~ IL.2 + IL.8, data = dados)
+summary(firth.il2.il8)
+Modelo 2 (IL-2 + IL-6)
+firth.il2.il6 <- logistf(condition ~ IL.2 + IL.6, data = dados)
+summary(firth.il2.il6)
+Modelo 3 (IL-6 + IL-8)
+firth.il6.il8 <- logistf(condition ~ IL.6 + IL.8, data = dados)
+summary(firth.il6.il8)
+```
+
+```{r}
+il8.il10 <- data.frame(
+  condition = data.log$condicao,
+  IL.8 = data.log$IL.8,
+  IL.10 = data.log$IL.10
+)
+
+il8.il10$condition <- factor(with(il8.il10, ifelse(condition=="cancer", "1", "0")))
+
+firth.il8.il10 <- logistf(condition ~ IL.8 + IL.10, data = il8.il10)
+summary(firth.il8.il10)
+
+#OR
+
+round(exp(coef(firth.il8.il10)), 2)
+
+#IC95%
+exp(cbind(
+  OR = coef(firth.il8.il10),
+  confint(firth.il8.il10)
+))
+
+#AUC
+
+prob4 <- predict(firth.il8.il10, type = "response")
+roc.4 <- roc(il8.il10$condition, prob4)
+auc(roc.4)
+```
+
 # TNM analysis
 
 ```{r}
@@ -989,6 +1339,7 @@ mann.TNM <- data.frame(
 TNM <- "TNM"
 
 ```
+
 ```{r}
 for(cyt in cytokine_names){ 
 
@@ -1009,7 +1360,7 @@ for(cyt in cytokine_names){
 
 ```
 
-# Lauren's Classification 
+# Lauren's Classification
 
 ```{r}
 mann.lauren <- data.frame(
@@ -1021,6 +1372,7 @@ mann.lauren <- data.frame(
 subclass <- "subclass"
 
 ```
+
 ```{r}
 for(cyt in cytokine_names){ 
 
