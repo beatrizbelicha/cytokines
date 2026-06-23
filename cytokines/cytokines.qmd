@@ -1,5 +1,5 @@
 ---
-title: "Rede_beatriz"
+title: "Cytokynes"
 format: 
  html:
   toc: true
@@ -14,7 +14,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-\![script author: Beatriz Belicha, contact: abeatrizbiomed\@gmail.com\]
+![Contact: abeatrizbiomed@gmail.com](Logo_Beatriz.png)
 
 # Data import
 
@@ -406,16 +406,6 @@ if (!requireNamespace("rstatix", quietly = TRUE)) {
 library(rstatix)
 ```
 
-## Raw data
-
-```{r}
-results.mann.raw <- data.frame(
-  Citocina = character(),
-  p_value = numeric(),
-  Resultado = character()
-)
-```
-
 This block runs the Mann-Whitney test for each cytokine individually and stores the results in a dataframe. The `for(cyt in cytokine_names)` loop iterates over each cytokine name in the `cytokine_names` vector, with `cyt` taking a different cytokine name at each iteration. Inside the loop, `as.formula(paste(cyt, "~", condition))` dynamically builds the statistical formula by concatenating the cytokine name, the tilde `~`, and the condition name into a string such as `"IL6 ~ group"`, then converting it into a formula object that R can interpret statistically.
 
 `wilcox.test()` runs the Mann-Whitney test (also known as the Wilcox rank-sum test) comparing cytokine values between the groups defined by condition variable. It is a non-parametric test, appropriate for data that does not follow normal distribution.
@@ -428,41 +418,12 @@ At each iteration, a temporary dataframe `temp` is created with three columns:
 
 3.  Classification using `ifelse()`.
 
-The `ifelse()` function returns "Significativo" if the *p-value* is less than or equal to 0.05 and "Não Significativo" otherwise. The `bind_rows()` function from `dplyr` the appends temp to the main results `results.mann.raw` dataframe, accumulating results across iterations.
+The `ifelse()` function returns "Significativo" if the *p-value* is less than or equal to 0.05 and "Não Significativo" otherwise. The `bind_rows()` function from `dplyr` the appends temp to the main results `results.mann` dataframe, accumulating results across iterations.
 
 After the loop, `print()` displays the complete results dataframe, and `table()` produces a quick count of how many cytokines were classified as significant or non-significant.
 
 ```{r}
-for(cyt in cytokine_names){
-  #--Creating the standard formula--
-  formula.test <- as.formula(
-    paste(cyt, "~", condition)
-  )
-  #--Running Mann-Whitney--
-  test <- wilcox.test(
-    formula.test, data.cytokines
-  )
-  #--Saving the results--
-  temp <- data.frame(
-    Citocina = cyt,
-    p_value = test$p.value, 
-    Resultado = ifelse(test$p.value > 0.05, "Não Significativo", "Significativo")
-  )
-  #Append these results to our main general dataframe
-  results.mann.raw <- bind_rows(
-    results.mann.raw,
-    temp
-  )
-}
-
-print(results.mann.raw)
-table(results.mann.raw$Resultado)
-```
-
-## Log
-
-```{r}
-results.mann.log <- data.frame(
+results.mann <- data.frame(
   Citocina = character(),
   p_value = numeric(),
   Resultado = character()
@@ -470,6 +431,8 @@ results.mann.log <- data.frame(
 ```
 
 ```{r}
+#| warning: false
+
 for(cyt in cytokine_names){
   #--Creating the standard formula--
   formula.test <- as.formula(
@@ -486,36 +449,38 @@ for(cyt in cytokine_names){
     Resultado = ifelse(test$p.value > 0.05, "Não Significativo", "Significativo")
   )
   #Append these results to our main general dataframe
-  results.mann.log <- bind_rows(
-    results.mann.log,
+  results.mann <- bind_rows(
+    results.mann,
     temp
   )
 }
 
-print(results.mann.log)
-table(results.mann.log$Resultado)
+print(results.mann)
+table(results.mann$Resultado)
 ```
 
 This block applies a correction for multiple comparisons to the Mann-Whitney test results and updates the significance classification accordingly.
 
-`p.adjust(results.mann.log$p_value, method = "fdr")` adjusts the raw p-values using the Benjamini-Hochberg method, also known as the False Discovery Rate (FDR) correction. When multiple statistical tests are performed simultaneously — one for each cytokine — the probability of obtaining at least one false positive increases with each additional test. The FDR method controls the expected proportion of false positives among the results classified as significant, producing adjusted p-values that account for the total number of tests performed. These adjusted values are stored in a new column called `FDR` in the `results.mann.log` dataframe.
+`p.adjust(results.mann$p_value, method = "fdr")` adjusts the raw p-values using the Benjamini-Hochberg method, also known as the False Discovery Rate (FDR) correction. When multiple statistical tests are performed simultaneously — one for each cytokine — the probability of obtaining at least one false positive increases with each additional test. The FDR method controls the expected proportion of false positives among the results classified as significant, producing adjusted p-values that account for the total number of tests performed. These adjusted values are stored in a new column called `FDR` in the `results.mann` dataframe.
 
-`ifelse(results.mann.log$FDR < 0.05, "Sim", "Não")` then reclassifies each cytokine as significant or not based on the adjusted p-value rather than the raw one, which is the correct approach after applying a multiple comparisons correction. The result is stored in a new column called `Significativo_FDR`. It is common to find that some cytokines that appeared significant based on raw p-values lose their significance after FDR correction — this is expected and is precisely the purpose of the adjustment.
+`ifelse(results.mann$FDR < 0.05, "Sim", "Não")` then reclassifies each cytokine as significant or not based on the adjusted p-value rather than the raw one, which is the correct approach after applying a multiple comparisons correction. The result is stored in a new column called `Significativo_FDR`. It is common to find that some cytokines that appeared significant based on raw p-values lose their significance after FDR correction — this is expected and is precisely the purpose of the adjustment.
 
 ```{r}
-results.mann.log$FDR <- p.adjust(
-  results.mann.log$p_value,
+results.mann$FDR <- p.adjust(
+  results.mann$p_value,
   method = "fdr"
 )
 
-results.mann.log$Significativo_FDR <- ifelse(
-  results.mann.log$FDR < 0.05,
+results.mann$Significativo_FDR <- ifelse(
+  results.mann$FDR < 0.06,
   "Sim",
   "Não"
 )
+
+
 ```
 
-IL.2, IL.6, IL.8, IL.10 and GCSF remained significant.
+IL.6, IL.8 remained significant.
 
 # Welch's t-test for normal cytokines
 
@@ -760,6 +725,49 @@ Following the Events Per Variable (EPV) rule, 2 cytokines will be selected based
 
 ## Univariate LR
 
+### GCSF
+
+```{r}
+uni.gcsf <- data.frame(
+    condition = data.log$condicao,
+    GCSF = data.log$GCSF
+)
+
+uni.gcsf$condition <- factor(with(uni.gcsf, ifelse(condition=="cancer", "1", "0")))
+
+model.gcsf <- glm(condition~GCSF, family = binomial(link = "logit"), data = uni.gcsf)
+summary(model.gcsf)
+
+coef.gcsf <- coef(model.gcsf)
+round(exp(coef(model.gcsf)), 2)
+
+
+levegare.esperado <- round(2/29, 2)
+
+library(dplyr)
+
+# dataframe of diagnosis
+diagnostico_gcsf <- data.frame(
+  IL_2 = uni.gcsf$GCSF,                         
+  Condicao = uni.gcsf$condition,                
+  Residuos_Pad = rstandard(model.gcsf),         # Resíduos Padronizados
+  Leverage = hatvalues(model.gcsf),             # Valores de Alavancagem (Hat values)
+  Dist_Cook = cooks.distance(model.gcsf)        # (Bônus) Distância de Cook
+)
+
+diagnostico_gcsf <- diagnostico_gcsf %>%
+  arrange(desc(abs(Residuos_Pad)))
+
+print(diagnostico_gcsf)
+
+exp(cbind(
+  OR = coef(model.gcsf),
+  confint(model.gcsf)))
+
+firth.gcsf <- logistf(condition ~ GCSF, data = uni.gcsf)
+summary(firth.gcsf)
+```
+
 ### IL-2
 
 ```{r}
@@ -920,7 +928,10 @@ exp(cbind(
 ## LR Firth
 
 ```{r}
-install.packages("logistf")
+if (!requireNamespace("logistf", quietly = TRUE)) {
+  install.packages("logistf")
+}
+
 library(logistf)
 ```
 
