@@ -760,12 +760,15 @@ diagnostico_gcsf <- diagnostico_gcsf %>%
 
 print(diagnostico_gcsf)
 
-exp(cbind(
-  OR = coef(model.gcsf),
-  confint(model.gcsf)))
+or <- exp(coef(model.gcsf))
+ic <- exp(confint(model.gcsf))
 
-firth.gcsf <- logistf(condition ~ GCSF, data = uni.gcsf)
-summary(firth.gcsf)
+sprintf(
+  "%.2f (%.2f - %.2f)",
+  or["GCSF"],
+  ic["GCSF",1],
+  ic["GCSF",2]
+)
 ```
 
 ### IL-2
@@ -804,9 +807,15 @@ diagnostico_il2 <- diagnostico_il2 %>%
 
 print(diagnostico_il2)
 
-exp(cbind(
-  OR = coef(model.il2),
-  confint(model.il2)))
+or2 <- exp(coef(model.il2))
+ic2 <- exp(confint(model.il2))
+
+sprintf(
+  "%.2f (%.2f - %.2f)",
+  or2["IL.2"],
+  ic2["IL.2",1],
+  ic2["IL.2",2]
+)
 
 #without pacient 6
 
@@ -815,6 +824,7 @@ model.out6 <- glm(condition~IL.2, family = binomial(link = "logit"), data = out6
 summary(model.out6)
 coef.out6 <- coef(model.out6)
 round(exp(coef(model.out6)), 2)
+
 
 exp(cbind(
   OR = coef(model.out6),
@@ -854,9 +864,15 @@ diag.il6 <- diag.il6 %>%
 
 print(diag.il6)
 
-exp(cbind(
-  OR = coef(model.il6),
-  confint(model.il6)))
+or6 <- exp(coef(model.il6))
+ic6 <- exp(confint(model.il6))
+
+sprintf(
+  "%.2f (%.2f - %.2f)",
+  or6["IL.6"],
+  ic6["IL.6",1],
+  ic6["IL.6",2]
+)
 ```
 
 ### IL-8
@@ -887,9 +903,15 @@ diag.il8 <- diag.il8 %>%
 
 print(diag.il8)
 
-exp(cbind(
-  OR = coef(model.il8),
-  confint(model.il8)))
+or8 <- exp(coef(model.il8))
+ic8 <- exp(confint(model.il8))
+
+sprintf(
+  "%.2f (%.2f - %.2f)",
+  or8["IL.8"],
+  ic8["IL.8",1],
+  ic8["IL.8",2]
+)
 ```
 
 ### IL-10
@@ -920,9 +942,15 @@ diag.il10 <- diag.il10 %>%
 
 print(diag.il10)
 
-exp(cbind(
-  OR = coef(model.il10),
-  confint(model.il10)))
+or10 <- exp(coef(model.il10))
+ic10 <- exp(confint(model.il10))
+
+sprintf(
+  "%.2f (%.2f - %.2f)",
+  or10["IL.10"],
+  ic10["IL.10",1],
+  ic10["IL.10",2]
+)
 ```
 
 ## LR Firth
@@ -936,25 +964,65 @@ library(logistf)
 ```
 
 ```{r}
+#GCSF
+
+firth.gcsf <- logistf(condition ~ GCSF, data = uni.gcsf)
+summary(firth.gcsf)
+
+or <- exp(coef(firth.gcsf))
+ic <- exp(confint(firth.gcsf))
+sprintf("%.2f (%.2f - %.2f)",
+        or["GCSF"],
+        ic["GCSF",1],
+        ic["GCSF",2])
+
 #IL-2
 
 firth.il2 <- logistf(condition ~ IL.2, data = uniil.2)
 summary(firth.il2)
+
+or2 <- exp(coef(firth.il2))
+ic2 <- exp(confint(firth.il2))
+sprintf("%.2f (%.2f - %.2f)",
+        or2["IL.2"],
+        ic2["IL.2",1],
+        ic2["IL.2",2])
 
 #IL-6
 
 firth.il6 <- logistf(condition ~ IL.6, data = uniil.6)
 summary(firth.il6)
 
+or6 <- exp(coef(firth.il6))
+ic6 <- exp(confint(firth.il6))
+sprintf("%.2f (%.2f - %.2f)",
+        or6["IL.6"],
+        ic6["IL.6",1],
+        ic6["IL.6",2])
+
 #IL-8
 
 firth.il8 <- logistf(condition ~ IL.8, data = uniil.8)
 summary(firth.il8)
 
+or8 <- exp(coef(firth.il8))
+ic8 <- exp(confint(firth.il8))
+sprintf("%.2f (%.2f - %.2f)",
+        or8["IL.8"],
+        ic8["IL.8",1],
+        ic8["IL.8",2])
+
 #IL-10
 
 firth.il10 <- logistf(condition ~ IL.10, data = uniil.10)
 summary(firth.il10)
+
+or10 <- exp(coef(firth.il10))
+ic10 <- exp(confint(firth.il10))
+sprintf("%.2f (%.2f - %.2f)",
+        or10["IL.10"],
+        ic10["IL.10",1],
+        ic10["IL.10",2])
 ```
 
 ## Correlation between cytokines 
@@ -1074,6 +1142,49 @@ print(p.roc.comb)
 
 ## Multivariate LR
 
+### IL-2 + GCSF
+
+```{r}
+il2.gcsf <- data.frame(
+  condition = data.log$condicao,
+  IL.2 = data.log$IL.2,
+  GCSF = data.log$GCSF
+)
+
+il2.gcsf$condition <- factor(with(il2.gcsf, ifelse(condition=="cancer", "1", "0")))
+
+firth.il2.gcsf <- logistf(condition ~ IL.2 + GCSF, data = il2.gcsf)
+summary(firth.il2.gcsf)
+
+# OR
+round(exp(coef(firth.il2.gcsf)), 2)
+
+# IC95%
+exp(cbind(
+  OR = coef(firth.il2.gcsf),
+  confint(firth.il2.gcsf)
+))
+
+# AUC
+prob1 <- predict(firth.il2.gcsf, type = "response")
+roc.1 <- roc(il2.gcsf$condition, prob1)
+auc(roc.1)
+
+or.il2.gcsf <- exp(coef(firth.il2.gcsf))
+ic.il2.gcsf <- exp(confint(firth.il2.gcsf))
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il2.gcsf["IL.2"],
+        ic.il2.gcsf["IL.2",1],
+        ic.il2.gcsf["IL.2",2])
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il2.gcsf["GCSF"],
+        ic.il2.gcsf["GCSF",1],
+        ic.il2.gcsf["GCSF",2])
+```
+
+
 ### IL-2 + IL-6
 
 ```{r}
@@ -1100,9 +1211,22 @@ exp(cbind(
 
 #AUC
 
-prob1 <- predict(firth.il2.il6, type = "response")
-roc.1 <- roc(il2.il6$condition, prob1)
-auc(roc.1)
+prob2 <- predict(firth.il2.il6, type = "response")
+roc.2 <- roc(il2.il6$condition, prob2)
+auc(roc.2)
+
+or.il2.il6 <- exp(coef(firth.il2.il6))
+ic.il2.il6 <- exp(confint(firth.il2.il6))
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il2.il6["IL.2"],
+        ic.il2.il6["IL.2",1],
+        ic.il2.il6["IL.2",2])
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il2.il6["IL.6"],
+        ic.il2.il6["IL.6",1],
+        ic.il2.il6["IL.6",2])
 ```
 
 
@@ -1132,11 +1256,109 @@ exp(cbind(
 
 #AUC
 
-prob2 <- predict(firth.il2.il8, type = "response")
-roc.2 <- roc(il2.il8$condition, prob2)
-auc(roc.2)
+prob3 <- predict(firth.il2.il8, type = "response")
+roc.3 <- roc(il2.il8$condition, prob3)
+auc(roc.3)
+
+or.il2.il8 <- exp(coef(firth.il2.il8))
+ic.il2.il8 <- exp(confint(firth.il2.il8))
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il2.il8["IL.2"],
+        ic.il2.il8["IL.2",1],
+        ic.il2.il8["IL.2",2])
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il2.il8["IL.8"],
+        ic.il2.il8["IL.8",1],
+        ic.il2.il8["IL.8",2])
 ```
 
+### IL-2 + IL-10
+
+```{r}
+
+il2.il10 <- data.frame(
+  condition = data.log$condicao,
+  IL.2 = data.log$IL.2,
+  IL.10 = data.log$IL.10
+)
+
+il2.il10$condition <- factor(with(il2.il10, ifelse(condition=="cancer", "1", "0")))
+
+firth.il2.il10 <- logistf(condition ~ IL.2 + IL.10, data = il2.il10)
+summary(firth.il2.il10)
+
+# OR
+round(exp(coef(firth.il2.il10)), 2)
+
+# IC95%
+exp(cbind(
+  OR = coef(firth.il2.il10),
+  confint(firth.il2.il10)
+))
+
+# AUC
+prob4 <- predict(firth.il2.il10, type = "response")
+roc.4 <- roc(il2.il10$condition, prob4)
+auc(roc.4)
+
+or.il2.il10 <- exp(coef(firth.il2.il10))
+ic.il2.il10 <- exp(confint(firth.il2.il10))
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il2.il10["IL.2"],
+        ic.il2.il10["IL.2",1],
+        ic.il2.il10["IL.2",2])
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il2.il10["IL.10"],
+        ic.il2.il10["IL.10",1],
+        ic.il2.il10["IL.10",2])
+```
+
+### IL-6 + GCSF
+
+```{r}
+
+il6.gcsf <- data.frame(
+  condition = data.log$condicao,
+  IL.6 = data.log$IL.6,
+  GCSF = data.log$GCSF
+)
+
+il6.gcsf$condition <- factor(with(il6.gcsf, ifelse(condition=="cancer", "1", "0")))
+
+firth.il6.gcsf <- logistf(condition ~ IL.6 + GCSF, data = il6.gcsf)
+summary(firth.il6.gcsf)
+
+# OR
+round(exp(coef(firth.il6.gcsf)), 2)
+
+# IC95%
+exp(cbind(
+  OR = coef(firth.il6.gcsf),
+  confint(firth.il6.gcsf)
+))
+
+# AUC
+prob5 <- predict(firth.il6.gcsf, type = "response")
+roc.5 <- roc(il6.gcsf$condition, prob5)
+auc(roc.5)
+
+or.il6.gcsf <- exp(coef(firth.il6.gcsf))
+ic.il6.gcsf <- exp(confint(firth.il6.gcsf))
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il6.gcsf["IL.6"],
+        ic.il6.gcsf["IL.6",1],
+        ic.il6.gcsf["IL.6",2])
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il6.gcsf["GCSF"],
+        ic.il6.gcsf["GCSF",1],
+        ic.il6.gcsf["GCSF",2])
+```
 
 ### IL-6 + IL-8
 
@@ -1164,10 +1386,111 @@ exp(cbind(
 
 #AUC
 
-prob3 <- predict(firth.il6.il8, type = "response")
-roc.3 <- roc(il6.il8$condition, prob3)
-auc(roc.3)
+prob6 <- predict(firth.il6.il8, type = "response")
+roc.6 <- roc(il6.il8$condition, prob6)
+auc(roc.6)
+
+or.il6.il8 <- exp(coef(firth.il6.il8))
+ic.il6.il8 <- exp(confint(firth.il6.il8))
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il6.il8["IL.6"],
+        ic.il6.il8["IL.6",1],
+        ic.il6.il8["IL.6",2])
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il6.il8["IL.8"],
+        ic.il6.il8["IL.8",1],
+        ic.il6.il8["IL.8",2])
 ```
+
+### IL-6 + IL-10
+
+```{r}
+
+il6.il10 <- data.frame(
+  condition = data.log$condicao,
+  IL.6 = data.log$IL.6,
+  IL.10 = data.log$IL.10
+)
+
+il6.il10$condition <- factor(with(il6.il10, ifelse(condition=="cancer", "1", "0")))
+
+firth.il6.il10 <- logistf(condition ~ IL.6 + IL.10, data = il6.il10)
+summary(firth.il6.il10)
+
+# OR
+round(exp(coef(firth.il6.il10)), 2)
+
+# IC95%
+exp(cbind(
+  OR = coef(firth.il6.il10),
+  confint(firth.il6.il10)
+))
+
+# AUC
+prob7 <- predict(firth.il6.il10, type = "response")
+roc.7 <- roc(il6.il10$condition, prob7)
+auc(roc.7)
+
+or.il6.il10 <- exp(coef(firth.il6.il10))
+ic.il6.il10 <- exp(confint(firth.il6.il10))
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il6.il10["IL.6"],
+        ic.il6.il10["IL.6",1],
+        ic.il6.il10["IL.6",2])
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il6.il10["IL.10"],
+        ic.il6.il10["IL.10",1],
+        ic.il6.il10["IL.10",2])
+```
+
+### IL-8 + GCSF
+
+```{r}
+
+il8.gcsf <- data.frame(
+  condition = data.log$condicao,
+  IL.8 = data.log$IL.8,
+  GCSF = data.log$GCSF
+)
+
+il8.gcsf$condition <- factor(with(il8.gcsf, ifelse(condition=="cancer", "1", "0")))
+
+firth.il8.gcsf <- logistf(condition ~ IL.8 + GCSF, data = il8.gcsf)
+summary(firth.il8.gcsf)
+
+# OR
+round(exp(coef(firth.il8.gcsf)), 2)
+
+# IC95%
+exp(cbind(
+  OR = coef(firth.il8.gcsf),
+  confint(firth.il8.gcsf)
+))
+
+# AUC
+prob8 <- predict(firth.il8.gcsf, type = "response")
+roc.8 <- roc(il8.gcsf$condition, prob8)
+auc(roc.8)
+
+or.il8.gcsf <- exp(coef(firth.il8.gcsf))
+ic.il8.gcsf <- exp(confint(firth.il8.gcsf))
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il8.gcsf["IL.8"],
+        ic.il8.gcsf["IL.8",1],
+        ic.il8.gcsf["IL.8",2])
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il8.gcsf["GCSF"],
+        ic.il8.gcsf["GCSF",1],
+        ic.il8.gcsf["GCSF",2])
+```
+
+### IL-8 + IL-10
 
 ```{r}
 il8.il10 <- data.frame(
@@ -1193,9 +1516,22 @@ exp(cbind(
 
 #AUC
 
-prob4 <- predict(firth.il8.il10, type = "response")
-roc.4 <- roc(il8.il10$condition, prob4)
-auc(roc.4)
+prob9 <- predict(firth.il8.il10, type = "response")
+roc.9 <- roc(il8.il10$condition, prob9)
+auc(roc.9)
+
+or.il8.il10 <- exp(coef(firth.il8.il10))
+ic.il8.il10 <- exp(confint(firth.il8.il10))
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il8.il10["IL.8"],
+        ic.il8.il10["IL.8",1],
+        ic.il8.il10["IL.8",2])
+
+sprintf("%.2f (%.2f - %.2f)",
+        or.il8.il10["IL.10"],
+        ic.il8.il10["IL.10",1],
+        ic.il8.il10["IL.10",2])
 ```
 
 # TNM analysis
@@ -1232,7 +1568,11 @@ for(cyt in cytokine_names){
     Resultado = ifelse(test$p.value > 0.05, "Não Significativo", "Significativo") ) 
 
   #Append these results to our main general dataframe 
-  mann.lauren <- bind_rows( mann.TNM, temp ) }
+  mann.TNM <- bind_rows( mann.TNM, temp ) }
+
+  print(mann.TNM)
+
+  table(data.cancer$TNM)
 
 ```
 
@@ -1267,4 +1607,7 @@ for(cyt in cytokine_names){
   #Append these results to our main general dataframe 
   mann.lauren <- bind_rows( mann.lauren, temp ) }
 
+  print(mann.lauren)
+
+table(data.cancer$subclass)
 ```
