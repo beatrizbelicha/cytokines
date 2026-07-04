@@ -36,6 +36,15 @@ data.cytokines <- read.csv("/Users/beatrizbelicha/Documents/bioinfo/citocina/cit
 
 data.cytokines <- data.cytokines |> 
   slice(-c(9, 13))
+
+data.cytokines$condicao <- dplyr::recode(
+  data.cytokines$condicao,
+  "controle" = "Control",
+  "cancer" = "Cancer"
+)
+
+data.cytokines <- data.cytokines |> 
+  rename(Condition = condicao)
 ```
 
 # Distributions and Outliers
@@ -45,7 +54,7 @@ data.cytokines <- data.cytokines |>
 Here we are assigns the string "condicao" (the name of our clinical metadata column) to the variable `condition`. This parameterizes the script. By assigning the grouping variable (e.g., controle x câncer) to an object, avoid hardcoding the column name throughout the pipeline. This makes the code dynamic and easily adaptable for future datasets.
 
 ```{r}
-condition <- "condicao"
+condition <- "Condition"
 ```
 
 ## Identify cytokines columns
@@ -344,7 +353,7 @@ y = PC2,
 color = condicao)) +
   geom_point(size = 3) +
   labs(
-    title = "PCA - Dados Brutos",
+    title = "PCA - Raw Data",
     x = paste0("PC1 (", var.raw[1], "%)"),
     y = paste0("PC2 (", var.raw[2], "%)")
   ) +
@@ -368,8 +377,8 @@ pca_log <- prcomp(
 pca_log_df <- as.data.frame(pca_log$x)
 
 # condição
-pca_log_df$condicao <- data.log %>%
-  pull(all_of(condition))
+pca_log_df$Condition <- data.log %>%
+  pull(all_of(Condition))
 
 # variância explicada
 var_log <- round(100 * summary(pca_log)$importance[2,1:2], 1)
@@ -378,12 +387,12 @@ var_log <- round(100 * summary(pca_log)$importance[2,1:2], 1)
 ggplot(pca_log_df,
        aes(x = PC1,
            y = PC2,
-           color = condicao)) +
+           color = Condition)) +
 
   geom_point(size = 3) +
 
   labs(
-    title = "PCA - Dados Log",
+    title = "PCA - Log Data",
     x = paste0("PC1 (", var_log[1], "%)"),
     y = paste0("PC2 (", var_log[2], "%)")
   ) +
@@ -570,7 +579,7 @@ This code creates an annotation dataframe that will be used to color the samples
 
 ```{r}
 annotation.df <- data.frame(
-  Grupo = data.log[[condition]]
+  Group = data.log[[condition]]
 )
 
 rownames(annotation.df) <- rownames(heatmap.matrix)
@@ -582,9 +591,9 @@ The `Grupo` element of the list is a named color vector in hexadecimal format, w
 
 ```{r}
 annotation_colors <- list(
-  Grupo = c(
-    cancer = "#e34230ff",
-    controle = "#345edbff"
+  Group = c(
+    Cancer = "#e34230ff",
+    Control = "#345edbff"
   )
 )
 ```
@@ -598,6 +607,15 @@ This code generates the heatmap using pheatmap() function from the package of th
 - `clustering_method = "complete"` sets the hierarchical clustering method used to order both samples and cytokines in the heatmap. The `"complete"` method calculates the distance between two clusters as the greatest distance between any two points belonging to them, tending to produce more compact and well-defined clusters. `border_color = "#fcfcfc"` sets the border color between heatmap cells to a near-white tone, creating a subtle separation without distracting from the visualization. Finally, `fontsize = 10` sets the font size of the labels in the plot.
 
 ```{r}
+
+jpeg(
+  "heatmap_all.jpeg",
+  width = 18,
+  height = 14,
+  units = "cm",
+  res = 300
+) 
+
 pheatmap(
   t(heatmap.matrix),
   scale = "row",
@@ -608,6 +626,8 @@ pheatmap(
   color = colorRampPalette( c("#345edbff", "white", "#e34230ff"))(100),
   fontsize = 10
 )
+
+dev.off()
 ```
 
 ## Heatmap with significant cytokines
@@ -672,7 +692,7 @@ He we creates a new dataframe called `df.cancer` containing only the samples fro
 
 ```{r}
 df.cancer <- data.log |> 
-  filter(condicao == "cancer") |> 
+  filter(Condition == "Cancer") |> 
   select(all_of(cytokine_names))
 ```
 
@@ -686,7 +706,17 @@ cancer.matrix <- cor(
   method = "spearman"
 )
 
+jpeg(
+  "correlation.jpeg",
+  width = 18,
+  height = 14,
+  units = "cm",
+  res = 300
+) 
+
 pheatmap(cancer.matrix)
+
+dev.off()
 
 df_cancer_matrix <- as.data.frame(cancer.matrix)
 ```
@@ -1093,6 +1123,49 @@ for (cyt in significant_cytokines) {
 
 par(mfrow = c(1, 1), pty = "m")
 ```
+
+### Our cytokines
+
+```{r}
+significant_cytokines <- c("IL.2", "GCSF", "IL.6", "IL.8", "IL.10")
+
+for (cyt in significant_cytokines) {
+
+  roc_curve <- roc(
+    response = data.cytokines[[condition]],
+    predictor = data.cytokines[[cyt]],
+    quiet = TRUE
+  )
+
+  auc_val <- round(auc(roc_curve), 2)
+
+  jpeg(
+    filename = paste0("ROC_", cyt, ".jpeg"),
+    width = 1800,
+    height = 1800,
+    res = 300
+  )
+
+  plot(
+    roc_curve,
+    main = cyt,
+    col = "blue",
+    lwd = 2,
+    xlab = paste0("Specificity; AUC = ", auc_val),
+    ylab = "Sensitivity",
+    legacy.axes = FALSE,
+    identity.col = "darkgrey",
+    identity.lty = 1,
+    print.auc = FALSE,
+    xlim = c(1, 0),
+    xaxs = "i",
+    yaxs = "i"
+  )
+
+  dev.off()
+}
+```
+
 
 ```{r}
 for (cyt in significant_cytokines) {
