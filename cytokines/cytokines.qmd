@@ -481,12 +481,16 @@ results.mann$FDR <- p.adjust(
 )
 
 results.mann$Significativo_FDR <- ifelse(
-  results.mann$FDR < 0.06,
+  results.mann$FDR < 0.05,
   "Sim",
   "Não"
 )
 
+FDR.Mann <- data.frame(
+  Citocina = results.mann$Citocina,
+  FDR = round(results.mann$FDR, 4))
 
+FDR.Mann
 ```
 
 IL.6, IL.8 remained significant.
