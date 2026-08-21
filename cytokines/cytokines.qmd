@@ -234,72 +234,6 @@ print(normality_log)
 table(normality_log$Distribuição)
 ```
 
-## Log1p
-
-The `log()` function computes the pure natural logarithm, if any value in the data is zero, the result will be `-Inf`, which breaks downstream analyses. The `log1p()` function, on the other hand, computes `log(1 + x)`, adding 1 to each value before applying the logarithm. This ensures that zeros are transformed to `log(1) = 0`, avoiding the problem entirely. For cytokines data, where zero values are biologically plausible, `log1p()` is generally the safer choice.
-
-```{r}
-data.log1p <- data.cytokines |> 
-  mutate(across(all_of(cytokine_names), ~ log1p(.)))
-
-```
-
-```{r}
-normality_log1p <- data.frame(
-  Transformação = character(),
-  Citocina = character(),
-  Condição = character(),
-  p_valor = numeric(),
-  Distribuição = character(),
-  stringsAsFactors = FALSE
-)
-```
-
-```{r}
-for (cyt in cytokine_names) {
-
-  df_temp <- data.log1p %>%
-    select(all_of(condition), all_of(cyt)) %>%
-    drop_na()
-
-  vec_control <- df_temp %>%
-    filter(.data[[condition]] == "controle") %>%
-    pull(all_of(cyt))
-
-  vec_cancer <- df_temp %>%
-    filter(.data[[condition]] == "cancer") %>%
-    pull(all_of(cyt))
-
-  p.value_control <- shapiro.test(vec_control)$p.value
-  p.value_cancer <- shapiro.test(vec_cancer)$p.value
-
-  dist_control <- ifelse(p.value_control > 0.05, "Normal", "Não Normal")
-  dist_cancer <- ifelse(p.value_cancer > 0.05, "Normal", "Não Normal")
-
-  temp_results <- data.frame(
-    Transformação = "Log1p",
-    Citocina = c(cyt, cyt),
-    Condição = c("Controle", "Câncer"),
-    p_valor = c(p.value_control, p.value_cancer),
-    Distribuição = c(dist_control, dist_cancer),
-    stringsAsFactors = FALSE
-  )
-
-  normality_log1p <- bind_rows(normality_log1p, temp_results)
-}
-
-# Display final table
-print(normality_log1p)
-```
-
-```{r}
-table(normality_log1p$Distribuição)
-table(normality_log$Distribuição)
-table(normality_results$Distribuição)
-```
-
-No significant results !!!
-
 # PCA
 
 ## Raw data
@@ -1418,7 +1352,7 @@ sprintf("%.2f (%.2f - %.2f)",
 ```{r}
 
 il6.gmcsf <- data.frame(
-  condition = data.log$condition
+  condition = data.log$condition,
   IL.6 = data.log$IL.6,
   GMCSF = data.log$GM.CSF
 )
@@ -1634,7 +1568,7 @@ sprintf("%.2f (%.2f - %.2f)",
 
 ```{r}
 data.cancer <- data.cytokines |> 
-  filter(condicao == "cancer")
+  filter(condition == "cancer")
 ```
 
 ```{r}
