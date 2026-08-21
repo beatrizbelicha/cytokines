@@ -39,12 +39,11 @@ data.cytokines <- data.cytokines |>
 
 data.cytokines$condicao <- dplyr::recode(
   data.cytokines$condicao,
-  "controle" = "Control",
-  "cancer" = "Cancer"
+  "controle" = "control"
 )
 
 data.cytokines <- data.cytokines |> 
-  rename(Condition = condicao)
+  rename(condition = condicao)
 ```
 
 # Distributions and Outliers
@@ -54,7 +53,7 @@ data.cytokines <- data.cytokines |>
 Here we are assigns the string "condicao" (the name of our clinical metadata column) to the variable `condition`. This parameterizes the script. By assigning the grouping variable (e.g., controle x câncer) to an object, avoid hardcoding the column name throughout the pipeline. This makes the code dynamic and easily adaptable for future datasets.
 
 ```{r}
-condition <- "Condition"
+condition <- "condition"
 ```
 
 ## Identify cytokines columns
@@ -124,7 +123,7 @@ for (cyt in cytokine_names) {
 
   #--Separating the groups--
   #Filter data by clinical group
-  df_control <- df_temp |> filter(.data[[condition]] == "controle")
+  df_control <- df_temp |> filter(.data[[condition]] == "control")
   df_cancer <- df_temp |> filter(.data[[condition]] == "cancer")
 
   #Extract purely the numeric vectors for the test
@@ -155,6 +154,8 @@ for (cyt in cytokine_names) {
 
 #Display the final table 
 print(normality_results)
+
+table(normality_results$Distribuição)
 ```
 
 # Appling the transformation
@@ -202,7 +203,7 @@ for (cyt in cytokine_names) {
     drop_na()
 
   vec_control <- df_temp %>%
-    filter(.data[[condition]] == "controle") %>%
+    filter(.data[[condition]] == "control") %>%
     pull(all_of(cyt))
 
   vec_cancer <- df_temp %>%
@@ -229,6 +230,8 @@ for (cyt in cytokine_names) {
 
 # Display final table
 print(normality_log)
+
+table(normality_log$Distribuição)
 ```
 
 ## Log1p
@@ -340,7 +343,7 @@ pca.raw <- prcomp(
 pca.raw.df <- as.data.frame(pca.raw$x)
 
 #Add condition
-pca.raw.df$condicao <- data.cytokines |> 
+pca.raw.df$condition <- data.cytokines |> 
   pull(all_of(condition))
 
 #Variance
@@ -350,7 +353,7 @@ var.raw <- round(100 * summary(pca.raw)$importance[2,1:2], 1)
 ggplot(pca.raw.df, 
 aes(x = PC1,
 y = PC2,
-color = condicao)) +
+color = condition)) +
   geom_point(size = 3) +
   labs(
     title = "PCA - Raw Data",
@@ -377,27 +380,47 @@ pca_log <- prcomp(
 pca_log_df <- as.data.frame(pca_log$x)
 
 # condição
-pca_log_df$Condition <- data.log %>%
-  pull(all_of(Condition))
+pca_log_df$condition <- data.log %>%
+  pull(all_of(condition))
 
 # variância explicada
 var_log <- round(100 * summary(pca_log)$importance[2,1:2], 1)
 
 # gráfico
+
+jpeg(
+  "PCA_log.jpeg",
+  width = 18,
+  height = 14,
+  units = "cm",
+  res = 600
+)
+
+
 ggplot(pca_log_df,
        aes(x = PC1,
            y = PC2,
-           color = Condition)) +
+           color = condition)) +
 
-  geom_point(size = 3) +
+  geom_point(size =4) +
 
   labs(
-    title = "PCA - Log Data",
+    title = "PCA",
     x = paste0("PC1 (", var_log[1], "%)"),
     y = paste0("PC2 (", var_log[2], "%)")
   ) +
 
-  theme_minimal()
+  theme_minimal() +
+
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 14),
+    axis.text = element_text(size = 12),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(size = 12)
+  )
+
+dev.off()
 ```
 
 
@@ -498,7 +521,7 @@ IL.6, IL.8 remained significant.
 # Welch's t-test for normal cytokines
 
 ```{r}
-normal.cytokines <- c("IL.17", "IL.1B", "IL.2", "IL.13", "IL.15", "Eotaxin", "GCSF", "MIP1a", "MIP1b")
+normal.cytokines <- c("IL.17A", "IL.1.beta", "IL.2", "IL.8", "IL.15", "Eotaxin", "G.CSF", "GM.CSF", "MIP1b")
 ```
 
 ```{r}
@@ -596,8 +619,8 @@ The `Grupo` element of the list is a named color vector in hexadecimal format, w
 ```{r}
 annotation_colors <- list(
   Group = c(
-    Cancer = "#e34230ff",
-    Control = "#345edbff"
+    cancer = "#e34230ff",
+    control = "#345edbff"
   )
 )
 ```
@@ -611,27 +634,21 @@ This code generates the heatmap using pheatmap() function from the package of th
 - `clustering_method = "complete"` sets the hierarchical clustering method used to order both samples and cytokines in the heatmap. The `"complete"` method calculates the distance between two clusters as the greatest distance between any two points belonging to them, tending to produce more compact and well-defined clusters. `border_color = "#fcfcfc"` sets the border color between heatmap cells to a near-white tone, creating a subtle separation without distracting from the visualization. Finally, `fontsize = 10` sets the font size of the labels in the plot.
 
 ```{r}
-
-jpeg(
-  "heatmap_all.jpeg",
-  width = 18,
-  height = 14,
-  units = "cm",
-  res = 300
-) 
-
 pheatmap(
   t(heatmap.matrix),
   scale = "row",
   annotation_col = annotation.df,
   annotation_colors = annotation_colors,
-  clustering_method = "complete", 
+  clustering_method = "complete",
   border_color = "#fcfcfc",
-  color = colorRampPalette( c("#345edbff", "white", "#e34230ff"))(100),
-  fontsize = 10
+  color = colorRampPalette(
+    c("#345edbff", "white", "#e34230ff")
+  )(100),
+  fontsize = 10,
+  filename = "heatmap_all.jpeg",
+  width = 7.1,
+  height = 5.5
 )
-
-dev.off()
 ```
 
 ## Heatmap with significant cytokines
@@ -643,11 +660,10 @@ significant_cytokines <- c(
   "IL.6",
   "IL.8",
   "IL.10",
-  "IL.11",
-  "FGFbasic",
-  "GCSF",
-  "MPC.1", 
-  "IL.13"
+  "IL.12",
+  "GM.CSF",
+  "G.CSF",
+  "MIP1a"
 )
 ```
 
@@ -683,7 +699,10 @@ pheatmap(
   color = colorRampPalette(
     c("#345edbff", "white", "#e34230ff")
   )(100),
-  fontsize = 10
+  fontsize = 10,
+  filename = "heatmap_sig.jpeg",
+  width = 7.1,
+  height = 5.5
 )
 ```
 
@@ -696,7 +715,7 @@ He we creates a new dataframe called `df.cancer` containing only the samples fro
 
 ```{r}
 df.cancer <- data.log |> 
-  filter(Condition == "Cancer") |> 
+  filter(condition == "cancer") |> 
   select(all_of(cytokine_names))
 ```
 
@@ -742,7 +761,7 @@ for (cyt in colnames(cancer.matrix)) {
     stringsAsFactors = FALSE
   )
   df.filter <- df_temp |> 
-    filter(Coeficiente > 0.8 & Citocina != cyt)
+    filter(Coeficiente > 0.5 & Citocina != cyt)
   df.name <- paste0("df.", cyt)
   assign(df.name, df.filter)
 }
@@ -759,21 +778,21 @@ Following the Events Per Variable (EPV) rule, 2 cytokines will be selected based
 
 ## Univariate LR
 
-### GCSF
+### GMCSF
 
 ```{r}
-uni.gcsf <- data.frame(
-    condition = data.log$condicao,
-    GCSF = data.log$GCSF
+uni.gmcsf <- data.frame(
+    condition = data.log$condition,
+    GMCSF = data.log$GM.CSF
 )
 
-uni.gcsf$condition <- factor(with(uni.gcsf, ifelse(condition=="cancer", "1", "0")))
+uni.gmcsf$condition <- factor(with(uni.gmcsf, ifelse(condition=="cancer", "1", "0")))
 
-model.gcsf <- glm(condition~GCSF, family = binomial(link = "logit"), data = uni.gcsf)
-summary(model.gcsf)
+model.gmcsf <- glm(condition~GMCSF, family = binomial(link = "logit"), data = uni.gmcsf)
+summary(model.gmcsf)
 
-coef.gcsf <- coef(model.gcsf)
-round(exp(coef(model.gcsf)), 2)
+coef.gmcsf <- coef(model.gmcsf)
+round(exp(coef(model.gmcsf)), 2)
 
 
 levegare.esperado <- round(2/29, 2)
@@ -781,27 +800,27 @@ levegare.esperado <- round(2/29, 2)
 library(dplyr)
 
 # dataframe of diagnosis
-diagnostico_gcsf <- data.frame(
-  IL_2 = uni.gcsf$GCSF,                         
-  Condicao = uni.gcsf$condition,                
-  Residuos_Pad = rstandard(model.gcsf),         # Resíduos Padronizados
-  Leverage = hatvalues(model.gcsf),             # Valores de Alavancagem (Hat values)
-  Dist_Cook = cooks.distance(model.gcsf)        # (Bônus) Distância de Cook
+diagnostico_gmcsf <- data.frame(
+  GMCSF = uni.gmcsf$GMCSF,                         
+  Condicao = uni.gmcsf$condition,                
+  Residuos_Pad = rstandard(model.gmcsf),         # Resíduos Padronizados
+  Leverage = hatvalues(model.gmcsf),             # Valores de Alavancagem (Hat values)
+  Dist_Cook = cooks.distance(model.gmcsf)        # (Bônus) Distância de Cook
 )
 
-diagnostico_gcsf <- diagnostico_gcsf %>%
+diagnostico_gmcsf <- diagnostico_gmcsf %>%
   arrange(desc(abs(Residuos_Pad)))
 
-print(diagnostico_gcsf)
+print(diagnostico_gmcsf)
 
-or <- exp(coef(model.gcsf))
-ic <- exp(confint(model.gcsf))
+or <- exp(coef(model.gmcsf))
+ic <- exp(confint(model.gmcsf))
 
 sprintf(
   "%.2f (%.2f - %.2f)",
-  or["GCSF"],
-  ic["GCSF",1],
-  ic["GCSF",2]
+  or["GMCSF"],
+  ic["GMCSF",1],
+  ic["GMCSF",2]
 )
 ```
 
@@ -810,7 +829,7 @@ sprintf(
 ```{r}
 
 uniil.2 <- data.frame(
-    condition = data.log$condicao,
+    condition = data.log$condition,
     IL.2 = data.log$IL.2
 )
 
@@ -874,7 +893,7 @@ Without patient 6, the p-value decreased, but the model showed signs of instabil
 
 ```{r}
 uniil.6 <- data.frame(
-    condition = data.log$condicao,
+    condition = data.log$condition,
     IL.6 = data.log$IL.6
 )
 
@@ -913,7 +932,7 @@ sprintf(
 
 ```{r}
 uniil.8 <- data.frame(
-    condition = data.log$condicao,
+    condition = data.log$condition,
     IL.8 = data.log$IL.8
 )
 
@@ -952,7 +971,7 @@ sprintf(
 
 ```{r}
 uniil.10 <- data.frame(
-    condition = data.log$condicao,
+    condition = data.log$condition,
     IL.10 = data.log$IL.10
 )
 
@@ -998,17 +1017,17 @@ library(logistf)
 ```
 
 ```{r}
-#GCSF
+#GMCSF
 
-firth.gcsf <- logistf(condition ~ GCSF, data = uni.gcsf)
-summary(firth.gcsf)
+firth.gmcsf <- logistf(condition ~ GMCSF, data = uni.gmcsf)
+summary(firth.gmcsf)
 
-or <- exp(coef(firth.gcsf))
-ic <- exp(confint(firth.gcsf))
+or <- exp(coef(firth.gmcsf))
+ic <- exp(confint(firth.gmcsf))
 sprintf("%.2f (%.2f - %.2f)",
-        or["GCSF"],
-        ic["GCSF",1],
-        ic["GCSF",2])
+        or["GMCSF"],
+        ic["GMCSF",1],
+        ic["GMCSF",2])
 
 #IL-2
 
@@ -1131,7 +1150,7 @@ par(mfrow = c(1, 1), pty = "m")
 ### Our cytokines
 
 ```{r}
-significant_cytokines <- c("IL.2", "GCSF", "IL.6", "IL.8", "IL.10")
+significant_cytokines <- c("IL.2", "GM.CSF", "IL.6", "IL.8", "IL.10")
 
 for (cyt in significant_cytokines) {
 
@@ -1206,10 +1225,10 @@ print(auc.table)
 p.roc.comb <- ggroc(roc.curve, alpha = 0.8, size = 1) +
     theme_minimal() +
     labs(
-      title = "Performance Diagnóstica das Citocinas (ROC)",
-      x = "Especificidade", 
-      y = "Sensibilidade", 
-      color = "Biomarcadores"
+      title = "Diagnostic Performance of Cytokines (ROC)",
+      x = "Specificity", 
+      y = "Sensitivity", 
+      color = "Biomarkers"
     ) +
       #Add the 50% diagonal line (Absolute chance)
     geom_abline(intercept = 1, slope = 1, linetype = "dashed", color = "gray50", size = 0.8)
@@ -1219,46 +1238,46 @@ print(p.roc.comb)
 
 ## Multivariate LR
 
-### IL-2 + GCSF
+### IL-2 + GMCSF
 
 ```{r}
-il2.gcsf <- data.frame(
-  condition = data.log$condicao,
+il2.gmcsf <- data.frame(
+  condition = data.log$condition,
   IL.2 = data.log$IL.2,
-  GCSF = data.log$GCSF
+  GMCSF = data.log$GM.CSF
 )
 
-il2.gcsf$condition <- factor(with(il2.gcsf, ifelse(condition=="cancer", "1", "0")))
+il2.gmcsf$condition <- factor(with(il2.gmcsf, ifelse(condition=="cancer", "1", "0")))
 
-firth.il2.gcsf <- logistf(condition ~ IL.2 + GCSF, data = il2.gcsf)
-summary(firth.il2.gcsf)
+firth.il2.gmcsf <- logistf(condition ~ IL.2 + GMCSF, data = il2.gmcsf)
+summary(firth.il2.gmcsf)
 
 # OR
-round(exp(coef(firth.il2.gcsf)), 2)
+round(exp(coef(firth.il2.gmcsf)), 2)
 
 # IC95%
 exp(cbind(
-  OR = coef(firth.il2.gcsf),
-  confint(firth.il2.gcsf)
+  OR = coef(firth.il2.gmcsf),
+  confint(firth.il2.gmcsf)
 ))
 
 # AUC
-prob1 <- predict(firth.il2.gcsf, type = "response")
-roc.1 <- roc(il2.gcsf$condition, prob1)
+prob1 <- predict(firth.il2.gmcsf, type = "response")
+roc.1 <- roc(il2.gmcsf$condition, prob1)
 auc(roc.1)
 
-or.il2.gcsf <- exp(coef(firth.il2.gcsf))
-ic.il2.gcsf <- exp(confint(firth.il2.gcsf))
+or.il2.gmcsf <- exp(coef(firth.il2.gmcsf))
+ic.il2.gmcsf <- exp(confint(firth.il2.gmcsf))
 
 sprintf("%.2f (%.2f - %.2f)",
-        or.il2.gcsf["IL.2"],
-        ic.il2.gcsf["IL.2",1],
-        ic.il2.gcsf["IL.2",2])
+        or.il2.gmcsf["IL.2"],
+        ic.il2.gmcsf["IL.2",1],
+        ic.il2.gmcsf["IL.2",2])
 
 sprintf("%.2f (%.2f - %.2f)",
-        or.il2.gcsf["GCSF"],
-        ic.il2.gcsf["GCSF",1],
-        ic.il2.gcsf["GCSF",2])
+        or.il2.gmcsf["GMCSF"],
+        ic.il2.gmcsf["GMCSF",1],
+        ic.il2.gmcsf["GMCSF",2])
 ```
 
 
@@ -1266,7 +1285,7 @@ sprintf("%.2f (%.2f - %.2f)",
 
 ```{r}
 il2.il6 <- data.frame(
-  condition = data.log$condicao,
+  condition = data.log$condition,
   IL.2 = data.log$IL.2,
   IL.6 = data.log$IL.6
 )
@@ -1311,7 +1330,7 @@ sprintf("%.2f (%.2f - %.2f)",
 
 ```{r}
 il2.il8 <- data.frame(
-  condition = data.log$condicao,
+  condition = data.log$condition,
   IL.2 = data.log$IL.2,
   IL.8 = data.log$IL.8
 )
@@ -1356,7 +1375,7 @@ sprintf("%.2f (%.2f - %.2f)",
 ```{r}
 
 il2.il10 <- data.frame(
-  condition = data.log$condicao,
+  condition = data.log$condition,
   IL.2 = data.log$IL.2,
   IL.10 = data.log$IL.10
 )
@@ -1394,54 +1413,54 @@ sprintf("%.2f (%.2f - %.2f)",
         ic.il2.il10["IL.10",2])
 ```
 
-### IL-6 + GCSF
+### IL-6 + GMCSF
 
 ```{r}
 
-il6.gcsf <- data.frame(
-  condition = data.log$condicao,
+il6.gmcsf <- data.frame(
+  condition = data.log$condition
   IL.6 = data.log$IL.6,
-  GCSF = data.log$GCSF
+  GMCSF = data.log$GM.CSF
 )
 
-il6.gcsf$condition <- factor(with(il6.gcsf, ifelse(condition=="cancer", "1", "0")))
+il6.gmcsf$condition <- factor(with(il6.gmcsf, ifelse(condition=="cancer", "1", "0")))
 
-firth.il6.gcsf <- logistf(condition ~ IL.6 + GCSF, data = il6.gcsf)
-summary(firth.il6.gcsf)
+firth.il6.gmcsf <- logistf(condition ~ IL.6 + GMCSF, data = il6.gmcsf)
+summary(firth.il6.gmcsf)
 
 # OR
-round(exp(coef(firth.il6.gcsf)), 2)
+round(exp(coef(firth.il6.gmcsf)), 2)
 
 # IC95%
 exp(cbind(
-  OR = coef(firth.il6.gcsf),
-  confint(firth.il6.gcsf)
+  OR = coef(firth.il6.gmcsf),
+  confint(firth.il6.gmcsf)
 ))
 
 # AUC
-prob5 <- predict(firth.il6.gcsf, type = "response")
-roc.5 <- roc(il6.gcsf$condition, prob5)
+prob5 <- predict(firth.il6.gmcsf, type = "response")
+roc.5 <- roc(il6.gmcsf$condition, prob5)
 auc(roc.5)
 
-or.il6.gcsf <- exp(coef(firth.il6.gcsf))
-ic.il6.gcsf <- exp(confint(firth.il6.gcsf))
+or.il6.gmcsf <- exp(coef(firth.il6.gmcsf))
+ic.il6.gmcsf <- exp(confint(firth.il6.gmcsf))
 
 sprintf("%.2f (%.2f - %.2f)",
-        or.il6.gcsf["IL.6"],
-        ic.il6.gcsf["IL.6",1],
-        ic.il6.gcsf["IL.6",2])
+        or.il6.gmcsf["IL.6"],
+        ic.il6.gmcsf["IL.6",1],
+        ic.il6.gmcsf["IL.6",2])
 
 sprintf("%.2f (%.2f - %.2f)",
-        or.il6.gcsf["GCSF"],
-        ic.il6.gcsf["GCSF",1],
-        ic.il6.gcsf["GCSF",2])
+        or.il6.gmcsf["GMCSF"],
+        ic.il6.gmcsf["GMCSF",1],
+        ic.il6.gmcsf["GMCSF",2])
 ```
 
 ### IL-6 + IL-8
 
 ```{r}
 il6.il8 <- data.frame(
-  condition = data.log$condicao,
+  condition = data.log$condition,
   IL.6 = data.log$IL.6,
   IL.8 = data.log$IL.8
 )
@@ -1486,7 +1505,7 @@ sprintf("%.2f (%.2f - %.2f)",
 ```{r}
 
 il6.il10 <- data.frame(
-  condition = data.log$condicao,
+  condition = data.log$condition,
   IL.6 = data.log$IL.6,
   IL.10 = data.log$IL.10
 )
@@ -1524,54 +1543,54 @@ sprintf("%.2f (%.2f - %.2f)",
         ic.il6.il10["IL.10",2])
 ```
 
-### IL-8 + GCSF
+### IL-8 + GMCSF
 
 ```{r}
 
-il8.gcsf <- data.frame(
-  condition = data.log$condicao,
+il8.gmcsf <- data.frame(
+  condition = data.log$condition,
   IL.8 = data.log$IL.8,
-  GCSF = data.log$GCSF
+  GMCSF = data.log$GM.CSF
 )
 
-il8.gcsf$condition <- factor(with(il8.gcsf, ifelse(condition=="cancer", "1", "0")))
+il8.gmcsf$condition <- factor(with(il8.gmcsf, ifelse(condition=="cancer", "1", "0")))
 
-firth.il8.gcsf <- logistf(condition ~ IL.8 + GCSF, data = il8.gcsf)
-summary(firth.il8.gcsf)
+firth.il8.gmcsf <- logistf(condition ~ IL.8 + GMCSF, data = il8.gmcsf)
+summary(firth.il8.gmcsf)
 
 # OR
-round(exp(coef(firth.il8.gcsf)), 2)
+round(exp(coef(firth.il8.gmcsf)), 2)
 
 # IC95%
 exp(cbind(
-  OR = coef(firth.il8.gcsf),
-  confint(firth.il8.gcsf)
+  OR = coef(firth.il8.gmcsf),
+  confint(firth.il8.gmcsf)
 ))
 
 # AUC
-prob8 <- predict(firth.il8.gcsf, type = "response")
-roc.8 <- roc(il8.gcsf$condition, prob8)
+prob8 <- predict(firth.il8.gmcsf, type = "response")
+roc.8 <- roc(il8.gmcsf$condition, prob8)
 auc(roc.8)
 
-or.il8.gcsf <- exp(coef(firth.il8.gcsf))
-ic.il8.gcsf <- exp(confint(firth.il8.gcsf))
+or.il8.gmcsf <- exp(coef(firth.il8.gmcsf))
+ic.il8.gmcsf <- exp(confint(firth.il8.gmcsf))
 
 sprintf("%.2f (%.2f - %.2f)",
-        or.il8.gcsf["IL.8"],
-        ic.il8.gcsf["IL.8",1],
-        ic.il8.gcsf["IL.8",2])
+        or.il8.gmcsf["IL.8"],
+        ic.il8.gmcsf["IL.8",1],
+        ic.il8.gmcsf["IL.8",2])
 
 sprintf("%.2f (%.2f - %.2f)",
-        or.il8.gcsf["GCSF"],
-        ic.il8.gcsf["GCSF",1],
-        ic.il8.gcsf["GCSF",2])
+        or.il8.gmcsf["GMCSF"],
+        ic.il8.gmcsf["GMCSF",1],
+        ic.il8.gmcsf["GMCSF",2])
 ```
 
 ### IL-8 + IL-10
 
 ```{r}
 il8.il10 <- data.frame(
-  condition = data.log$condicao,
+  condition = data.log$condition,
   IL.8 = data.log$IL.8,
   IL.10 = data.log$IL.10
 )
